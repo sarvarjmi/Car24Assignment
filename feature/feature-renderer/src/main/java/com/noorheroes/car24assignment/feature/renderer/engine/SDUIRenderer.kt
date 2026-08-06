@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.noorheroes.car24assignment.core.model.domain.Component
 import com.noorheroes.car24assignment.core.model.domain.Screen
 import com.noorheroes.car24assignment.core.model.domain.Section
+import com.noorheroes.car24assignment.core.ui.empty.EmptyView
 import com.noorheroes.car24assignment.feature.renderer.action.ActionDispatcher
 import com.noorheroes.car24assignment.feature.renderer.action.LocalActionDispatcher
 import com.noorheroes.car24assignment.feature.renderer.registry.ComponentRegistry
@@ -28,17 +29,21 @@ fun SDUIRenderer(
         LocalComponentRegistry provides registry,
         LocalActionDispatcher provides actionDispatcher
     ) {
-        LazyColumn(
-            modifier = modifier.fillMaxSize()
-        ) {
-            screen.sections.forEach { section ->
-                if (section.visibility) {
-                    items(section.components, key = { it.id }) { component ->
-                        RenderComponent(component)
-                    }
+        if (screen.sections.isEmpty()) {
+            EmptyView(modifier = modifier)
+        } else {
+            LazyColumn(
+                modifier = modifier.fillMaxSize()
+            ) {
+                screen.sections.forEach { section ->
+                    if (section.visibility) {
+                        items(section.components, key = { it.id }) { component ->
+                            RenderComponent(component)
+                        }
 
-                    item {
-                        Spacer(modifier = Modifier.height(8.dp))
+                        item {
+                            Spacer(modifier = Modifier.height(8.dp))
+                        }
                     }
                 }
             }

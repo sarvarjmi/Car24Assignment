@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "id": "deals_screen",
+    "name": "Hot Deals",
+    "schemaVersion": "1.0.0",
+    "rendererVersion": "1.0.0",
+    "createdAt": 1724500000,
+    "updatedAt": 1724500000,
+    "description": "Exclusive car deals"
+  },
+  "configuration": {
+    "refreshable": true,
+    "scrollable": true,
+    "safeArea": true,
+    "backgroundColor": "SURFACE"
+  },
+  "theme": {
+    "colorPalette": {
+      "primary": "PRIMARY"
+    }
+  },
+  "layout": {
+    "type": "LazyColumn"
+  },
+  "sections": [
+    {
+      "id": "deals_header_section",
+      "type": "header",
+      "order": 1,
+      "components": [
+        {
+          "id": "deals_header",
+          "type": "header",
+          "properties": {
+            "title": "Exclusive Deals",
+            "subtitle": "Save big on your next car"
+          }
+        }
+      ]
+    },
+    {
+      "id": "deals_rail_section",
+      "type": "rail",
+      "order": 2,
+      "components": [
+        {
+          "id": "rail_deals",
+          "type": "horizontal_rail",
+          "properties": {
+            "title": "Today's Top Deals"
+          },
+          "children": [
+            {
+              "id": "deal_1",
+              "type": "car_card",
+              "properties": {
+                "imageUrl": "ic_car_placeholder",
+                "title": "Toyota Fortuner",
+                "price": "₹35.00 Lakh",
+                "location": "Bangalore"
+              },
+              "style": { "background": { "color": "SURFACE_VARIANT" } }
+            },
+            {
+              "id": "deal_2",
+              "type": "car_card",
+              "properties": {
+                "imageUrl": "ic_car_placeholder",
+                "title": "Mahindra XUV700",
+                "price": "₹22.50 Lakh",
+                "location": "Chennai"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

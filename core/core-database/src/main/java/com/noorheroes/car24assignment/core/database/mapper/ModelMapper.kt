@@ -146,7 +146,9 @@ class ModelMapper @Inject constructor(
             background = model.background,
             typography = model.typography,
             shape = model.shape,
-            alpha = model.alpha
+            alpha = model.alpha,
+            elevation = model.elevation,
+            border = model.border
         )
     }
 

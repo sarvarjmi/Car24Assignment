@@ -1,31 +1,7 @@
 package com.noorheroes.car24assignment.core.model.json
 
+import com.noorheroes.car24assignment.core.designsystem.token.*
 import kotlinx.serialization.Serializable
-
-@Serializable
-enum class SpacingToken {
-    NONE, XS, S, M, L, XL, XXL
-}
-
-@Serializable
-enum class ColorToken {
-    PRIMARY, SECONDARY, SURFACE, BACKGROUND, ERROR, OUTLINE, 
-    ON_SURFACE, ON_PRIMARY, ON_BACKGROUND, TRANSPARENT, BLACK, WHITE
-}
-
-@Serializable
-enum class TypographyToken {
-    DISPLAY_LARGE, DISPLAY_MEDIUM, 
-    HEADLINE_LARGE, HEADLINE_MEDIUM, HEADLINE_SMALL,
-    TITLE_LARGE, TITLE_MEDIUM, TITLE_SMALL,
-    BODY_LARGE, BODY_MEDIUM, BODY_SMALL,
-    LABEL_LARGE, LABEL_MEDIUM, LABEL_SMALL
-}
-
-@Serializable
-enum class ShapeToken {
-    NONE, XS, S, M, L, XL, FULL
-}
 
 @Serializable
 data class PaddingModel(
@@ -38,7 +14,8 @@ data class PaddingModel(
 
 @Serializable
 data class BackgroundModel(
-    val color: ColorToken = ColorToken.TRANSPARENT
+    val color: ColorToken = ColorToken.TRANSPARENT,
+    val gradient: List<ColorToken>? = null
 )
 
 @Serializable
@@ -48,11 +25,20 @@ data class TypographyStyleModel(
 )
 
 @Serializable
+data class BorderModel(
+    val width: SpacingToken = SpacingToken.NONE,
+    val color: ColorToken = ColorToken.OUTLINE,
+    val shape: ShapeToken = ShapeToken.NONE
+)
+
+@Serializable
 data class StyleModel(
     val padding: PaddingModel? = null,
     val margin: PaddingModel? = null,
     val background: BackgroundModel? = null,
     val typography: TypographyStyleModel? = null,
     val shape: ShapeToken? = null,
-    val alpha: Float? = null
+    val alpha: Float? = null,
+    val elevation: ElevationToken? = null,
+    val border: BorderModel? = null
 )

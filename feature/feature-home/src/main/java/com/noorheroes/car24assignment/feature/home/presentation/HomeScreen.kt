@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.noorheroes.car24assignment.core.ui.component.ErrorView
 import com.noorheroes.car24assignment.core.ui.component.LoadingView
+import com.noorheroes.car24assignment.core.ui.empty.EmptyView
 import com.noorheroes.car24assignment.feature.renderer.action.ActionDispatcher
 import com.noorheroes.car24assignment.feature.renderer.engine.SDUIRenderer
 import com.noorheroes.car24assignment.feature.renderer.registry.ComponentRegistry
@@ -43,12 +44,16 @@ fun HomeScreen(
         when (val state = uiState) {
             is HomeUiState.Loading -> LoadingView(modifier)
             is HomeUiState.Success -> {
-                SDUIRenderer(
-                    screen = state.screen,
-                    registry = registry,
-                    actionDispatcher = actionDispatcher,
-                    modifier = modifier
-                )
+                if (state.screen.sections.isEmpty()) {
+                    EmptyView(modifier = modifier)
+                } else {
+                    SDUIRenderer(
+                        screen = state.screen,
+                        registry = registry,
+                        actionDispatcher = actionDispatcher,
+                        modifier = modifier
+                    )
+                }
             }
             is HomeUiState.Error -> {
                 ErrorView(

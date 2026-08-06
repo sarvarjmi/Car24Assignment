@@ -1,21 +1,15 @@
 package com.noorheroes.car24assignment.core.database.seeder
 
 import android.content.Context
-import com.noorheroes.car24assignment.core.database.dao.ScreenDao
-import com.noorheroes.car24assignment.core.database.dao.SectionDao
-import com.noorheroes.car24assignment.core.database.dao.ComponentDao
-import com.noorheroes.car24assignment.core.database.dao.SeedHistoryDao
-import com.noorheroes.car24assignment.core.database.entity.ScreenEntity
-import com.noorheroes.car24assignment.core.database.entity.SectionEntity
-import com.noorheroes.car24assignment.core.database.entity.ComponentEntity
-import com.noorheroes.car24assignment.core.database.entity.SeedHistoryEntity
+import com.noorheroes.car24assignment.core.common.logging.Logger
+import com.noorheroes.car24assignment.core.database.dao.*
+import com.noorheroes.car24assignment.core.database.entity.*
 import com.noorheroes.car24assignment.core.model.json.ScreenModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToJsonElement
 import javax.inject.Inject
 import javax.inject.Singleton
-import timber.log.Timber
 
 @Singleton
 class InitialSeeder @Inject constructor(
@@ -24,18 +18,22 @@ class InitialSeeder @Inject constructor(
     private val sectionDao: SectionDao,
     private val componentDao: ComponentDao,
     private val seedHistoryDao: SeedHistoryDao,
+    private val logger: Logger,
     private val json: Json
 ) {
+    private val TAG = "InitialSeeder"
+
     suspend fun seedIfNeeded() {
         val lastSeed = seedHistoryDao.getLastCompletedSeed()
         if (lastSeed != null && lastSeed.completed) {
-            Timber.d("Database already seeded. Skipping.")
+            logger.d(TAG, "Database already seeded. Skipping.")
             return
         }
 
         try {
             seedScreen("landing.json")
             seedScreen("home.json")
+            seedScreen("deals.json")
 
             seedHistoryDao.insertSeedHistory(
                 SeedHistoryEntity(
@@ -45,9 +43,9 @@ class InitialSeeder @Inject constructor(
                     checksum = null
                 )
             )
-            Timber.d("Database seeded successfully from assets.")
+            logger.d(TAG, "Database seeded successfully from assets.")
         } catch (e: Exception) {
-            Timber.e(e, "Error seeding database")
+            logger.e(TAG, "Error seeding database", e)
         }
     }
 

@@ -5,11 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import com.noorheroes.car24assignment.core.designsystem.theme.AppTheme
 import com.noorheroes.car24assignment.core.navigation.navigator.AppNavigator
-import com.noorheroes.car24assignment.core.ui.theme.SDUITheme
 import com.noorheroes.car24assignment.feature.renderer.action.ActionDispatcher
 import com.noorheroes.car24assignment.feature.renderer.registry.ComponentRegistry
 import com.noorheroes.car24assignment.navigation.AppNavHost
@@ -32,15 +30,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            SDUITheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    AppNavHost(
-                        navigator = navigator,
-                        registry = registry,
-                        actionDispatcher = actionDispatcher,
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+            AppTheme {
+                AppNavHost(
+                    navigator = navigator,
+                    registry = registry,
+                    actionDispatcher = actionDispatcher,
+                    modifier = Modifier.fillMaxSize()
+                )
             }
         }
     }

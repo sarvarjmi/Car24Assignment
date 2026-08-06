@@ -1,68 +1,135 @@
 {
   "metadata": {
     "id": "landing_screen",
-    "name": "Welcome Screen",
+    "name": "Welcome to Cars24",
     "schemaVersion": "1.0.0",
     "rendererVersion": "1.0.0",
     "createdAt": 1724500000,
     "updatedAt": 1724500000,
-    "description": "Initial entry point"
+    "description": "Premium Landing Page"
   },
   "configuration": {
     "refreshable": false,
     "scrollable": true,
-    "safeArea": true
+    "safeArea": true,
+    "backgroundColor": "BACKGROUND"
   },
   "theme": {
     "colorPalette": {
-      "primary": "#1B69DE"
+      "primary": "PRIMARY",
+      "secondary": "SECONDARY"
     }
   },
   "layout": {
-    "type": "Column"
+    "type": "LazyColumn"
   },
   "sections": [
     {
-      "id": "landing_section",
-      "type": "default",
-      "title": "Welcome",
+      "id": "hero_section",
+      "type": "hero",
       "order": 1,
-      "visibility": "VISIBLE",
       "components": [
         {
-          "id": "landing_header",
-          "type": "header",
+          "id": "hero_banner",
+          "type": "hero_banner",
+          "style": {
+            "elevation": "LEVEL_2",
+            "background": {
+              "gradient": ["PRIMARY", "SECONDARY"]
+            }
+          },
           "properties": {
-            "title": "CARS24",
-            "subtitle": "SDUI ENGINE",
-            "imageUrl": "ic_landing_hero"
-          }
-        },
-        {
-          "id": "btn_open_home",
-          "type": "cta",
-          "properties": {
-            "text": "Open Home"
+            "imageUrl": "ic_landing_hero",
+            "title": "Drive Your Dreams",
+            "subtitle": "Buy, Sell, and Finance with Confidence",
+            "ctaText": "Get Started"
           },
           "actions": {
             "click": {
               "type": "navigate",
-              "payload": { "route": "home" }
+              "target": "home"
             }
           }
-        },
+        }
+      ]
+    },
+    {
+      "id": "info_section",
+      "type": "info",
+      "order": 2,
+      "components": [
         {
-          "id": "btn_open_server",
-          "type": "cta",
-          "properties": {
-            "text": "Open Server Panel"
+          "id": "info_card_1",
+          "type": "card",
+          "style": {
+            "padding": { "all": "MEDIUM" },
+            "margin": { "all": "SMALL" },
+            "background": { "color": "SURFACE" },
+            "shape": "LARGE",
+            "elevation": "LEVEL_1"
           },
-          "actions": {
-            "click": {
-              "type": "navigate",
-              "payload": { "route": "server" }
+          "children": [
+            {
+              "id": "info_header",
+              "type": "header",
+              "properties": {
+                "title": "Why Cars24?",
+                "subtitle": "The smart way to buy and sell cars."
+              }
+            },
+            {
+              "id": "info_text",
+              "type": "cta",
+              "properties": {
+                "text": "140 Checkpoint Inspection"
+              }
             }
-          }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "actions_section",
+      "type": "actions",
+      "order": 3,
+      "components": [
+        {
+          "id": "cta_group",
+          "type": "cta_section",
+          "children": [
+            {
+              "id": "btn_buy",
+              "type": "cta",
+              "style": {
+                "background": { "color": "PRIMARY" }
+              },
+              "properties": {
+                "text": "Browse All Cars"
+              },
+              "actions": {
+                "click": {
+                  "type": "navigate",
+                  "target": "home"
+                }
+              }
+            },
+            {
+              "id": "btn_server",
+              "type": "cta",
+              "style": {
+                "background": { "color": "SECONDARY" }
+              },
+              "properties": {
+                "text": "Open Server Panel"
+              },
+              "actions": {
+                "click": {
+                  "type": "navigate",
+                  "target": "server"
+                }
+              }
+            }
+          ]
         }
       ]
     }
