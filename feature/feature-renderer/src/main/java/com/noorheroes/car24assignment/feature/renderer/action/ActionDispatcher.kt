@@ -19,6 +19,7 @@ import javax.inject.Inject
 
 class ActionDispatcher @Inject constructor(
     private val navigator: AppNavigator,
+    private val getComponentJsonUseCase: com.noorheroes.car24assignment.core.domain.usecase.GetComponentJsonUseCase,
     private val updateComponentUseCase: UpdateComponentUseCase,
     private val actionValidator: ActionValidator,
     private val logger: Logger,
@@ -48,8 +49,14 @@ class ActionDispatcher @Inject constructor(
         }
         registerHandler("composite") { action ->
             val actionsList = action.payload["actions"] as? List<*>
-            actionsList?.filterIsInstance<Map<String, Any?>>()?.forEach { _ ->
-                // Recursive dispatch logic here
+            actionsList?.filterIsInstance<Map<String, Any?>>()?.forEach { actionMap ->
+                val nestedAction = Action(
+                    id = (actionMap["id"] as? String) ?: "",
+                    type = (actionMap["type"] as? String) ?: "",
+                    target = actionMap["target"] as? String,
+                    payload = (actionMap["payload"] as? Map<*, *>)?.filterKeys { it is String }?.mapKeys { it.key as String } ?: emptyMap()
+                )
+                dispatch(nestedAction)
             }
         }
         registerHandler("snackbar") { action ->
@@ -78,8 +85,13 @@ class ActionDispatcher @Inject constructor(
         registerHandler("togglestate") { action ->
             val targetId = action.target ?: return@registerHandler
             scope.launch {
-                logger.d(TAG, "Toggle state for $targetId")
-                // Toggle logic placeholder
+                val currentJson = getComponentJsonUseCase(targetId) ?: return@launch
+                val element = json.parseToJsonElement(currentJson).jsonObject.toMutableMap()
+                val state = element["state"]?.jsonObject?.toMutableMap() ?: mutableMapOf()
+                val currentSelected = state["selected"]?.jsonPrimitive?.booleanOrNull ?: false
+                state["selected"] = JsonPrimitive(!currentSelected)
+                element["state"] = JsonObject(state)
+                updateComponentUseCase(targetId, json.encodeToString(JsonObject(element)))
             }
         }
         registerHandler("updatecomponent") { action ->

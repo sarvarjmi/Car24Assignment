@@ -10,7 +10,8 @@ import com.noorheroes.car24assignment.feature.renderer.resolver.StyleResolver
 @Composable
 fun BoxWidget(component: Component) {
     Box(
-        modifier = Modifier.then(StyleResolver.resolveModifier(component.style))
+        modifier = Modifier.then(StyleResolver.resolveModifier(component.style)),
+        contentAlignment = StyleResolver.resolveBoxAlignment(component.style?.alignment)
     ) {
         component.children?.forEach { child ->
             RenderComponent(child)

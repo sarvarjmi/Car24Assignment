@@ -1,0 +1,66 @@
+{
+  "metadata": {
+    "id": "profile_screen",
+    "name": "My Account",
+    "schemaVersion": "1.0.0",
+    "rendererVersion": "1.0.0",
+    "createdAt": 1724500000,
+    "updatedAt": 1724500000,
+    "description": "User profile screen"
+  },
+  "configuration": {
+    "refreshable": false,
+    "scrollable": true,
+    "safeArea": true,
+    "backgroundColor": "BACKGROUND"
+  },
+  "theme": {
+    "colorPalette": {
+      "primary": "PRIMARY"
+    }
+  },
+  "layout": {
+    "type": "Column"
+  },
+  "sections": [
+    {
+      "id": "profile_header",
+      "type": "header",
+      "order": 1,
+      "components": [
+        {
+          "id": "user_info",
+          "type": "header",
+          "properties": {
+            "title": "John Doe",
+            "subtitle": "Premium Member since 2024"
+          },
+          "style": { "padding": { "all": "LARGE" } }
+        }
+      ]
+    },
+    {
+      "id": "profile_options",
+      "type": "list",
+      "order": 2,
+      "components": [
+        {
+          "id": "opt_my_cars",
+          "type": "cta",
+          "properties": { "text": "My Booked Cars" }
+        },
+        {
+          "id": "opt_sell",
+          "type": "cta",
+          "properties": { "text": "Sell My Car" }
+        },
+        {
+          "id": "opt_logout",
+          "type": "cta",
+          "properties": { "text": "Logout" },
+          "style": { "typography": { "color": "ERROR" } }
+        }
+      ]
+    }
+  ]
+}

@@ -11,5 +11,10 @@ data class Style(
     val shape: ShapeToken? = null,
     val alpha: Float? = null,
     val elevation: ElevationToken? = null,
-    val border: BorderModel? = null
+    val border: BorderModel? = null,
+    val width: SizeToken? = null,
+    val height: SizeToken? = null,
+    val arrangement: ArrangementModel? = null,
+    val alignment: AlignmentModel? = null,
+    val layoutParams: LayoutParamsModel? = null
 )

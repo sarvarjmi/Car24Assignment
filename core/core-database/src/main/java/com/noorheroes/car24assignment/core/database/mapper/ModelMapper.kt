@@ -83,7 +83,7 @@ class ModelMapper @Inject constructor(
         val style = model.style?.let { toStyle(it) }
         val actions = model.actions?.mapValues { toAction(it.value) } ?: emptyMap()
         val children = model.children?.map { toComponentFromModel(it) }
-        val visibility = model.visibility == "VISIBLE"
+        val visibility = model.visibility
         val state = model.state?.let { toRuntimeState(it) }
 
         val propertiesMap = json.encodeToJsonElement(ComponentModel.serializer(), model)
@@ -120,7 +120,7 @@ class ModelMapper @Inject constructor(
             )
             is ComponentModel.Footer -> Component.Footer(
                 id = model.id, style = style, actions = actions, children = children, visibility = visibility, state = state, properties = propertiesMap,
-                text = model.properties.text
+                text = model.properties.text, copyright = model.properties.copyright, version = model.properties.version
             )
             is ComponentModel.HorizontalRail -> Component.HorizontalRail(
                 id = model.id, style = style, actions = actions, children = children, visibility = visibility, state = state, properties = propertiesMap,
@@ -148,7 +148,12 @@ class ModelMapper @Inject constructor(
             shape = model.shape,
             alpha = model.alpha,
             elevation = model.elevation,
-            border = model.border
+            border = model.border,
+            width = model.width,
+            height = model.height,
+            arrangement = model.arrangement,
+            alignment = model.alignment,
+            layoutParams = model.layoutParams
         )
     }
 

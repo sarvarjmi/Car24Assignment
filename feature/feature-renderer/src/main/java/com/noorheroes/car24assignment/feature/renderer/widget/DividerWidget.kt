@@ -20,7 +20,7 @@ fun DividerWidget(component: Component) {
     val colorToken = try { colorName?.let { ColorToken.valueOf(it.uppercase()) } } catch (e: Exception) { null }
 
     HorizontalDivider(
-        modifier = Modifier.then(StyleResolver.resolveModifier(component.style)),
+        modifier = Modifier.then(StyleResolver.resolveModifier(component.style, component.visibility)),
         thickness = thicknessToken?.let { SpacingTokenResolver.resolve(it) } ?: SpacingTokenResolver.resolve(SpacingToken.XXS),
         color = colorToken?.let { ColorTokenResolver.resolve(it) } ?: MaterialTheme.colorScheme.outlineVariant
     )

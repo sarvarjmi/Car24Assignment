@@ -21,7 +21,7 @@ fun CtaWidget(component: Component.Cta) {
         },
         modifier = Modifier
             .fillMaxWidth()
-            .then(StyleResolver.resolveModifier(component.style))
+            .then(StyleResolver.resolveModifier(component.style, component.visibility))
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         Text(text = component.text)

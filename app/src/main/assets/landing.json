@@ -21,7 +21,7 @@
     }
   },
   "layout": {
-    "type": "LazyColumn"
+    "type": "Column"
   },
   "sections": [
     {
@@ -78,11 +78,26 @@
               }
             },
             {
-              "id": "info_text",
-              "type": "cta",
-              "properties": {
-                "text": "140 Checkpoint Inspection"
-              }
+              "id": "info_points",
+              "type": "column",
+              "style": { "padding": { "top": "S" } },
+              "children": [
+                {
+                  "id": "point_1",
+                  "type": "text",
+                  "properties": { "text": "✓ 140 Checkpoint Inspection", "typography": "BODY_MEDIUM" }
+                },
+                {
+                  "id": "point_2",
+                  "type": "text",
+                  "properties": { "text": "✓ 7-Day Easy Return", "typography": "BODY_MEDIUM" }
+                },
+                {
+                  "id": "point_3",
+                  "type": "text",
+                  "properties": { "text": "✓ Quick & Easy Financing", "typography": "BODY_MEDIUM" }
+                }
+              ]
             }
           ]
         }
@@ -101,7 +116,8 @@
               "id": "btn_buy",
               "type": "cta",
               "style": {
-                "background": { "color": "PRIMARY" }
+                "background": { "color": "PRIMARY" },
+                "shape": "MEDIUM"
               },
               "properties": {
                 "text": "Browse All Cars"
@@ -117,7 +133,8 @@
               "id": "btn_server",
               "type": "cta",
               "style": {
-                "background": { "color": "SECONDARY" }
+                "background": { "color": "SECONDARY" },
+                "shape": "MEDIUM"
               },
               "properties": {
                 "text": "Open Server Panel"

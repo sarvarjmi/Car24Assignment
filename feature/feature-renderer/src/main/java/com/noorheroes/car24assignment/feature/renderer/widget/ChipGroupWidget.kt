@@ -14,7 +14,7 @@ fun ChipGroupWidget(component: Component) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .then(StyleResolver.resolveModifier(component.style)),
+            .then(StyleResolver.resolveModifier(component.style, component.visibility)),
         horizontalArrangement = Arrangement.spacedBy(StyleResolver.resolveSpacing(com.noorheroes.car24assignment.core.designsystem.token.SpacingToken.SMALL))
     ) {
         component.children?.forEach { child ->

@@ -22,7 +22,7 @@ fun SearchBarWidget(component: Component.SearchBar) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .then(StyleResolver.resolveModifier(component.style))
+            .then(StyleResolver.resolveModifier(component.style, component.visibility))
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .clip(RoundedCornerShape(24.dp))
             .background(Color.LightGray.copy(alpha = 0.3f))

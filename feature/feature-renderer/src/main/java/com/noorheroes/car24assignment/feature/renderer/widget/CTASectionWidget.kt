@@ -14,7 +14,7 @@ fun CTASectionWidget(component: Component) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .then(StyleResolver.resolveModifier(component.style))
+            .then(StyleResolver.resolveModifier(component.style, component.visibility))
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {

@@ -14,13 +14,21 @@ import com.noorheroes.car24assignment.feature.renderer.resolver.StyleResolver
 @Composable
 fun TextWidget(component: Component) {
     val text = component.properties["text"] as? String ?: ""
-    val typographyName = component.properties["typography"] as? String
-    val colorName = component.properties["color"] as? String
     val maxLines = (component.properties["maxLines"] as? Number)?.toInt() ?: Int.MAX_VALUE
     val textAlignName = component.properties["textAlign"] as? String
 
-    val typographyToken = try { typographyName?.let { TypographyToken.valueOf(it.uppercase()) } } catch (e: Exception) { null }
-    val colorToken = try { colorName?.let { ColorToken.valueOf(it.uppercase()) } } catch (e: Exception) { null }
+    // Priority: properties > style > defaults
+    val propTypography = component.properties["typography"] as? String
+    val propColor = component.properties["color"] as? String
+
+    val typographyToken = propTypography?.let {
+        try { TypographyToken.valueOf(it.uppercase()) } catch (e: Exception) { null }
+    } ?: component.style?.typography?.style
+
+    val colorToken = propColor?.let {
+        try { ColorToken.valueOf(it.uppercase()) } catch (e: Exception) { null }
+    } ?: component.style?.typography?.color
+
     val textAlign = when (textAlignName?.lowercase()) {
         "center" -> TextAlign.Center
         "end" -> TextAlign.End
@@ -30,7 +38,7 @@ fun TextWidget(component: Component) {
 
     Text(
         text = text,
-        modifier = Modifier.then(StyleResolver.resolveModifier(component.style)),
+        modifier = Modifier.then(StyleResolver.resolveModifier(component.style, component.visibility)),
         style = StyleResolver.resolveTypography(typographyToken),
         color = colorToken?.let { StyleResolver.resolveColor(it) } ?: LocalContentColor.current,
         maxLines = maxLines,

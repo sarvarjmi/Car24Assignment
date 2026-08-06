@@ -1,0 +1,15 @@
+{
+  "name": "SDUI Component Schema",
+  "version": "1.0.0",
+  "base_fields": ["id", "type", "properties", "style", "actions", "children", "visibility"],
+  "widget_catalog": [
+    "text", "image", "button", "hero_banner", "car_card", "search_bar",
+    "categories", "horizontal_rail", "cta", "cta_section", "footer",
+    "divider", "spacer", "chip", "chip_group", "card", "column", "row", "box"
+  ],
+  "style_tokens": {
+    "spacing": ["NONE", "XXS", "XS", "SMALL", "MEDIUM", "LARGE", "XL", "XXL"],
+    "colors": ["PRIMARY", "SECONDARY", "SURFACE", "BACKGROUND", "ERROR", "OUTLINE"],
+    "typography": ["DISPLAY_LARGE", "HEADLINE_MEDIUM", "TITLE_LARGE", "BODY_MEDIUM", "LABEL_SMALL"]
+  }
+}

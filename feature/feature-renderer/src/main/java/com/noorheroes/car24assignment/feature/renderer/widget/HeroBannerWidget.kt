@@ -25,7 +25,7 @@ fun HeroBannerWidget(component: Component.HeroBanner) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .then(StyleResolver.resolveModifier(component.style))
+            .then(StyleResolver.resolveModifier(component.style, component.visibility))
             .height(300.dp)
     ) {
         AsyncImage(

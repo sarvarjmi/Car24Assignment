@@ -22,7 +22,7 @@ fun CategoriesWidget(component: Component.Categories) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .then(StyleResolver.resolveModifier(component.style))
+            .then(StyleResolver.resolveModifier(component.style, component.visibility))
             .padding(vertical = 8.dp)
     ) {
         Text(

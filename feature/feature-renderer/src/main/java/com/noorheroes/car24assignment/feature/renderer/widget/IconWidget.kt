@@ -22,7 +22,7 @@ fun IconWidget(component: Component) {
     Icon(
         imageVector = IconTokenResolver.resolve(iconToken),
         contentDescription = null,
-        modifier = Modifier.then(StyleResolver.resolveModifier(component.style)),
+        modifier = Modifier.then(StyleResolver.resolveModifier(component.style, component.visibility)),
         tint = if (tintToken != null) ColorTokenResolver.resolve(tintToken) else Color.Unspecified
     )
 }

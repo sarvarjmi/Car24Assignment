@@ -32,6 +32,35 @@ data class BorderModel(
 )
 
 @Serializable
+enum class ArrangementToken {
+    START, END, CENTER, SPACE_BETWEEN, SPACE_AROUND, SPACE_EVENLY
+}
+
+@Serializable
+data class ArrangementModel(
+    val horizontal: ArrangementToken = ArrangementToken.START,
+    val vertical: ArrangementToken = ArrangementToken.START
+)
+
+@Serializable
+enum class AlignmentToken {
+    START, CENTER, END, TOP, BOTTOM
+}
+
+@Serializable
+data class AlignmentModel(
+    val horizontal: AlignmentToken? = null,
+    val vertical: AlignmentToken? = null
+)
+
+@Serializable
+data class LayoutParamsModel(
+    val weight: Float? = null,
+    val fillMaxWidth: Boolean? = null,
+    val fillMaxHeight: Boolean? = null
+)
+
+@Serializable
 data class StyleModel(
     val padding: PaddingModel? = null,
     val margin: PaddingModel? = null,
@@ -40,5 +69,10 @@ data class StyleModel(
     val shape: ShapeToken? = null,
     val alpha: Float? = null,
     val elevation: ElevationToken? = null,
-    val border: BorderModel? = null
+    val border: BorderModel? = null,
+    val width: SizeToken? = null,
+    val height: SizeToken? = null,
+    val arrangement: ArrangementModel? = null,
+    val alignment: AlignmentModel? = null,
+    val layoutParams: LayoutParamsModel? = null
 )

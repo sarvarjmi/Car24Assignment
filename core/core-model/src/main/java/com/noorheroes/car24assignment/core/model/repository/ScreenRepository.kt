@@ -17,4 +17,6 @@ interface ScreenRepository {
 
     suspend fun getScreen(screenId: String): Screen?
     suspend fun saveScreen(screen: Screen)
+    suspend fun updateScreenMetadata(screenId: String, name: String, description: String?)
+    suspend fun updateScreenConfig(screenId: String, configJson: String)
 }

@@ -1,0 +1,11 @@
+{
+  "name": "SDUI Screen Schema",
+  "version": "1.0.0",
+  "required_fields": ["metadata", "configuration", "theme", "layout", "sections"],
+  "metadata_rules": {
+    "required": ["id", "name", "schemaVersion", "rendererVersion"]
+  },
+  "configuration_rules": {
+    "flags": ["refreshable", "scrollable", "safeArea"]
+  }
+}

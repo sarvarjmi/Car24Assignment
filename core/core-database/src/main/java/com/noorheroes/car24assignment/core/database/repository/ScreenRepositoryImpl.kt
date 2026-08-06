@@ -61,4 +61,12 @@ class ScreenRepositoryImpl @Inject constructor(
     override suspend fun saveScreen(screen: Screen) {
         // Implementation for saving screen hierarchy if needed
     }
+
+    override suspend fun updateScreenMetadata(screenId: String, name: String, description: String?) {
+        screenDao.updateScreenMetadata(screenId, name, description)
+    }
+
+    override suspend fun updateScreenConfig(screenId: String, configJson: String) {
+        screenDao.updateScreenConfig(screenId, configJson)
+    }
 }

@@ -17,7 +17,7 @@ fun HeaderWidget(component: Component.Header) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .then(StyleResolver.resolveModifier(component.style))
+            .then(StyleResolver.resolveModifier(component.style, component.visibility))
             .padding(16.dp)
     ) {
         Text(

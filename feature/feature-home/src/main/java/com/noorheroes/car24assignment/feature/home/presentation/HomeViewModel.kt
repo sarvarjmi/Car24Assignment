@@ -7,6 +7,7 @@ import com.noorheroes.car24assignment.core.domain.usecase.GetScreenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 sealed interface HomeUiState {
@@ -21,6 +22,9 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val retryTrigger = MutableSharedFlow<Unit>(replay = 1)
+    
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing = _isRefreshing.asStateFlow()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val uiState: StateFlow<HomeUiState> = retryTrigger
@@ -42,5 +46,14 @@ class HomeViewModel @Inject constructor(
 
     fun onRetry() {
         retryTrigger.tryEmit(Unit)
+    }
+
+    fun onRefresh() {
+        viewModelScope.launch {
+            _isRefreshing.value = true
+            retryTrigger.emit(Unit)
+            kotlinx.coroutines.delay(1000) // Simulated delay
+            _isRefreshing.value = false
+        }
     }
 }

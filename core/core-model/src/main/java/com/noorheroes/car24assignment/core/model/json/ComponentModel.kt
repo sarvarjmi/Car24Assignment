@@ -5,13 +5,18 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
 
 @Serializable
+enum class VisibilityToken {
+    VISIBLE, HIDDEN, GONE
+}
+
+@Serializable
 sealed class ComponentModel {
     abstract val id: String
     abstract val componentType: String
     abstract val style: StyleModel?
     abstract val actions: Map<String, ActionModel>?
     abstract val children: List<ComponentModel>?
-    abstract val visibility: String
+    abstract val visibility: VisibilityToken
     abstract val state: RuntimeStateModel?
 
     @Serializable
@@ -21,7 +26,7 @@ sealed class ComponentModel {
         override val style: StyleModel? = null,
         override val actions: Map<String, ActionModel>? = null,
         override val children: List<ComponentModel>? = null,
-        override val visibility: String = "VISIBLE",
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
         override val state: RuntimeStateModel? = null,
         val properties: BannerProperties
     ) : ComponentModel() {
@@ -35,7 +40,7 @@ sealed class ComponentModel {
         override val style: StyleModel? = null,
         override val actions: Map<String, ActionModel>? = null,
         override val children: List<ComponentModel>? = null,
-        override val visibility: String = "VISIBLE",
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
         override val state: RuntimeStateModel? = null,
         val properties: HeroBannerProperties
     ) : ComponentModel() {
@@ -49,7 +54,7 @@ sealed class ComponentModel {
         override val style: StyleModel? = null,
         override val actions: Map<String, ActionModel>? = null,
         override val children: List<ComponentModel>? = null,
-        override val visibility: String = "VISIBLE",
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
         override val state: RuntimeStateModel? = null,
         val properties: SearchBarProperties
     ) : ComponentModel() {
@@ -63,7 +68,7 @@ sealed class ComponentModel {
         override val style: StyleModel? = null,
         override val actions: Map<String, ActionModel>? = null,
         override val children: List<ComponentModel>? = null,
-        override val visibility: String = "VISIBLE",
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
         override val state: RuntimeStateModel? = null,
         val properties: CategoriesProperties
     ) : ComponentModel() {
@@ -77,7 +82,7 @@ sealed class ComponentModel {
         override val style: StyleModel? = null,
         override val actions: Map<String, ActionModel>? = null,
         override val children: List<ComponentModel>? = null,
-        override val visibility: String = "VISIBLE",
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
         override val state: RuntimeStateModel? = null,
         val properties: CarCardProperties
     ) : ComponentModel() {
@@ -91,7 +96,7 @@ sealed class ComponentModel {
         override val style: StyleModel? = null,
         override val actions: Map<String, ActionModel>? = null,
         override val children: List<ComponentModel>? = null,
-        override val visibility: String = "VISIBLE",
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
         override val state: RuntimeStateModel? = null,
         val properties: HeaderProperties
     ) : ComponentModel() {
@@ -105,7 +110,7 @@ sealed class ComponentModel {
         override val style: StyleModel? = null,
         override val actions: Map<String, ActionModel>? = null,
         override val children: List<ComponentModel>? = null,
-        override val visibility: String = "VISIBLE",
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
         override val state: RuntimeStateModel? = null,
         val properties: CtaProperties
     ) : ComponentModel() {
@@ -119,7 +124,7 @@ sealed class ComponentModel {
         override val style: StyleModel? = null,
         override val actions: Map<String, ActionModel>? = null,
         override val children: List<ComponentModel>? = null,
-        override val visibility: String = "VISIBLE",
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
         override val state: RuntimeStateModel? = null,
         val properties: FooterProperties
     ) : ComponentModel() {
@@ -133,7 +138,7 @@ sealed class ComponentModel {
         override val style: StyleModel? = null,
         override val actions: Map<String, ActionModel>? = null,
         override val children: List<ComponentModel>? = null,
-        override val visibility: String = "VISIBLE",
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
         override val state: RuntimeStateModel? = null,
         val properties: HorizontalRailProperties
     ) : ComponentModel() {
@@ -196,7 +201,9 @@ data class CtaProperties(
 
 @Serializable
 data class FooterProperties(
-    val text: String
+    val text: String,
+    val copyright: String? = null,
+    val version: String? = null
 )
 
 @Serializable

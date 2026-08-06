@@ -35,12 +35,16 @@ class ServerViewModel @Inject constructor(
     private val getScreenUseCase: GetScreenUseCase,
     private val getComponentJsonUseCase: GetComponentJsonUseCase,
     private val updateComponentUseCase: UpdateComponentUseCase,
+    private val updateScreenConfigUseCase: UpdateScreenConfigUseCase,
     private val validator: SDUIValidator,
     private val json: Json
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<ServerUiState>(ServerUiState.Idle)
     val uiState = _uiState.asStateFlow()
+
+    private val undoStack = java.util.Stack<String>()
+    private val redoStack = java.util.Stack<String>()
 
     private val _screens = MutableStateFlow<List<Screen>>(emptyList())
     val screens = _screens.asStateFlow()
@@ -58,6 +62,8 @@ class ServerViewModel @Inject constructor(
     fun loadComponent(componentId: String) {
         viewModelScope.launch {
             _uiState.value = ServerUiState.Loading
+            undoStack.clear()
+            redoStack.clear()
             val jsonStr = getComponentJsonUseCase(componentId)
             if (jsonStr != null) {
                 val element = json.parseToJsonElement(jsonStr).jsonObject
@@ -78,9 +84,72 @@ class ServerViewModel @Inject constructor(
         }
     }
 
+    fun loadScreenConfig(screenId: String) {
+        viewModelScope.launch {
+            _uiState.value = ServerUiState.Loading
+            undoStack.clear()
+            redoStack.clear()
+            
+            // For the assignment, we fetch the screen from the list we already have
+            val screen = _screens.value.find { it.metadata.id == screenId }
+            if (screen != null) {
+                val config = screen.configuration
+                val metadata = screen.metadata
+                
+                // Construct a virtual properties map for the form editor
+                val properties = mutableMapOf<String, JsonElement>()
+                properties["name"] = JsonPrimitive(metadata.name)
+                properties["description"] = JsonPrimitive(metadata.description ?: "")
+                properties["refreshable"] = JsonPrimitive(config.refreshable)
+                properties["scrollable"] = JsonPrimitive(config.scrollable)
+                properties["safeArea"] = JsonPrimitive(config.safeArea)
+                
+                _uiState.value = ServerUiState.Editing(
+                    componentId = "SCREEN_CONFIG",
+                    type = "screen_config",
+                    properties = properties,
+                    json = json.encodeToString(properties), // Virtual JSON
+                    metadata = WidgetMetadataRegistry.get("screen_config")
+                )
+            } else {
+                _uiState.value = ServerUiState.Error("Screen not found")
+            }
+        }
+    }
+
+    fun saveScreenConfig(screenId: String, properties: Map<String, JsonElement>) {
+        viewModelScope.launch {
+            _uiState.value = ServerUiState.Loading
+            
+            val name = properties["name"]?.jsonPrimitive?.content ?: "Cars24"
+            val description = properties["description"]?.jsonPrimitive?.content
+            val refreshable = properties["refreshable"]?.jsonPrimitive?.booleanOrNull ?: true
+            val scrollable = properties["scrollable"]?.jsonPrimitive?.booleanOrNull ?: true
+            val safeArea = properties["safeArea"]?.jsonPrimitive?.booleanOrNull ?: true
+            
+            val configMap = mapOf(
+                "refreshable" to JsonPrimitive(refreshable),
+                "scrollable" to JsonPrimitive(scrollable),
+                "safeArea" to JsonPrimitive(safeArea)
+            )
+            
+            updateScreenConfigUseCase(
+                screenId = screenId,
+                name = name,
+                description = description,
+                configJson = json.encodeToString(JsonObject(configMap))
+            )
+            
+            _uiState.value = ServerUiState.Success
+            loadScreens() // Refresh list
+        }
+    }
+
     fun updateProperty(key: String, value: Any) {
         val currentState = _uiState.value
         if (currentState is ServerUiState.Editing) {
+            undoStack.push(currentState.json)
+            redoStack.clear()
             val newProperties = currentState.properties.toMutableMap()
             newProperties[key] = when (value) {
                 is String -> JsonPrimitive(value)
@@ -103,6 +172,8 @@ class ServerViewModel @Inject constructor(
     fun updateRawJson(jsonStr: String) {
         val currentState = _uiState.value
         if (currentState is ServerUiState.Editing) {
+            undoStack.push(currentState.json)
+            redoStack.clear()
             try {
                 val element = json.parseToJsonElement(jsonStr).jsonObject
                 val properties = element["properties"]?.jsonObject ?: emptyMap<String, JsonElement>()
@@ -113,6 +184,46 @@ class ServerViewModel @Inject constructor(
                 )
             } catch (e: Exception) {
                 _uiState.value = currentState.copy(json = jsonStr)
+            }
+        }
+    }
+
+    fun undo() {
+        if (undoStack.isNotEmpty()) {
+            val previousJson = undoStack.pop()
+            val currentState = _uiState.value
+            if (currentState is ServerUiState.Editing) {
+                redoStack.push(currentState.json)
+                try {
+                    val element = json.parseToJsonElement(previousJson).jsonObject
+                    val properties = element["properties"]?.jsonObject ?: emptyMap<String, JsonElement>()
+                    _uiState.value = currentState.copy(
+                        json = previousJson,
+                        properties = properties
+                    )
+                } catch (e: Exception) {
+                    _uiState.value = currentState.copy(json = previousJson)
+                }
+            }
+        }
+    }
+
+    fun redo() {
+        if (redoStack.isNotEmpty()) {
+            val nextJson = redoStack.pop()
+            val currentState = _uiState.value
+            if (currentState is ServerUiState.Editing) {
+                undoStack.push(currentState.json)
+                try {
+                    val element = json.parseToJsonElement(nextJson).jsonObject
+                    val properties = element["properties"]?.jsonObject ?: emptyMap<String, JsonElement>()
+                    _uiState.value = currentState.copy(
+                        json = nextJson,
+                        properties = properties
+                    )
+                } catch (e: Exception) {
+                    _uiState.value = currentState.copy(json = nextJson)
+                }
             }
         }
     }

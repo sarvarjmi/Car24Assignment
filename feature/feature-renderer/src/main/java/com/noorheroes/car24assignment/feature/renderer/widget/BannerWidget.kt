@@ -24,7 +24,7 @@ fun BannerWidget(component: Component.Banner) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .then(StyleResolver.resolveModifier(component.style))
+            .then(StyleResolver.resolveModifier(component.style, component.visibility))
             .height(200.dp),
         onClick = {
             component.actions["click"]?.let { action ->

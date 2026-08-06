@@ -4,6 +4,7 @@ import android.content.Context
 import com.noorheroes.car24assignment.core.common.logging.Logger
 import com.noorheroes.car24assignment.core.database.dao.*
 import com.noorheroes.car24assignment.core.database.entity.*
+import com.noorheroes.car24assignment.core.json.validator.SDUIValidator
 import com.noorheroes.car24assignment.core.model.json.ScreenModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.serialization.json.Json
@@ -18,6 +19,7 @@ class InitialSeeder @Inject constructor(
     private val sectionDao: SectionDao,
     private val componentDao: ComponentDao,
     private val seedHistoryDao: SeedHistoryDao,
+    private val validator: SDUIValidator,
     private val logger: Logger,
     private val json: Json
 ) {
@@ -34,6 +36,7 @@ class InitialSeeder @Inject constructor(
             seedScreen("landing.json")
             seedScreen("home.json")
             seedScreen("deals.json")
+            seedScreen("profile.json")
 
             seedHistoryDao.insertSeedHistory(
                 SeedHistoryEntity(
@@ -51,6 +54,14 @@ class InitialSeeder @Inject constructor(
 
     private suspend fun seedScreen(assetName: String) {
         val jsonString = context.assets.open(assetName).bufferedReader().use { it.readText() }
+        
+        // Validate before seeding
+        val validationResult = validator.validateScreenJson(jsonString)
+        if (validationResult.isFailure) {
+            logger.e(TAG, "Validation failed for $assetName: ${validationResult.exceptionOrNull()?.message}")
+            return
+        }
+
         val screenModel = json.decodeFromString<ScreenModel>(jsonString)
         seedDatabase(screenModel)
     }

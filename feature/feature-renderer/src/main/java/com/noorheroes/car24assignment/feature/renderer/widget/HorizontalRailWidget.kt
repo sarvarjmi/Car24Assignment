@@ -20,7 +20,7 @@ fun HorizontalRailWidget(component: Component.HorizontalRail) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .then(StyleResolver.resolveModifier(component.style))
+            .then(StyleResolver.resolveModifier(component.style, component.visibility))
             .padding(vertical = 8.dp)
     ) {
         component.title?.let {

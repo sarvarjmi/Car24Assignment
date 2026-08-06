@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,11 +26,20 @@ fun HomeScreen(
     onBack: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val isRefreshing by viewModel.isRefreshing.collectAsState()
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Cars24 Home") },
+                title = { 
+                    Text(
+                        text = if (uiState is HomeUiState.Success) {
+                            (uiState as HomeUiState.Success).screen.metadata.name
+                        } else {
+                            "Cars24"
+                        }
+                    ) 
+                },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
@@ -47,12 +58,26 @@ fun HomeScreen(
                 if (state.screen.sections.isEmpty()) {
                     EmptyView(modifier = modifier)
                 } else {
-                    SDUIRenderer(
-                        screen = state.screen,
-                        registry = registry,
-                        actionDispatcher = actionDispatcher,
-                        modifier = modifier
-                    )
+                    if (state.screen.configuration.refreshable) {
+                        PullToRefreshBox(
+                            isRefreshing = isRefreshing,
+                            onRefresh = { viewModel.onRefresh() },
+                            modifier = modifier
+                        ) {
+                            SDUIRenderer(
+                                screen = state.screen,
+                                registry = registry,
+                                actionDispatcher = actionDispatcher
+                            )
+                        }
+                    } else {
+                        SDUIRenderer(
+                            screen = state.screen,
+                            registry = registry,
+                            actionDispatcher = actionDispatcher,
+                            modifier = modifier
+                        )
+                    }
                 }
             }
             is HomeUiState.Error -> {

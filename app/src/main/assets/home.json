@@ -67,7 +67,8 @@
           "id": "hero_banner_1",
           "type": "hero_banner",
           "style": {
-            "shape": "M"
+            "shape": "M",
+            "elevation": "LEVEL_2"
           },
           "properties": {
             "imageUrl": "ic_landing_hero",
@@ -78,7 +79,7 @@
           "actions": {
             "click": {
               "type": "navigate",
-              "payload": { "route": "server" }
+              "target": "server"
             }
           }
         }
@@ -90,16 +91,21 @@
       "order": 4,
       "components": [
         {
+          "id": "categories_header",
+          "type": "header",
+          "properties": { "title": "Top Categories" },
+          "style": { "padding": { "start": "M", "top": "M" } }
+        },
+        {
           "id": "categories_1",
-          "type": "categories",
-          "properties": {
-            "items": [
-              { "id": "hatch", "label": "Hatchback", "icon": "ic_category_placeholder" },
-              { "id": "sedan", "label": "Sedan", "icon": "ic_category_placeholder" },
-              { "id": "suv", "label": "SUV", "icon": "ic_category_placeholder" },
-              { "id": "luxury", "label": "Luxury", "icon": "ic_category_placeholder" }
-            ]
-          }
+          "type": "chip_group",
+          "style": { "padding": { "all": "M" } },
+          "children": [
+            { "id": "chip_hatch", "type": "chip", "properties": { "text": "Hatchback" } },
+            { "id": "chip_sedan", "type": "chip", "properties": { "text": "Sedan" } },
+            { "id": "chip_suv", "type": "chip", "properties": { "text": "SUV" }, "state": { "selected": true } },
+            { "id": "chip_luxury", "type": "chip", "properties": { "text": "Luxury" } }
+          ]
         }
       ]
     },
@@ -109,11 +115,14 @@
       "order": 5,
       "components": [
         {
+          "id": "rail_header",
+          "type": "header",
+          "properties": { "title": "Featured Cars" },
+          "style": { "padding": { "start": "M" } }
+        },
+        {
           "id": "rail_featured",
-          "type": "horizontal_rail",
-          "properties": {
-            "title": "Featured Cars"
-          },
+          "type": "lazy_row",
           "children": [
             {
               "id": "car_1",
@@ -122,7 +131,8 @@
                 "imageUrl": "ic_car_placeholder",
                 "title": "Hyundai Creta",
                 "price": "₹12.50 Lakh",
-                "location": "New Delhi"
+                "location": "New Delhi",
+                "badges": ["FEATURED", "CERTIFIED"]
               }
             },
             {
@@ -132,7 +142,8 @@
                 "imageUrl": "ic_car_placeholder",
                 "title": "Maruti Swift",
                 "price": "₹5.80 Lakh",
-                "location": "Mumbai"
+                "location": "Mumbai",
+                "badges": ["TOP DEAL"]
               }
             },
             {
@@ -155,6 +166,11 @@
       "order": 6,
       "components": [
         {
+          "id": "footer_spacer",
+          "type": "spacer",
+          "properties": { "height": "32dp" }
+        },
+        {
           "id": "cta_sell",
           "type": "cta",
           "style": {
@@ -169,7 +185,9 @@
           "id": "footer_1",
           "type": "footer",
           "properties": {
-            "text": "© 2026 Cars24 Services Private Limited"
+            "text": "© 2026 Cars24 Services Private Limited",
+            "copyright": "All Rights Reserved",
+            "version": "1.0.0"
           }
         }
       ]

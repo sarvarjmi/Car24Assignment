@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.dp
 import com.noorheroes.car24assignment.feature.server.metadata.PropertyMetadata
 import com.noorheroes.car24assignment.feature.server.metadata.PropertyType
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PropertyEditor(
     metadata: PropertyMetadata,
@@ -32,6 +33,35 @@ fun PropertyEditor(
                     checked = value as? Boolean ?: false,
                     onCheckedChange = onValueChange
                 )
+            }
+            PropertyType.DROPDOWN -> {
+                var expanded by remember { mutableStateOf(false) }
+                ExposedDropdownMenuBox(
+                    expanded = expanded,
+                    onExpandedChange = { expanded = it }
+                ) {
+                    TextField(
+                        value = value?.toString() ?: "",
+                        onValueChange = {},
+                        readOnly = true,
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                        modifier = Modifier.menuAnchor().fillMaxWidth()
+                    )
+                    ExposedDropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false }
+                    ) {
+                        metadata.options.forEach { option ->
+                            DropdownMenuItem(
+                                text = { Text(option) },
+                                onClick = {
+                                    onValueChange(option)
+                                    expanded = false
+                                }
+                            )
+                        }
+                    }
+                }
             }
             // Handle other types
             else -> {

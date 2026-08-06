@@ -9,7 +9,7 @@ sealed class Component {
     abstract val style: Style?
     abstract val actions: Map<String, Action>
     abstract val children: List<Component>?
-    abstract val visibility: Boolean
+    abstract val visibility: VisibilityToken
     abstract val state: RuntimeState?
 
     data class Banner(
@@ -17,7 +17,7 @@ sealed class Component {
         override val style: Style? = null,
         override val actions: Map<String, Action> = emptyMap(),
         override val children: List<Component>? = null,
-        override val visibility: Boolean = true,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
         override val state: RuntimeState? = null,
         override val properties: Map<String, Any?> = emptyMap(),
         val imageUrl: String,
@@ -32,7 +32,7 @@ sealed class Component {
         override val style: Style? = null,
         override val actions: Map<String, Action> = emptyMap(),
         override val children: List<Component>? = null,
-        override val visibility: Boolean = true,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
         override val state: RuntimeState? = null,
         override val properties: Map<String, Any?> = emptyMap(),
         val imageUrl: String,
@@ -48,7 +48,7 @@ sealed class Component {
         override val style: Style? = null,
         override val actions: Map<String, Action> = emptyMap(),
         override val children: List<Component>? = null,
-        override val visibility: Boolean = true,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
         override val state: RuntimeState? = null,
         override val properties: Map<String, Any?> = emptyMap(),
         val placeholder: String
@@ -61,7 +61,7 @@ sealed class Component {
         override val style: Style? = null,
         override val actions: Map<String, Action> = emptyMap(),
         override val children: List<Component>? = null,
-        override val visibility: Boolean = true,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
         override val state: RuntimeState? = null,
         override val properties: Map<String, Any?> = emptyMap(),
         val items: List<CategoryItem>
@@ -80,7 +80,7 @@ sealed class Component {
         override val style: Style? = null,
         override val actions: Map<String, Action> = emptyMap(),
         override val children: List<Component>? = null,
-        override val visibility: Boolean = true,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
         override val state: RuntimeState? = null,
         override val properties: Map<String, Any?> = emptyMap(),
         val imageUrl: String,
@@ -96,7 +96,7 @@ sealed class Component {
         override val style: Style? = null,
         override val actions: Map<String, Action> = emptyMap(),
         override val children: List<Component>? = null,
-        override val visibility: Boolean = true,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
         override val state: RuntimeState? = null,
         override val properties: Map<String, Any?> = emptyMap(),
         val title: String,
@@ -110,7 +110,7 @@ sealed class Component {
         override val style: Style? = null,
         override val actions: Map<String, Action> = emptyMap(),
         override val children: List<Component>? = null,
-        override val visibility: Boolean = true,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
         override val state: RuntimeState? = null,
         override val properties: Map<String, Any?> = emptyMap(),
         val text: String
@@ -123,10 +123,12 @@ sealed class Component {
         override val style: Style? = null,
         override val actions: Map<String, Action> = emptyMap(),
         override val children: List<Component>? = null,
-        override val visibility: Boolean = true,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
         override val state: RuntimeState? = null,
         override val properties: Map<String, Any?> = emptyMap(),
-        val text: String
+        val text: String,
+        val copyright: String? = null,
+        val version: String? = null
     ) : Component() {
         override val type: String = "footer"
     }
@@ -136,7 +138,7 @@ sealed class Component {
         override val style: Style? = null,
         override val actions: Map<String, Action> = emptyMap(),
         override val children: List<Component>? = null,
-        override val visibility: Boolean = true,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
         override val state: RuntimeState? = null,
         override val properties: Map<String, Any?> = emptyMap(),
         val title: String? = null
@@ -150,7 +152,7 @@ sealed class Component {
         override val style: Style? = null,
         override val actions: Map<String, Action> = emptyMap(),
         override val children: List<Component>? = null,
-        override val visibility: Boolean = true,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
         override val state: RuntimeState? = null,
         override val properties: Map<String, Any?> = emptyMap()
     ) : Component()

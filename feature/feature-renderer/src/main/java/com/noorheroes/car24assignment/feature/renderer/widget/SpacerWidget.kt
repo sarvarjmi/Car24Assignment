@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.noorheroes.car24assignment.core.model.domain.Component
+import com.noorheroes.car24assignment.feature.renderer.resolver.StyleResolver
 
 @Composable
 fun SpacerWidget(component: Component) {
@@ -15,6 +16,7 @@ fun SpacerWidget(component: Component) {
     
     Spacer(
         modifier = Modifier
+            .then(StyleResolver.resolveModifier(component.style, component.visibility))
             .height(height.dp)
             .width(width.dp)
     )

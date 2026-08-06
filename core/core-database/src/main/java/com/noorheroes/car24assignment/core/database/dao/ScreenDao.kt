@@ -20,4 +20,10 @@ interface ScreenDao {
 
     @Delete
     suspend fun deleteScreen(screen: ScreenEntity)
+
+    @Query("UPDATE screens SET name = :name, description = :description WHERE screenId = :screenId")
+    suspend fun updateScreenMetadata(screenId: String, name: String, description: String?)
+
+    @Query("UPDATE screens SET configurationJson = :configJson WHERE screenId = :screenId")
+    suspend fun updateScreenConfig(screenId: String, configJson: String)
 }

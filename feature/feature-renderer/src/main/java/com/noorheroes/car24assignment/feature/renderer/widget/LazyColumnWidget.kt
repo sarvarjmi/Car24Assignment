@@ -14,7 +14,7 @@ fun LazyColumnWidget(component: Component) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .then(StyleResolver.resolveModifier(component.style))
+            .then(StyleResolver.resolveModifier(component.style, component.visibility))
     ) {
         items(component.children ?: emptyList()) { child ->
             RenderComponent(child)

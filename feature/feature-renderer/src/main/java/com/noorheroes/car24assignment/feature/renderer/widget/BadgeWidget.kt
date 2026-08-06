@@ -18,7 +18,7 @@ fun BadgeWidget(component: Component) {
     Text(
         text = text,
         modifier = Modifier
-            .then(StyleResolver.resolveModifier(component.style))
+            .then(StyleResolver.resolveModifier(component.style, component.visibility))
             .background(
                 color = MaterialTheme.colorScheme.secondary,
                 shape = RoundedCornerShape(4.dp)

@@ -23,7 +23,7 @@ fun ImageWidget(component: Component) {
     AsyncImage(
         model = ImageResolver.resolve(url),
         contentDescription = null,
-        modifier = Modifier.then(StyleResolver.resolveModifier(component.style)),
+        modifier = Modifier.then(StyleResolver.resolveModifier(component.style, component.visibility)),
         contentScale = contentScale
     )
 }

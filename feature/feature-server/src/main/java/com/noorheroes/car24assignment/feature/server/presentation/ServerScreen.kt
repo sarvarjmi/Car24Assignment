@@ -5,6 +5,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Redo
+import androidx.compose.material.icons.filled.Undo
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -12,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.noorheroes.car24assignment.core.ui.component.LoadingView
 import com.noorheroes.car24assignment.core.ui.dialog.DialogController
 import com.noorheroes.car24assignment.core.ui.dialog.DialogRequest
+import com.noorheroes.car24assignment.core.ui.snackbar.SnackbarController
 import com.noorheroes.car24assignment.feature.server.editor.PropertyEditor
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.jsonPrimitive
@@ -39,6 +43,46 @@ fun ServerScreen(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
+                        )
+                    }
+                },
+                actions = {
+                    var showImportDialog by remember { mutableStateOf(false) }
+                    IconButton(onClick = { showImportDialog = true }) {
+                        Icon(imageVector = Icons.Default.Add, contentDescription = "Import JSON")
+                    }
+                    
+                    IconButton(onClick = { viewModel.undo() }) {
+                        Icon(imageVector = Icons.Default.Undo, contentDescription = "Undo")
+                    }
+
+                    IconButton(onClick = { viewModel.redo() }) {
+                        Icon(imageVector = Icons.Default.Redo, contentDescription = "Redo")
+                    }
+                    
+                    if (showImportDialog) {
+                        var importText by remember { mutableStateOf("") }
+                        AlertDialog(
+                            onDismissRequest = { showImportDialog = false },
+                            title = { Text("Import Component JSON") },
+                            text = {
+                                TextField(
+                                    value = importText,
+                                    onValueChange = { importText = it },
+                                    modifier = Modifier.fillMaxWidth().height(200.dp),
+                                    placeholder = { Text("Paste JSON here...") }
+                                )
+                            },
+                            confirmButton = {
+                                Button(onClick = {
+                                    // Use first part of ID or prompt user. 
+                                    // Simplification: we'll try to extract ID from JSON.
+                                    viewModel.updateRawJson(importText)
+                                    showImportDialog = false
+                                }) {
+                                    Text("Import")
+                                }
+                            }
                         )
                     }
                 }
@@ -88,6 +132,14 @@ fun ServerScreen(
                         }
                     }
                 }
+                
+                // Add Screen Metadata/Config editing option
+                TextButton(onClick = { 
+                    selectedComponentId = "SCREEN_CONFIG"
+                    viewModel.loadScreenConfig(selectedScreenId)
+                }) {
+                    Text("Edit Screen Configuration", color = MaterialTheme.colorScheme.secondary)
+                }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -125,11 +177,19 @@ fun ServerScreen(
 
                     Row(modifier = Modifier.padding(vertical = 16.dp)) {
                         val scope = rememberCoroutineScope()
+                        val context = androidx.compose.ui.platform.LocalContext.current
                         Button(
-                            onClick = { viewModel.updateRawJson(viewModel.prettyPrint(state.json)) },
+                            onClick = { 
+                                val text = viewModel.prettyPrint(state.json)
+                                viewModel.updateRawJson(text)
+                                val clipboard = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                                val clip = android.content.ClipData.newPlainText("SDUI Component", text)
+                                clipboard.setPrimaryClip(clip)
+                                SnackbarController.show("JSON copied to clipboard")
+                            },
                             modifier = Modifier.weight(1f)
                         ) {
-                            Text("Pretty Print")
+                            Text("Copy JSON")
                         }
                         Spacer(modifier = Modifier.width(8.dp))
                         OutlinedButton(
@@ -152,7 +212,13 @@ fun ServerScreen(
                         }
                         Spacer(modifier = Modifier.width(8.dp))
                         Button(
-                            onClick = { viewModel.saveJson(state.componentId, state.json) },
+                            onClick = { 
+                                if (state.componentId == "SCREEN_CONFIG") {
+                                    viewModel.saveScreenConfig(selectedScreenId, state.properties)
+                                } else {
+                                    viewModel.saveJson(state.componentId, state.json) 
+                                }
+                            },
                             modifier = Modifier.weight(1f)
                         ) {
                             Text("Save")

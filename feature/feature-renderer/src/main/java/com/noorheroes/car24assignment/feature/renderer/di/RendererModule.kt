@@ -47,6 +47,7 @@ object RendererModule {
             }
             register("icon") { component -> IconWidget(component) }
             register("badge") { component -> BadgeWidget(component) }
+            register("button") { component -> ButtonWidget(component) }
             register("car_card") { component -> 
                 (component as? Component.CarCard)?.let { CarCardWidget(it) } 
             }
@@ -63,6 +64,7 @@ object RendererModule {
             }
             register("column") { component -> ColumnWidget(component) }
             register("lazy_column") { component -> LazyColumnWidget(component) }
+            register("lazy_row") { component -> LazyRowWidget(component) }
             register("row") { component -> RowWidget(component) }
         }
     }
@@ -71,9 +73,10 @@ object RendererModule {
     @Singleton
     fun provideActionDispatcher(
         navigator: AppNavigator,
+        getComponentJsonUseCase: com.noorheroes.car24assignment.core.domain.usecase.GetComponentJsonUseCase,
         updateComponentUseCase: UpdateComponentUseCase,
         actionValidator: ActionValidator,
         logger: Logger,
         json: Json
-    ): ActionDispatcher = ActionDispatcher(navigator, updateComponentUseCase, actionValidator, logger, json)
+    ): ActionDispatcher = ActionDispatcher(navigator, getComponentJsonUseCase, updateComponentUseCase, actionValidator, logger, json)
 }
