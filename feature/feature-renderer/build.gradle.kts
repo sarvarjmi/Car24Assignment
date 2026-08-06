@@ -40,6 +40,7 @@ dependencies {
     implementation(project(":core:core-ui"))
     implementation(project(":core:core-model"))
     implementation(project(":core:core-json"))
+    implementation(project(":core:core-navigation"))
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
@@ -52,4 +53,5 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     testImplementation(libs.junit)
+    testImplementation(libs.mockk)
 }

@@ -2,6 +2,7 @@ package com.noorheroes.car24assignment.feature.server.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.noorheroes.car24assignment.core.json.validator.SDUIValidator
 import com.noorheroes.car24assignment.core.model.usecase.GetComponentJsonUseCase
 import com.noorheroes.car24assignment.core.model.usecase.UpdateComponentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +22,8 @@ sealed interface ServerUiState {
 @HiltViewModel
 class ServerViewModel @Inject constructor(
     private val getComponentJsonUseCase: GetComponentJsonUseCase,
-    private val updateComponentUseCase: UpdateComponentUseCase
+    private val updateComponentUseCase: UpdateComponentUseCase,
+    private val validator: SDUIValidator
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<ServerUiState>(ServerUiState.Idle)
@@ -41,6 +43,12 @@ class ServerViewModel @Inject constructor(
 
     fun saveJson(componentId: String, json: String) {
         viewModelScope.launch {
+            val validationResult = validator.validateComponentJson(json)
+            if (validationResult.isFailure) {
+                _uiState.value = ServerUiState.Error("Invalid JSON: ${validationResult.exceptionOrNull()?.message}")
+                return@launch
+            }
+
             _uiState.value = ServerUiState.Loading
             updateComponentUseCase(componentId, json)
             _uiState.value = ServerUiState.Success

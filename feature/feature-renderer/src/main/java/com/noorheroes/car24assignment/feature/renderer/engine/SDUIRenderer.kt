@@ -12,6 +12,8 @@ import androidx.compose.ui.unit.dp
 import com.noorheroes.car24assignment.core.model.domain.Component
 import com.noorheroes.car24assignment.core.model.domain.Screen
 import com.noorheroes.car24assignment.core.model.domain.Section
+import com.noorheroes.car24assignment.feature.renderer.action.ActionDispatcher
+import com.noorheroes.car24assignment.feature.renderer.action.LocalActionDispatcher
 import com.noorheroes.car24assignment.feature.renderer.registry.ComponentRegistry
 import com.noorheroes.car24assignment.feature.renderer.registry.LocalComponentRegistry
 
@@ -19,9 +21,13 @@ import com.noorheroes.car24assignment.feature.renderer.registry.LocalComponentRe
 fun SDUIRenderer(
     screen: Screen,
     registry: ComponentRegistry,
+    actionDispatcher: ActionDispatcher,
     modifier: Modifier = Modifier
 ) {
-    androidx.compose.runtime.CompositionLocalProvider(LocalComponentRegistry provides registry) {
+    androidx.compose.runtime.CompositionLocalProvider(
+        LocalComponentRegistry provides registry,
+        LocalActionDispatcher provides actionDispatcher
+    ) {
         LazyColumn(
             modifier = modifier.fillMaxSize()
         ) {

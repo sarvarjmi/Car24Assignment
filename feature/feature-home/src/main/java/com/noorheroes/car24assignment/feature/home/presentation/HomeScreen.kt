@@ -1,7 +1,8 @@
 package com.noorheroes.car24assignment.feature.home.presentation
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -9,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.noorheroes.car24assignment.core.ui.component.ErrorView
 import com.noorheroes.car24assignment.core.ui.component.LoadingView
+import com.noorheroes.car24assignment.feature.renderer.action.ActionDispatcher
 import com.noorheroes.car24assignment.feature.renderer.engine.SDUIRenderer
 import com.noorheroes.car24assignment.feature.renderer.registry.ComponentRegistry
 
@@ -17,6 +19,7 @@ import com.noorheroes.car24assignment.feature.renderer.registry.ComponentRegistr
 fun HomeScreen(
     viewModel: HomeViewModel,
     registry: ComponentRegistry,
+    actionDispatcher: ActionDispatcher,
     onBack: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -27,7 +30,10 @@ fun HomeScreen(
                 title = { Text(text = "Cars24 Home") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        // Icon would go here
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
                     }
                 }
             )
@@ -40,13 +46,14 @@ fun HomeScreen(
                 SDUIRenderer(
                     screen = state.screen,
                     registry = registry,
+                    actionDispatcher = actionDispatcher,
                     modifier = modifier
                 )
             }
             is HomeUiState.Error -> {
                 ErrorView(
                     message = state.message,
-                    onRetry = { /* Refresh logic */ },
+                    onRetry = { viewModel.onRetry() },
                     modifier = modifier
                 )
             }

@@ -10,6 +10,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.noorheroes.car24assignment.core.navigation.navigator.AppNavigator
 import com.noorheroes.car24assignment.core.ui.theme.SDUITheme
+import com.noorheroes.car24assignment.feature.renderer.action.ActionDispatcher
 import com.noorheroes.car24assignment.feature.renderer.registry.ComponentRegistry
 import com.noorheroes.car24assignment.navigation.AppNavHost
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +25,9 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var registry: ComponentRegistry
 
+    @Inject
+    lateinit var actionDispatcher: ActionDispatcher
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -33,6 +37,7 @@ class MainActivity : ComponentActivity() {
                     AppNavHost(
                         navigator = navigator,
                         registry = registry,
+                        actionDispatcher = actionDispatcher,
                         modifier = Modifier.padding(innerPadding)
                     )
                 }

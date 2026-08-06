@@ -13,9 +13,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.noorheroes.car24assignment.core.model.domain.Component
+import com.noorheroes.car24assignment.feature.renderer.action.LocalActionDispatcher
 
 @Composable
 fun BannerWidget(component: Component) {
+    val actionDispatcher = LocalActionDispatcher.current
     val imageUrl = component.properties["imageUrl"] as? String
     val title = component.properties["title"] as? String
     val subtitle = component.properties["subtitle"] as? String
@@ -24,7 +26,12 @@ fun BannerWidget(component: Component) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .height(200.dp)
+            .height(200.dp),
+        onClick = {
+            component.actions["click"]?.let { action ->
+                actionDispatcher.dispatch(action)
+            }
+        }
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             AsyncImage(

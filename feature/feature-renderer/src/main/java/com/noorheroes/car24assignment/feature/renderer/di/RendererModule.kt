@@ -1,5 +1,6 @@
 package com.noorheroes.car24assignment.feature.renderer.di
 
+import com.noorheroes.car24assignment.core.navigation.navigator.AppNavigator
 import com.noorheroes.car24assignment.feature.renderer.action.ActionDispatcher
 import com.noorheroes.car24assignment.feature.renderer.registry.ComponentRegistry
 import com.noorheroes.car24assignment.feature.renderer.widget.*
@@ -27,5 +28,5 @@ object RendererModule {
 
     @Provides
     @Singleton
-    fun provideActionDispatcher(): ActionDispatcher = ActionDispatcher()
+    fun provideActionDispatcher(navigator: AppNavigator): ActionDispatcher = ActionDispatcher(navigator)
 }

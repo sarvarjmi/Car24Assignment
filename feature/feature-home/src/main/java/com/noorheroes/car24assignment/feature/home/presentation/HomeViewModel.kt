@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.noorheroes.car24assignment.core.model.domain.Screen
 import com.noorheroes.car24assignment.core.model.usecase.GetScreenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -19,10 +20,17 @@ class HomeViewModel @Inject constructor(
     private val getScreenUseCase: GetScreenUseCase
 ) : ViewModel() {
 
-    val uiState: StateFlow<HomeUiState> = getScreenUseCase("home_screen")
-        .map { screen ->
-            if (screen != null) HomeUiState.Success(screen)
-            else HomeUiState.Error("Screen not found")
+    private val retryTrigger = MutableSharedFlow<Unit>(replay = 1)
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val uiState: StateFlow<HomeUiState> = retryTrigger
+        .onStart { emit(Unit) }
+        .flatMapLatest {
+            getScreenUseCase("home_screen")
+                .map { screen ->
+                    if (screen != null) HomeUiState.Success(screen)
+                    else HomeUiState.Error("Screen not found")
+                }
         }
         .onStart { emit(HomeUiState.Loading) }
         .catch { e -> emit(HomeUiState.Error(e.message ?: "Unknown error")) }
@@ -31,4 +39,8 @@ class HomeViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = HomeUiState.Loading
         )
+
+    fun onRetry() {
+        retryTrigger.tryEmit(Unit)
+    }
 }

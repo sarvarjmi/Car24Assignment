@@ -10,6 +10,14 @@
         "imageUrl": "https://img.freepik.com/free-vector/modern-luxury-car-advertisement-banner_52683-102553.jpg",
         "title": "Buy Used Cars with Confidence",
         "subtitle": "Certified cars with warranty"
+      },
+      "actions": {
+        "click": {
+          "type": "navigate",
+          "payload": {
+            "route": "server"
+          }
+        }
       }
     },
     {

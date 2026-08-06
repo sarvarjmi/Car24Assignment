@@ -13,6 +13,7 @@ import com.noorheroes.car24assignment.core.navigation.Screen
 import com.noorheroes.car24assignment.core.navigation.navigator.AppNavigator
 import com.noorheroes.car24assignment.feature.home.presentation.HomeScreen
 import com.noorheroes.car24assignment.feature.landing.presentation.LandingScreen
+import com.noorheroes.car24assignment.feature.renderer.action.ActionDispatcher
 import com.noorheroes.car24assignment.feature.renderer.registry.ComponentRegistry
 import com.noorheroes.car24assignment.feature.server.presentation.ServerScreen
 
@@ -21,6 +22,7 @@ fun AppNavHost(
     navController: NavHostController = rememberNavController(),
     navigator: AppNavigator,
     registry: ComponentRegistry,
+    actionDispatcher: ActionDispatcher,
     modifier: Modifier = Modifier
 ) {
     LaunchedEffect(Unit) {
@@ -44,6 +46,7 @@ fun AppNavHost(
             HomeScreen(
                 viewModel = hiltViewModel(),
                 registry = registry,
+                actionDispatcher = actionDispatcher,
                 onBack = { navigator.navigateBack() }
             )
         }
