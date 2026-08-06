@@ -39,7 +39,7 @@ class InitialSeeder @Inject constructor(
 
             seedHistoryDao.insertSeedHistory(
                 SeedHistoryEntity(
-                    seedVersion = 1, // Global seed version
+                    seedVersion = 1,
                     seedTime = System.currentTimeMillis(),
                     completed = true,
                     checksum = null
@@ -63,47 +63,50 @@ class InitialSeeder @Inject constructor(
         // 1. Insert Screen
         screenDao.insertScreen(
             ScreenEntity(
-                screenId = model.id,
-                name = model.title,
-                description = null,
-                schemaVersion = 1,
-                rendererVersion = 1,
-                themeId = null,
-                configurationId = null,
-                createdAt = now,
-                updatedAt = now,
+                screenId = model.metadata.id,
+                name = model.metadata.name,
+                description = model.metadata.description,
+                schemaVersion = model.metadata.schemaVersion,
+                rendererVersion = model.metadata.rendererVersion,
+                configurationJson = json.encodeToJsonElement(model.configuration).toString(),
+                themeJson = json.encodeToJsonElement(model.theme).toString(),
+                layoutType = model.layout.type,
+                layoutStyleJson = model.layout.style?.toString(),
+                createdAt = model.metadata.createdAt,
+                updatedAt = model.metadata.updatedAt,
                 isActive = true
             )
         )
 
-        // 2. Create a default section for all components for now
-        val sectionId = "${model.id}_default_section"
-        sectionDao.insertSections(
-            listOf(
-                SectionEntity(
-                    sectionId = sectionId,
-                    screenId = model.id,
-                    type = "default",
-                    title = "Main Section",
-                    displayOrder = 0,
-                    visibility = true,
-                    updatedAt = now
+        // 2. Insert Sections
+        model.sections.forEach { section ->
+            sectionDao.insertSections(
+                listOf(
+                    SectionEntity(
+                        sectionId = section.id,
+                        screenId = model.metadata.id,
+                        type = section.type,
+                        title = section.title,
+                        displayOrder = section.order,
+                        visibility = section.visibility,
+                        updatedAt = now
+                    )
                 )
             )
-        )
 
-        // 3. Insert Components
-        val componentEntities = model.components.mapIndexed { index, component ->
-            ComponentEntity(
-                componentId = component.id,
-                sectionId = sectionId,
-                componentType = component.type,
-                componentJson = json.encodeToJsonElement(component).toString(),
-                displayOrder = index,
-                version = 1,
-                updatedAt = now
-            )
+            // 3. Insert Components for each section
+            val componentEntities = section.components.mapIndexed { index, component ->
+                ComponentEntity(
+                    componentId = component.id,
+                    sectionId = section.id,
+                    componentType = component.type,
+                    componentJson = json.encodeToJsonElement(component).toString(),
+                    displayOrder = index,
+                    version = 1,
+                    updatedAt = now
+                )
+            }
+            componentDao.insertComponents(componentEntities)
         }
-        componentDao.insertComponents(componentEntities)
     }
 }

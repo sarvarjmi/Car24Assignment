@@ -20,24 +20,37 @@ class SDUIParserTest {
     fun `given valid screen json when parsed then returns screen model`() {
         val jsonString = """
             {
-                "id": "home_screen",
-                "title": "Home",
-                "version": 1,
-                "components": [
+                "metadata": {
+                    "id": "home_screen",
+                    "name": "Home",
+                    "schemaVersion": "1.0.0",
+                    "rendererVersion": "1.0.0",
+                    "createdAt": 0,
+                    "updatedAt": 0
+                },
+                "layout": { "type": "LazyColumn" },
+                "sections": [
                     {
-                        "id": "banner_1",
-                        "type": "banner",
-                        "properties": { "imageUrl": "url" }
+                        "id": "sec_1",
+                        "type": "default",
+                        "order": 1,
+                        "components": [
+                            {
+                                "id": "banner_1",
+                                "type": "banner",
+                                "properties": { "imageUrl": "url" }
+                            }
+                        ]
                     }
                 ]
             }
         """.trimIndent()
 
         val result = parser.parseScreen(jsonString)
-        assertEquals("home_screen", result.id)
-        assertEquals("Home", result.title)
-        assertEquals(1, result.components.size)
-        assertEquals("banner_1", result.components[0].id)
+        assertEquals("home_screen", result.metadata.id)
+        assertEquals("Home", result.metadata.name)
+        assertEquals(1, result.sections.size)
+        assertEquals("banner_1", result.sections[0].components[0].id)
     }
 
     @Test

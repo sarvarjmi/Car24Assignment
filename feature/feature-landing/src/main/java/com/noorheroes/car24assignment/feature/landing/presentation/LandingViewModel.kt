@@ -3,7 +3,7 @@ package com.noorheroes.car24assignment.feature.landing.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.noorheroes.car24assignment.core.model.domain.Screen
-import com.noorheroes.car24assignment.core.model.usecase.GetScreenUseCase
+import com.noorheroes.car24assignment.core.domain.usecase.GetScreenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject

@@ -13,6 +13,8 @@ interface ScreenRepository {
      */
     fun observeScreen(screenId: String): Flow<Screen?>
     
+    suspend fun getScreens(): List<Screen>
+
     suspend fun getScreen(screenId: String): Screen?
     suspend fun saveScreen(screen: Screen)
 }

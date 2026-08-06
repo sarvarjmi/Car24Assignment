@@ -1,8 +1,10 @@
 package com.noorheroes.car24assignment.feature.home.presentation
 
 import app.cash.turbine.test
+import com.noorheroes.car24assignment.core.domain.usecase.GetScreenUseCase
+import com.noorheroes.car24assignment.core.model.domain.Layout
+import com.noorheroes.car24assignment.core.model.domain.Metadata
 import com.noorheroes.car24assignment.core.model.domain.Screen
-import com.noorheroes.car24assignment.core.model.usecase.GetScreenUseCase
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -37,7 +39,10 @@ class HomeViewModelTest {
 
     @Test
     fun `when viewmodel initialized then emits success state`() = runTest {
-        val mockScreen = Screen(id = "home", title = "Home", version = 1)
+        val mockScreen = Screen(
+            metadata = Metadata(id = "home", name = "Home", schemaVersion = "1.0.0", rendererVersion = "1.0.0", createdAt = 0, updatedAt = 0),
+            layout = Layout(type = "LazyColumn")
+        )
         every { getScreenUseCase("home_screen") } returns flowOf(mockScreen)
 
         viewModel = HomeViewModel(getScreenUseCase)
@@ -45,7 +50,7 @@ class HomeViewModelTest {
         viewModel.uiState.test {
             val state = awaitItem()
             assertTrue(state is HomeUiState.Success)
-            assertEquals("home", (state as HomeUiState.Success).screen.id)
+            assertEquals("home", (state as HomeUiState.Success).screen.metadata.id)
         }
     }
 }

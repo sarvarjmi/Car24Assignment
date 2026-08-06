@@ -4,8 +4,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ScreenModel(
-    val id: String,
-    val title: String,
-    val version: Int,
-    val components: List<ComponentModel>
+    val metadata: MetadataModel,
+    val configuration: ConfigurationModel = ConfigurationModel(),
+    val theme: ThemeModel = ThemeModel(),
+    val layout: LayoutModel,
+    val sections: List<SectionModel>
 )

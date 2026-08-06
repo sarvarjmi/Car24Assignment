@@ -44,6 +44,15 @@ class ScreenRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getScreens(): List<Screen> {
+        val entities = screenDao.getAllScreens()
+        // For simplicity, we won't fetch sections/components here as this is for the selector
+        // But we need to return valid Screen models
+        return entities.map { entity ->
+            mapper.toScreen(entity, emptyList(), emptyMap())
+        }
+    }
+
     override suspend fun getScreen(screenId: String): Screen? {
         // Implementation for non-flow fetch if needed
         return null // For now

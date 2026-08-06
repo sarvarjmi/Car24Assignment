@@ -4,6 +4,7 @@ data class Section(
     val id: String,
     val type: String,
     val title: String? = null,
+    val order: Int,
     val components: List<Component> = emptyList(),
     val visibility: Boolean = true
 )

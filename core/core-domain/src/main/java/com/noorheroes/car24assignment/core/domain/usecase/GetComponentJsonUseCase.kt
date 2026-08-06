@@ -1,4 +1,4 @@
-package com.noorheroes.car24assignment.core.model.usecase
+package com.noorheroes.car24assignment.core.domain.usecase
 
 import com.noorheroes.car24assignment.core.model.repository.ComponentRepository
 import javax.inject.Inject

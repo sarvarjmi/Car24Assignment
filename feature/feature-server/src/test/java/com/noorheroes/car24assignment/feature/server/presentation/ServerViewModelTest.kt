@@ -1,9 +1,8 @@
 package com.noorheroes.car24assignment.feature.server.presentation
 
 import app.cash.turbine.test
+import com.noorheroes.car24assignment.core.domain.usecase.*
 import com.noorheroes.car24assignment.core.json.validator.SDUIValidator
-import com.noorheroes.car24assignment.core.model.usecase.GetComponentJsonUseCase
-import com.noorheroes.car24assignment.core.model.usecase.UpdateComponentUseCase
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -13,6 +12,7 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import kotlinx.serialization.json.Json
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -23,15 +23,26 @@ import org.junit.Test
 class ServerViewModelTest {
 
     private val testDispatcher = UnconfinedTestDispatcher()
+    private val getScreensUseCase = mockk<GetScreensUseCase>()
+    private val getScreenUseCase = mockk<GetScreenUseCase>()
     private val getComponentJsonUseCase = mockk<GetComponentJsonUseCase>()
     private val updateComponentUseCase = mockk<UpdateComponentUseCase>()
     private val validator = mockk<SDUIValidator>()
+    private val json = Json { ignoreUnknownKeys = true }
     private lateinit var viewModel: ServerViewModel
 
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        viewModel = ServerViewModel(getComponentJsonUseCase, updateComponentUseCase, validator)
+        coEvery { getScreensUseCase() } returns emptyList()
+        viewModel = ServerViewModel(
+            getScreensUseCase, 
+            getScreenUseCase, 
+            getComponentJsonUseCase, 
+            updateComponentUseCase, 
+            validator, 
+            json
+        )
     }
 
     @After

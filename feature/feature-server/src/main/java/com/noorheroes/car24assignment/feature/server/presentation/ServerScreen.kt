@@ -1,6 +1,8 @@
 package com.noorheroes.car24assignment.feature.server.presentation
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -14,7 +16,9 @@ fun ServerScreen(
     onBack: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    var componentIdInput by remember { mutableStateOf("banner_1") }
+    val screens by viewModel.screens.collectAsState()
+    
+    var componentIdInput by remember { mutableStateOf("hero_banner_1") }
     var jsonInput by remember { mutableStateOf("") }
 
     Scaffold(
@@ -23,7 +27,10 @@ fun ServerScreen(
                 title = { Text(text = "Server Panel") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        // Back icon
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
                     }
                 }
             )
@@ -35,6 +42,10 @@ fun ServerScreen(
                 .padding(padding)
                 .padding(16.dp)
         ) {
+            Text(text = "Available Screens: ${screens.joinToString { it.metadata.name }}", style = MaterialTheme.typography.labelSmall)
+            
+            Spacer(modifier = Modifier.height(8.dp))
+
             Row {
                 TextField(
                     value = componentIdInput,
@@ -53,7 +64,6 @@ fun ServerScreen(
             when (val state = uiState) {
                 is ServerUiState.Loading -> LoadingView()
                 is ServerUiState.Editing -> {
-                    // Initialize local input once when loaded
                     LaunchedEffect(state.componentId) {
                         jsonInput = state.json
                     }
@@ -66,11 +76,27 @@ fun ServerScreen(
                         minLines = 10
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    Button(
-                        onClick = { viewModel.saveJson(state.componentId, jsonInput) },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text("Save Changes")
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        Button(
+                            onClick = { jsonInput = viewModel.prettyPrint(jsonInput) },
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text("Pretty Print")
+                        }
+                        Spacer(modifier = Modifier.width(8.dp))
+                        OutlinedButton(
+                            onClick = { jsonInput = "" },
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text("Reset")
+                        }
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Button(
+                            onClick = { viewModel.saveJson(state.componentId, jsonInput) },
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text("Save Changes")
+                        }
                     }
                 }
                 is ServerUiState.Success -> {
@@ -81,9 +107,12 @@ fun ServerScreen(
                 }
                 is ServerUiState.Error -> {
                     Text("Error: ${state.message}", color = MaterialTheme.colorScheme.error)
+                    Button(onClick = { viewModel.loadComponent(componentIdInput) }) {
+                        Text("Retry")
+                    }
                 }
                 else -> {
-                    Text("Enter Component ID and click Load")
+                    Text("Enter Component ID (e.g. hero_banner_1, search_bar_1) and click Load")
                 }
             }
         }

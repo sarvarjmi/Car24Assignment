@@ -5,7 +5,6 @@ import com.noorheroes.car24assignment.core.database.entity.ScreenEntity
 import com.noorheroes.car24assignment.core.database.entity.SectionEntity
 import kotlinx.serialization.json.Json
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -25,10 +24,12 @@ class ModelMapperTest {
             screenId = "home",
             name = "Home",
             description = null,
-            schemaVersion = 1,
-            rendererVersion = 1,
-            themeId = null,
-            configurationId = null,
+            schemaVersion = "1.0.0",
+            rendererVersion = "1.0.0",
+            configurationJson = "{}",
+            themeJson = "{}",
+            layoutType = "LazyColumn",
+            layoutStyleJson = null,
             createdAt = 0,
             updatedAt = 0,
             isActive = true
@@ -40,7 +41,7 @@ class ModelMapperTest {
                 type = "default",
                 title = "Section 1",
                 displayOrder = 0,
-                visibility = true,
+                visibility = "VISIBLE",
                 updatedAt = 0
             )
         )
@@ -61,8 +62,8 @@ class ModelMapperTest {
 
         val result = mapper.toScreen(screenEntity, sectionEntities, componentEntities)
 
-        assertEquals("home", result.id)
-        assertEquals("Home", result.title)
+        assertEquals("home", result.metadata.id)
+        assertEquals("Home", result.metadata.name)
         assertEquals(1, result.sections.size)
         assertEquals("Section 1", result.sections[0].title)
         assertEquals(1, result.sections[0].components.size)

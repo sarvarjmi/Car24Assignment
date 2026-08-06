@@ -23,6 +23,6 @@ data class SectionEntity(
     val type: String,
     val title: String?,
     val displayOrder: Int,
-    val visibility: Boolean,
+    val visibility: String,
     val updatedAt: Long
 )

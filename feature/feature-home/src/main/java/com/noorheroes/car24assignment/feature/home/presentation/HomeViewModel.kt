@@ -3,7 +3,7 @@ package com.noorheroes.car24assignment.feature.home.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.noorheroes.car24assignment.core.model.domain.Screen
-import com.noorheroes.car24assignment.core.model.usecase.GetScreenUseCase
+import com.noorheroes.car24assignment.core.domain.usecase.GetScreenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*

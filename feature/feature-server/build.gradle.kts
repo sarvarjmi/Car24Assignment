@@ -39,8 +39,10 @@ dependencies {
     implementation(project(":core:core-common"))
     implementation(project(":core:core-ui"))
     implementation(project(":core:core-model"))
+    implementation(project(":core:core-domain"))
     implementation(project(":core:core-database"))
     implementation(project(":core:core-json"))
+    implementation(libs.kotlinx.serialization.json)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)

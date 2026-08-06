@@ -1,41 +1,69 @@
 {
-  "id": "landing_screen",
-  "title": "Welcome to Cars24",
-  "version": 1,
-  "components": [
+  "metadata": {
+    "id": "landing_screen",
+    "name": "Welcome Screen",
+    "schemaVersion": "1.0.0",
+    "rendererVersion": "1.0.0",
+    "createdAt": 1724500000,
+    "updatedAt": 1724500000,
+    "description": "Initial entry point"
+  },
+  "configuration": {
+    "refreshable": false,
+    "scrollable": true,
+    "safeArea": true
+  },
+  "theme": {
+    "colorPalette": {
+      "primary": "#1B69DE"
+    }
+  },
+  "layout": {
+    "type": "Column"
+  },
+  "sections": [
     {
-      "id": "landing_header",
-      "type": "header",
-      "properties": {
-        "title": "CARS24",
-        "subtitle": "SDUI ENGINE"
-      }
-    },
-    {
-      "id": "btn_open_home",
-      "type": "cta",
-      "properties": {
-        "text": "Open Home"
-      },
-      "actions": {
-        "click": {
-          "type": "navigate",
-          "payload": { "route": "home" }
+      "id": "landing_section",
+      "type": "default",
+      "title": "Welcome",
+      "order": 1,
+      "visibility": "VISIBLE",
+      "components": [
+        {
+          "id": "landing_header",
+          "type": "header",
+          "properties": {
+            "title": "CARS24",
+            "subtitle": "SDUI ENGINE"
+          }
+        },
+        {
+          "id": "btn_open_home",
+          "type": "cta",
+          "properties": {
+            "text": "Open Home"
+          },
+          "actions": {
+            "click": {
+              "type": "navigate",
+              "payload": { "route": "home" }
+            }
+          }
+        },
+        {
+          "id": "btn_open_server",
+          "type": "cta",
+          "properties": {
+            "text": "Open Server Panel"
+          },
+          "actions": {
+            "click": {
+              "type": "navigate",
+              "payload": { "route": "server" }
+            }
+          }
         }
-      }
-    },
-    {
-      "id": "btn_open_server",
-      "type": "cta",
-      "properties": {
-        "text": "Open Server Panel"
-      },
-      "actions": {
-        "click": {
-          "type": "navigate",
-          "payload": { "route": "server" }
-        }
-      }
+      ]
     }
   ]
 }
