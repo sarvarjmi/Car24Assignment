@@ -27,7 +27,7 @@ fun BannerWidget(component: Component.Banner) {
             .height(200.dp),
         onClick = {
             component.actions["click"]?.let { action ->
-                actionDispatcher.dispatch(action)
+                actionDispatcher.dispatch(action, component)
             }
         }
     ) {

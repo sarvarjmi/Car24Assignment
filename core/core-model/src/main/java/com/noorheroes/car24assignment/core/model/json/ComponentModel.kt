@@ -12,6 +12,7 @@ sealed class ComponentModel {
     abstract val actions: Map<String, ActionModel>?
     abstract val children: List<ComponentModel>?
     abstract val visibility: String
+    abstract val state: RuntimeStateModel?
 
     @Serializable
     @SerialName("banner")
@@ -21,6 +22,7 @@ sealed class ComponentModel {
         override val actions: Map<String, ActionModel>? = null,
         override val children: List<ComponentModel>? = null,
         override val visibility: String = "VISIBLE",
+        override val state: RuntimeStateModel? = null,
         val properties: BannerProperties
     ) : ComponentModel() {
         override val type: String = "banner"
@@ -34,6 +36,7 @@ sealed class ComponentModel {
         override val actions: Map<String, ActionModel>? = null,
         override val children: List<ComponentModel>? = null,
         override val visibility: String = "VISIBLE",
+        override val state: RuntimeStateModel? = null,
         val properties: HeroBannerProperties
     ) : ComponentModel() {
         override val type: String = "hero_banner"
@@ -47,6 +50,7 @@ sealed class ComponentModel {
         override val actions: Map<String, ActionModel>? = null,
         override val children: List<ComponentModel>? = null,
         override val visibility: String = "VISIBLE",
+        override val state: RuntimeStateModel? = null,
         val properties: SearchBarProperties
     ) : ComponentModel() {
         override val type: String = "search_bar"
@@ -60,6 +64,7 @@ sealed class ComponentModel {
         override val actions: Map<String, ActionModel>? = null,
         override val children: List<ComponentModel>? = null,
         override val visibility: String = "VISIBLE",
+        override val state: RuntimeStateModel? = null,
         val properties: CategoriesProperties
     ) : ComponentModel() {
         override val type: String = "categories"
@@ -73,6 +78,7 @@ sealed class ComponentModel {
         override val actions: Map<String, ActionModel>? = null,
         override val children: List<ComponentModel>? = null,
         override val visibility: String = "VISIBLE",
+        override val state: RuntimeStateModel? = null,
         val properties: CarCardProperties
     ) : ComponentModel() {
         override val type: String = "car_card"
@@ -86,6 +92,7 @@ sealed class ComponentModel {
         override val actions: Map<String, ActionModel>? = null,
         override val children: List<ComponentModel>? = null,
         override val visibility: String = "VISIBLE",
+        override val state: RuntimeStateModel? = null,
         val properties: HeaderProperties
     ) : ComponentModel() {
         override val type: String = "header"
@@ -99,6 +106,7 @@ sealed class ComponentModel {
         override val actions: Map<String, ActionModel>? = null,
         override val children: List<ComponentModel>? = null,
         override val visibility: String = "VISIBLE",
+        override val state: RuntimeStateModel? = null,
         val properties: CtaProperties
     ) : ComponentModel() {
         override val type: String = "cta"
@@ -112,6 +120,7 @@ sealed class ComponentModel {
         override val actions: Map<String, ActionModel>? = null,
         override val children: List<ComponentModel>? = null,
         override val visibility: String = "VISIBLE",
+        override val state: RuntimeStateModel? = null,
         val properties: FooterProperties
     ) : ComponentModel() {
         override val type: String = "footer"
@@ -125,6 +134,7 @@ sealed class ComponentModel {
         override val actions: Map<String, ActionModel>? = null,
         override val children: List<ComponentModel>? = null,
         override val visibility: String = "VISIBLE",
+        override val state: RuntimeStateModel? = null,
         val properties: HorizontalRailProperties
     ) : ComponentModel() {
         override val type: String = "horizontal_rail"

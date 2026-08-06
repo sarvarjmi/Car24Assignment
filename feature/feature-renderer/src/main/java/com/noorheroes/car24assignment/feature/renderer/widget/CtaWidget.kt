@@ -17,7 +17,7 @@ fun CtaWidget(component: Component.Cta) {
 
     Button(
         onClick = {
-            component.actions["click"]?.let { actionDispatcher.dispatch(it) }
+            component.actions["click"]?.let { actionDispatcher.dispatch(it, component) }
         },
         modifier = Modifier
             .fillMaxWidth()

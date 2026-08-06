@@ -5,6 +5,10 @@ import kotlinx.serialization.json.JsonObject
 
 @Serializable
 data class ActionModel(
+    val id: String = "",
     val type: String,
-    val payload: JsonObject? = null
+    val target: String? = null,
+    val payload: JsonObject? = null,
+    val conditions: List<ConditionModel>? = null,
+    val priority: Int = 0
 )

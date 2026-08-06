@@ -67,7 +67,7 @@ fun HeroBannerWidget(component: Component.HeroBanner) {
             component.ctaText?.let {
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(onClick = {
-                    component.actions["click"]?.let { actionDispatcher.dispatch(it) }
+                    component.actions["click"]?.let { actionDispatcher.dispatch(it, component) }
                 }) {
                     Text(text = it)
                 }

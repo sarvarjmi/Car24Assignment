@@ -15,10 +15,20 @@ class SDUIValidator @Inject constructor(
             val element = json.parseToJsonElement(jsonString)
             val jsonObject = element.jsonObject
             
-            // Basic required fields for a component
+            // 1. Basic required fields for a component
             if (!jsonObject.containsKey("id")) return Result.failure(Exception("Missing 'id' field"))
             if (!jsonObject.containsKey("type")) return Result.failure(Exception("Missing 'type' field"))
             
+            // 2. Validate actions if present
+            jsonObject["actions"]?.jsonObject?.let { actions ->
+                actions.forEach { (key, action) ->
+                    val actionObj = action.jsonObject
+                    if (!actionObj.containsKey("type")) {
+                        return Result.failure(Exception("Action '$key' missing 'type'"))
+                    }
+                }
+            }
+
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)

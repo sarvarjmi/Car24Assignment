@@ -5,10 +5,12 @@ import com.noorheroes.car24assignment.core.model.json.*
 sealed class Component {
     abstract val id: String
     abstract val type: String
+    abstract val properties: Map<String, Any?>
     abstract val style: Style?
     abstract val actions: Map<String, Action>
     abstract val children: List<Component>?
     abstract val visibility: Boolean
+    abstract val state: RuntimeState?
 
     data class Banner(
         override val id: String,
@@ -16,6 +18,8 @@ sealed class Component {
         override val actions: Map<String, Action> = emptyMap(),
         override val children: List<Component>? = null,
         override val visibility: Boolean = true,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap(),
         val imageUrl: String,
         val title: String? = null,
         val subtitle: String? = null
@@ -29,6 +33,8 @@ sealed class Component {
         override val actions: Map<String, Action> = emptyMap(),
         override val children: List<Component>? = null,
         override val visibility: Boolean = true,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap(),
         val imageUrl: String,
         val title: String? = null,
         val subtitle: String? = null,
@@ -43,6 +49,8 @@ sealed class Component {
         override val actions: Map<String, Action> = emptyMap(),
         override val children: List<Component>? = null,
         override val visibility: Boolean = true,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap(),
         val placeholder: String
     ) : Component() {
         override val type: String = "search_bar"
@@ -54,6 +62,8 @@ sealed class Component {
         override val actions: Map<String, Action> = emptyMap(),
         override val children: List<Component>? = null,
         override val visibility: Boolean = true,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap(),
         val items: List<CategoryItem>
     ) : Component() {
         override val type: String = "categories"
@@ -71,6 +81,8 @@ sealed class Component {
         override val actions: Map<String, Action> = emptyMap(),
         override val children: List<Component>? = null,
         override val visibility: Boolean = true,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap(),
         val imageUrl: String,
         val title: String,
         val price: String,
@@ -85,6 +97,8 @@ sealed class Component {
         override val actions: Map<String, Action> = emptyMap(),
         override val children: List<Component>? = null,
         override val visibility: Boolean = true,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap(),
         val title: String,
         val subtitle: String? = null
     ) : Component() {
@@ -97,6 +111,8 @@ sealed class Component {
         override val actions: Map<String, Action> = emptyMap(),
         override val children: List<Component>? = null,
         override val visibility: Boolean = true,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap(),
         val text: String
     ) : Component() {
         override val type: String = "cta"
@@ -108,6 +124,8 @@ sealed class Component {
         override val actions: Map<String, Action> = emptyMap(),
         override val children: List<Component>? = null,
         override val visibility: Boolean = true,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap(),
         val text: String
     ) : Component() {
         override val type: String = "footer"
@@ -119,6 +137,8 @@ sealed class Component {
         override val actions: Map<String, Action> = emptyMap(),
         override val children: List<Component>? = null,
         override val visibility: Boolean = true,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap(),
         val title: String? = null
     ) : Component() {
         override val type: String = "horizontal_rail"
@@ -130,6 +150,8 @@ sealed class Component {
         override val style: Style? = null,
         override val actions: Map<String, Action> = emptyMap(),
         override val children: List<Component>? = null,
-        override val visibility: Boolean = true
+        override val visibility: Boolean = true,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap()
     ) : Component()
 }
