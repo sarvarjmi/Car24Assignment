@@ -17,17 +17,9 @@
       "type": "navigation",
       "order": 1,
       "components": [
-        {
-          "id": "home_header", "type": "row", "style": { "padding": { "all": "MEDIUM" }, "arrangement": { "horizontal": "SPACE_BETWEEN" }, "alignment": { "vertical": "CENTER" } },
-          "children": [
-            { "id": "logo", "type": "text", "properties": { "text": "CARS24", "typography": "TITLE_LARGE", "color": "PRIMARY" }, "visibility": "VISIBLE" },
-            { "id": "p_icon", "type": "icon", "properties": { "icon": "PROFILE", "tint": "ON_SURFACE" }, "actions": { "click": { "type": "navigate", "target": "profile_screen_route" } }, "visibility": "VISIBLE" }
-          ],
-          "visibility": "VISIBLE"
-        },
         { "id": "loc_row", "type": "row", "style": { "padding": { "horizontal": "MEDIUM", "bottom": "SMALL" }, "alignment": { "vertical": "CENTER" } },
           "children": [
-            { "id": "loc_ic", "type": "icon", "style": { "width": "16dp" }, "properties": { "icon": "CAR", "tint": "PRIMARY" }, "visibility": "VISIBLE" },
+            { "id": "loc_ic", "type": "icon", "style": { "width": "16dp", "padding": { "start": "MEDIUM" } }, "properties": { "icon": "CAR", "tint": "PRIMARY" }, "visibility": "VISIBLE" },
             { "id": "loc_t", "type": "text", "style": { "padding": { "start": "SMALL" } }, "properties": { "text": "Gurgaon Sector 44", "typography": "LABEL_SMALL", "color": "PRIMARY" }, "visibility": "VISIBLE" }
           ],
           "visibility": "VISIBLE"
@@ -42,7 +34,7 @@
       "components": [
         { "id": "ch_grid", "type": "chip_group", "style": { "padding": { "horizontal": "MEDIUM", "bottom": "MEDIUM" } },
           "children": [
-            { "id": "ch1", "type": "chip", "properties": { "text": "SUVs" }, "state": { "selected": true }, "visibility": "VISIBLE" },
+            { "id": "ch1", "type": "chip", "properties": { "text": "SUVs" }, "style": { "padding": { "start": "MEDIUM" } }, "state": { "selected": true }, "visibility": "VISIBLE" },
             { "id": "ch2", "type": "chip", "properties": { "text": "Hatchbacks" }, "visibility": "VISIBLE" },
             { "id": "ch3", "type": "chip", "properties": { "text": "Luxury" }, "visibility": "VISIBLE" },
             { "id": "ch4", "type": "chip", "properties": { "text": "Sedans" }, "visibility": "VISIBLE" }
@@ -56,7 +48,7 @@
       "type": "promos",
       "order": 3,
       "components": [
-        { "id": "p_banner", "type": "hero_banner", "style": { "margin": { "horizontal": "MEDIUM", "bottom": "MEDIUM" }, "shape": "LARGE" },
+        { "id": "p_banner", "type": "hero_banner", "style": { "margin": { "horizontal": "MEDIUM", "bottom": "MEDIUM" }},
           "properties": { "imageUrl": "ic_landing_hero", "title": "Buy Smart", "subtitle": "Up to ₹50,000 exchange bonus", "ctaText": "Explore" },
           "actions": { "click": { "type": "navigate", "target": "deals_screen_route" } },
           "visibility": "VISIBLE"

@@ -35,7 +35,7 @@
         {
           "id": "chips", "type": "chip_group", "style": { "padding": { "horizontal": "MEDIUM", "bottom": "MEDIUM" } },
           "children": [
-            { "id": "f1", "type": "chip", "properties": { "text": "All Deals" }, "state": { "selected": true } },
+            { "id": "f1", "type": "chip", "properties": { "text": "All Deals" }, "style": { "padding": { "horizontal": "MEDIUM" } }, "state": { "selected": true } },
             { "id": "f2", "type": "chip", "properties": { "text": "Low Downpayment" } },
             { "id": "f3", "type": "chip", "properties": { "text": "SUV Deals" } }
           ]

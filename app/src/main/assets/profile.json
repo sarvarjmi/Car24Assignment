@@ -18,7 +18,7 @@
       "order": 1,
       "components": [
         {
-          "id": "prof_card", "type": "card", "style": { "margin": { "all": "MEDIUM" }, "padding": { "all": "MEDIUM" }, "background": { "color": "SURFACE" }, "shape": "MEDIUM", "elevation": "LEVEL_1" },
+          "id": "prof_card", "type": "card", "style": { "margin": { "all": "SMALL" }, "padding": { "all": "SMALL" }, "background": { "color": "SURFACE" }, "shape": "MEDIUM", "elevation": "LEVEL_1" },
           "children": [
             {
               "id": "user_row", "type": "row", "style": { "alignment": { "vertical": "CENTER" } },
@@ -30,32 +30,6 @@
                     { "id": "u_name", "type": "text", "properties": { "text": "Arjun Malhotra", "typography": "TITLE_MEDIUM" } },
                     { "id": "u_phone", "type": "text", "properties": { "text": "+91 98765 43210", "typography": "LABEL_SMALL", "color": "OUTLINE" } },
                     { "id": "m_badge", "type": "badge", "properties": { "text": "PREMIUM MEMBER" }, "style": { "background": { "color": "WARNING_CONTAINER" } } }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "sec_garage",
-      "type": "garage",
-      "order": 2,
-      "components": [
-        { "id": "g_header", "type": "text", "style": { "padding": { "start": "MEDIUM", "bottom": "SMALL" } }, "properties": { "text": "My Garage (1 Car)", "typography": "TITLE_SMALL" } },
-        {
-          "id": "car_details", "type": "card", "style": { "margin": { "horizontal": "MEDIUM" }, "padding": { "all": "SMALL" }, "background": { "color": "SURFACE" }, "shape": "MEDIUM" },
-          "children": [
-            {
-              "id": "car_row", "type": "row", "style": { "alignment": { "vertical": "CENTER" } },
-              "children": [
-                { "id": "car_img", "type": "image", "style": { "width": "100dp", "height": "75dp", "shape": "SMALL" }, "properties": { "url": "ic_car_placeholder" } },
-                {
-                  "id": "car_info_col", "type": "column", "style": { "padding": { "start": "MEDIUM" } },
-                  "children": [
-                    { "id": "car_n", "type": "text", "properties": { "text": "Honda Civic 2019", "typography": "LABEL_MEDIUM" } },
-                    { "id": "car_s", "type": "text", "properties": { "text": "Service due in 12 days", "typography": "LABEL_SMALL", "color": "SUCCESS" } }
                   ]
                 }
               ]

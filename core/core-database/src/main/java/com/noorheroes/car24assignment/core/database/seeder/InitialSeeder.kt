@@ -25,13 +25,14 @@ class InitialSeeder @Inject constructor(
 
     suspend fun seedIfNeeded() {
         val lastSeed = seedHistoryDao.getLastCompletedSeed()
-        val currentSeedVersion = 1 // Incremented for Super-Rich JSON Assets v1
+        val currentSeedVersion = 1 // Force re-seed with highest version
         if (lastSeed != null && lastSeed.completed && lastSeed.seedVersion >= currentSeedVersion) {
             logger.d(TAG, "Database already seeded with version ${lastSeed.seedVersion}. Skipping.")
             return
         }
 
         try {
+            logger.d(TAG, "Starting database seeding v$currentSeedVersion...")
             seedScreen("landing.json")
             seedScreen("home.json")
             seedScreen("deals.json")
@@ -45,9 +46,9 @@ class InitialSeeder @Inject constructor(
                     checksum = null
                 )
             )
-            logger.d(TAG, "Database seeded successfully from assets.")
+            logger.d(TAG, "Database seeded successfully v$currentSeedVersion.")
         } catch (e: Exception) {
-            logger.e(TAG, "Error seeding database", e)
+            logger.e(TAG, "Error seeding database v$currentSeedVersion", e)
         }
     }
 
