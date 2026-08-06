@@ -1,8 +1,9 @@
 package com.noorheroes.car24assignment.core.json.parser
 
+import com.noorheroes.car24assignment.core.model.json.ComponentModel
 import kotlinx.serialization.json.Json
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -58,14 +59,15 @@ class SDUIParserTest {
         val jsonString = """
             {
                 "id": "comp_1",
-                "type": "text",
+                "type": "cta",
                 "properties": { "text": "Hello" }
             }
         """.trimIndent()
 
         val result = parser.parseComponent(jsonString)
         assertEquals("comp_1", result.id)
-        assertEquals("text", result.type)
-        assertNotNull(result.properties)
+        assertEquals("cta", result.type)
+        assertTrue(result is ComponentModel.Cta)
+        assertEquals("Hello", (result as ComponentModel.Cta).properties.text)
     }
 }

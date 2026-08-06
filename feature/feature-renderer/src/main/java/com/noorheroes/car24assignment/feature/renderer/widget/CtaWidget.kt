@@ -9,11 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.noorheroes.car24assignment.core.model.domain.Component
 import com.noorheroes.car24assignment.feature.renderer.action.LocalActionDispatcher
+import com.noorheroes.car24assignment.feature.renderer.resolver.StyleResolver
 
 @Composable
-fun CtaWidget(component: Component) {
+fun CtaWidget(component: Component.Cta) {
     val actionDispatcher = LocalActionDispatcher.current
-    val text = component.properties["text"] as? String ?: "Click Me"
 
     Button(
         onClick = {
@@ -21,8 +21,9 @@ fun CtaWidget(component: Component) {
         },
         modifier = Modifier
             .fillMaxWidth()
+            .then(StyleResolver.resolveModifier(component.style))
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        Text(text = text)
+        Text(text = component.text)
     }
 }

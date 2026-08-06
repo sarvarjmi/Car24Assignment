@@ -15,14 +15,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.noorheroes.car24assignment.core.model.domain.Component
+import com.noorheroes.car24assignment.feature.renderer.resolver.StyleResolver
 
 @Composable
-fun SearchBarWidget(component: Component) {
-    val placeholder = component.properties["placeholder"] as? String ?: "Search..."
-
+fun SearchBarWidget(component: Component.SearchBar) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .then(StyleResolver.resolveModifier(component.style))
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .clip(RoundedCornerShape(24.dp))
             .background(Color.LightGray.copy(alpha = 0.3f))
@@ -36,7 +36,7 @@ fun SearchBarWidget(component: Component) {
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = placeholder,
+                text = component.placeholder,
                 color = Color.Gray,
                 style = MaterialTheme.typography.bodyLarge
             )

@@ -3,8 +3,10 @@ package com.noorheroes.car24assignment.core.database.mapper
 import com.noorheroes.car24assignment.core.database.entity.ComponentEntity
 import com.noorheroes.car24assignment.core.database.entity.ScreenEntity
 import com.noorheroes.car24assignment.core.database.entity.SectionEntity
+import com.noorheroes.car24assignment.core.model.domain.Component
 import kotlinx.serialization.json.Json
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -45,7 +47,7 @@ class ModelMapperTest {
                 updatedAt = 0
             )
         )
-        val componentJson = """{"id":"comp_1","type":"banner","properties":{"title":"Welcome"}}"""
+        val componentJson = """{"id":"comp_1","type":"banner","properties":{"imageUrl":"url","title":"Welcome"}}"""
         val componentEntities = mapOf(
             "sec_1" to listOf(
                 ComponentEntity(
@@ -68,6 +70,7 @@ class ModelMapperTest {
         assertEquals("Section 1", result.sections[0].title)
         assertEquals(1, result.sections[0].components.size)
         assertEquals("comp_1", result.sections[0].components[0].id)
-        assertEquals("Welcome", result.sections[0].components[0].properties["title"])
+        assertTrue(result.sections[0].components[0] is Component.Banner)
+        assertEquals("Welcome", (result.sections[0].components[0] as Component.Banner).title)
     }
 }

@@ -1,5 +1,6 @@
 package com.noorheroes.car24assignment.feature.renderer.di
 
+import com.noorheroes.car24assignment.core.model.domain.Component
 import com.noorheroes.car24assignment.core.navigation.navigator.AppNavigator
 import com.noorheroes.car24assignment.feature.renderer.action.ActionDispatcher
 import com.noorheroes.car24assignment.feature.renderer.registry.ComponentRegistry
@@ -18,17 +19,35 @@ object RendererModule {
     @Singleton
     fun provideComponentRegistry(): ComponentRegistry {
         return ComponentRegistry().apply {
-            register("banner") { component -> BannerWidget(component) }
-            register("search_bar") { component -> SearchBarWidget(component) }
-            register("categories") { component -> CategoriesWidget(component) }
+            register("banner") { component -> 
+                (component as? Component.Banner)?.let { BannerWidget(it) } 
+            }
+            register("search_bar") { component -> 
+                (component as? Component.SearchBar)?.let { SearchBarWidget(it) } 
+            }
+            register("categories") { component -> 
+                (component as? Component.Categories)?.let { CategoriesWidget(it) } 
+            }
+            register("header") { component -> 
+                (component as? Component.Header)?.let { HeaderWidget(it) } 
+            }
+            register("hero_banner") { component -> 
+                (component as? Component.HeroBanner)?.let { HeroBannerWidget(it) } 
+            }
+            register("car_card") { component -> 
+                (component as? Component.CarCard)?.let { CarCardWidget(it) } 
+            }
+            register("horizontal_rail") { component -> 
+                (component as? Component.HorizontalRail)?.let { HorizontalRailWidget(it) } 
+            }
+            register("cta") { component -> 
+                (component as? Component.Cta)?.let { CtaWidget(it) } 
+            }
+            register("footer") { component -> 
+                (component as? Component.Footer)?.let { FooterWidget(it) } 
+            }
             register("column") { component -> ColumnWidget(component) }
             register("row") { component -> RowWidget(component) }
-            register("header") { component -> HeaderWidget(component) }
-            register("hero_banner") { component -> HeroBannerWidget(component) }
-            register("car_card") { component -> CarCardWidget(component) }
-            register("horizontal_rail") { component -> HorizontalRailWidget(component) }
-            register("cta") { component -> CtaWidget(component) }
-            register("footer") { component -> FooterWidget(component) }
         }
     }
 

@@ -5,10 +5,7 @@ import com.noorheroes.car24assignment.core.database.entity.ComponentEntity
 import com.noorheroes.car24assignment.core.database.entity.ScreenEntity
 import com.noorheroes.car24assignment.core.database.entity.SectionEntity
 import com.noorheroes.car24assignment.core.model.domain.*
-import com.noorheroes.car24assignment.core.model.json.ActionModel
-import com.noorheroes.car24assignment.core.model.json.ComponentModel
-import com.noorheroes.car24assignment.core.model.json.ConfigurationModel
-import com.noorheroes.car24assignment.core.model.json.ThemeModel
+import com.noorheroes.car24assignment.core.model.json.*
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import javax.inject.Inject
@@ -72,23 +69,68 @@ class ModelMapper @Inject constructor(
     }
 
     fun toComponent(entity: ComponentEntity): Component {
-        val model = json.decodeFromString<ComponentModel>(entity.componentJson)
-        return Component(
-            id = entity.componentId,
-            type = entity.componentType,
-            properties = model.properties?.toMap() ?: emptyMap(),
-            actions = model.actions?.mapValues { toAction(it.value) } ?: emptyMap(),
-            children = model.children?.map { toComponentFromModel(it) }
-        )
+        return try {
+            val model = json.decodeFromString<ComponentModel>(entity.componentJson)
+            toComponentFromModel(model)
+        } catch (e: Exception) {
+            Component.Unknown(id = entity.componentId, type = entity.componentType)
+        }
     }
 
     private fun toComponentFromModel(model: ComponentModel): Component {
-        return Component(
-            id = model.id,
-            type = model.type,
-            properties = model.properties?.toMap() ?: emptyMap(),
-            actions = model.actions?.mapValues { toAction(it.value) } ?: emptyMap(),
-            children = model.children?.map { toComponentFromModel(it) }
+        val style = model.style?.let { toStyle(it) }
+        val actions = model.actions?.mapValues { toAction(it.value) } ?: emptyMap()
+        val children = model.children?.map { toComponentFromModel(it) }
+        val visibility = model.visibility == "VISIBLE"
+
+        return when (model) {
+            is ComponentModel.Banner -> Component.Banner(
+                id = model.id, style = style, actions = actions, children = children, visibility = visibility,
+                imageUrl = model.properties.imageUrl, title = model.properties.title, subtitle = model.properties.subtitle
+            )
+            is ComponentModel.HeroBanner -> Component.HeroBanner(
+                id = model.id, style = style, actions = actions, children = children, visibility = visibility,
+                imageUrl = model.properties.imageUrl, title = model.properties.title, subtitle = model.properties.subtitle, ctaText = model.properties.ctaText
+            )
+            is ComponentModel.SearchBar -> Component.SearchBar(
+                id = model.id, style = style, actions = actions, children = children, visibility = visibility,
+                placeholder = model.properties.placeholder
+            )
+            is ComponentModel.Categories -> Component.Categories(
+                id = model.id, style = style, actions = actions, children = children, visibility = visibility,
+                items = model.properties.items.map { Component.CategoryItem(it.id, it.label, it.icon) }
+            )
+            is ComponentModel.CarCard -> Component.CarCard(
+                id = model.id, style = style, actions = actions, children = children, visibility = visibility,
+                imageUrl = model.properties.imageUrl, title = model.properties.title, price = model.properties.price, location = model.properties.location
+            )
+            is ComponentModel.Header -> Component.Header(
+                id = model.id, style = style, actions = actions, children = children, visibility = visibility,
+                title = model.properties.title, subtitle = model.properties.subtitle
+            )
+            is ComponentModel.Cta -> Component.Cta(
+                id = model.id, style = style, actions = actions, children = children, visibility = visibility,
+                text = model.properties.text
+            )
+            is ComponentModel.Footer -> Component.Footer(
+                id = model.id, style = style, actions = actions, children = children, visibility = visibility,
+                text = model.properties.text
+            )
+            is ComponentModel.HorizontalRail -> Component.HorizontalRail(
+                id = model.id, style = style, actions = actions, children = children, visibility = visibility,
+                title = model.properties.title
+            )
+        }
+    }
+
+    private fun toStyle(model: StyleModel): Style {
+        return Style(
+            padding = model.padding,
+            margin = model.margin,
+            background = model.background,
+            typography = model.typography,
+            shape = model.shape,
+            alpha = model.alpha
         )
     }
 

@@ -13,15 +13,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.noorheroes.car24assignment.core.model.domain.Component
 import com.noorheroes.car24assignment.feature.renderer.engine.RenderComponent
+import com.noorheroes.car24assignment.feature.renderer.resolver.StyleResolver
 
 @Composable
-fun HorizontalRailWidget(component: Component) {
-    val title = component.properties["title"] as? String
-
-    Column(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
-        if (title != null) {
+fun HorizontalRailWidget(component: Component.HorizontalRail) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .then(StyleResolver.resolveModifier(component.style))
+            .padding(vertical = 8.dp)
+    ) {
+        component.title?.let {
             Text(
-                text = title,
+                text = it,
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )

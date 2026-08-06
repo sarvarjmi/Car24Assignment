@@ -11,22 +11,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.noorheroes.car24assignment.core.model.domain.Component
+import com.noorheroes.car24assignment.feature.renderer.resolver.StyleResolver
 
 @Composable
-fun CarCardWidget(component: Component) {
-    val imageUrl = component.properties["imageUrl"] as? String
-    val title = component.properties["title"] as? String ?: "Unknown Car"
-    val price = component.properties["price"] as? String ?: ""
-    val location = component.properties["location"] as? String ?: ""
-
+fun CarCardWidget(component: Component.CarCard) {
     Card(
         modifier = Modifier
             .width(200.dp)
+            .then(StyleResolver.resolveModifier(component.style))
             .padding(8.dp)
     ) {
         Column {
             AsyncImage(
-                model = imageUrl,
+                model = component.imageUrl,
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -35,18 +32,18 @@ fun CarCardWidget(component: Component) {
             )
             Column(modifier = Modifier.padding(12.dp)) {
                 Text(
-                    text = title,
+                    text = component.title,
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 1
                 )
                 Text(
-                    text = price,
+                    text = component.price,
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary
                 )
                 Text(
-                    text = location,
+                    text = component.location,
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                 )

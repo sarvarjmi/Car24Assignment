@@ -13,13 +13,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.noorheroes.car24assignment.core.model.domain.Component
+import com.noorheroes.car24assignment.feature.renderer.resolver.StyleResolver
 
 @Composable
-fun CategoriesWidget(component: Component) {
-    @Suppress("UNCHECKED_CAST")
-    val items = component.properties["items"] as? List<Map<String, Any?>> ?: emptyList()
-
-    Column(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+fun CategoriesWidget(component: Component.Categories) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .then(StyleResolver.resolveModifier(component.style))
+            .padding(vertical = 8.dp)
+    ) {
         Text(
             text = "Categories",
             style = MaterialTheme.typography.titleMedium,
@@ -29,9 +32,8 @@ fun CategoriesWidget(component: Component) {
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(items) { item ->
-                val label = item["label"] as? String ?: ""
-                CategoryItem(label)
+            items(component.items) { item ->
+                CategoryItem(item.label)
             }
         }
     }
@@ -46,7 +48,6 @@ fun CategoryItem(label: String) {
                 .background(Color.LightGray.copy(alpha = 0.5f), shape = CircleShape),
             contentAlignment = Alignment.Center
         ) {
-            // Icon placeholder
             Text(text = label.take(1).uppercase())
         }
         Spacer(modifier = Modifier.height(4.dp))

@@ -10,25 +10,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.noorheroes.car24assignment.core.model.domain.Component
+import com.noorheroes.car24assignment.feature.renderer.resolver.StyleResolver
 
 @Composable
-fun HeaderWidget(component: Component) {
-    val title = component.properties["title"] as? String ?: ""
-    val subtitle = component.properties["subtitle"] as? String
-
+fun HeaderWidget(component: Component.Header) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .then(StyleResolver.resolveModifier(component.style))
             .padding(16.dp)
     ) {
         Text(
-            text = title,
+            text = component.title,
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold
         )
-        if (subtitle != null) {
+        component.subtitle?.let {
             Text(
-                text = subtitle,
+                text = it,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
             )

@@ -14,18 +14,16 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.noorheroes.car24assignment.core.model.domain.Component
 import com.noorheroes.car24assignment.feature.renderer.action.LocalActionDispatcher
+import com.noorheroes.car24assignment.feature.renderer.resolver.StyleResolver
 
 @Composable
-fun BannerWidget(component: Component) {
+fun BannerWidget(component: Component.Banner) {
     val actionDispatcher = LocalActionDispatcher.current
-    val imageUrl = component.properties["imageUrl"] as? String
-    val title = component.properties["title"] as? String
-    val subtitle = component.properties["subtitle"] as? String
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .then(StyleResolver.resolveModifier(component.style))
             .height(200.dp),
         onClick = {
             component.actions["click"]?.let { action ->
@@ -35,8 +33,8 @@ fun BannerWidget(component: Component) {
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             AsyncImage(
-                model = imageUrl,
-                contentDescription = title,
+                model = component.imageUrl,
+                contentDescription = component.title,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
@@ -47,16 +45,16 @@ fun BannerWidget(component: Component) {
                     .background(Color.Black.copy(alpha = 0.5f))
                     .padding(8.dp)
             ) {
-                if (title != null) {
+                component.title?.let {
                     Text(
-                        text = title,
+                        text = it,
                         style = MaterialTheme.typography.titleLarge,
                         color = Color.White
                     )
                 }
-                if (subtitle != null) {
+                component.subtitle?.let {
                     Text(
-                        text = subtitle,
+                        text = it,
                         style = MaterialTheme.typography.bodyMedium,
                         color = Color.White
                     )

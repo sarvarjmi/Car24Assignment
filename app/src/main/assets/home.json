@@ -15,7 +15,7 @@
   },
   "theme": {
     "colorPalette": {
-      "primary": "#1B69DE"
+      "primary": "PRIMARY"
     }
   },
   "layout": {
@@ -30,6 +30,10 @@
         {
           "id": "home_header",
           "type": "header",
+          "style": {
+            "padding": { "bottom": "M" },
+            "background": { "color": "SURFACE" }
+          },
           "properties": {
             "title": "Cars24",
             "subtitle": "Trusted by 10 Lakh+ customers"
@@ -45,6 +49,9 @@
         {
           "id": "search_bar_1",
           "type": "search_bar",
+          "style": {
+            "padding": { "all": "S" }
+          },
           "properties": {
             "placeholder": "Search by make, model..."
           }
@@ -59,6 +66,9 @@
         {
           "id": "hero_banner_1",
           "type": "hero_banner",
+          "style": {
+            "shape": "M"
+          },
           "properties": {
             "imageUrl": "https://img.freepik.com/free-vector/modern-luxury-car-advertisement-banner_52683-102553.jpg",
             "title": "Certified Pre-Owned Cars",
@@ -147,6 +157,10 @@
         {
           "id": "cta_sell",
           "type": "cta",
+          "style": {
+            "background": { "color": "PRIMARY" },
+            "shape": "S"
+          },
           "properties": {
             "text": "Sell Your Car in 1 Hour"
           }

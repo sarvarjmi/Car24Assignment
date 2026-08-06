@@ -15,22 +15,20 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.noorheroes.car24assignment.core.model.domain.Component
 import com.noorheroes.car24assignment.feature.renderer.action.LocalActionDispatcher
+import com.noorheroes.car24assignment.feature.renderer.resolver.StyleResolver
 
 @Composable
-fun HeroBannerWidget(component: Component) {
+fun HeroBannerWidget(component: Component.HeroBanner) {
     val actionDispatcher = LocalActionDispatcher.current
-    val imageUrl = component.properties["imageUrl"] as? String
-    val title = component.properties["title"] as? String
-    val subtitle = component.properties["subtitle"] as? String
-    val ctaText = component.properties["ctaText"] as? String
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .then(StyleResolver.resolveModifier(component.style))
             .height(300.dp)
     ) {
         AsyncImage(
-            model = imageUrl,
+            model = component.imageUrl,
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -52,26 +50,26 @@ fun HeroBannerWidget(component: Component) {
                 .align(Alignment.BottomStart)
                 .padding(24.dp)
         ) {
-            if (title != null) {
+            component.title?.let {
                 Text(
-                    text = title,
+                    text = it,
                     style = MaterialTheme.typography.headlineMedium,
                     color = Color.White
                 )
             }
-            if (subtitle != null) {
+            component.subtitle?.let {
                 Text(
-                    text = subtitle,
+                    text = it,
                     style = MaterialTheme.typography.bodyLarge,
                     color = Color.White.copy(alpha = 0.8f)
                 )
             }
-            if (ctaText != null) {
+            component.ctaText?.let {
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(onClick = {
                     component.actions["click"]?.let { actionDispatcher.dispatch(it) }
                 }) {
-                    Text(text = ctaText)
+                    Text(text = it)
                 }
             }
         }
