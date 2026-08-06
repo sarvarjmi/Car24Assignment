@@ -49,10 +49,10 @@
           "type": "chip_group",
           "style": { "padding": { "horizontal": "MEDIUM" } },
           "children": [
-            { "id": "c_delhi", "type": "chip", "properties": { "text": "Delhi NCR" }, "visibility": "VISIBLE" },
+            { "id": "c_delhi", "type": "chip", "properties": { "text": "Delhi NCR" },"style": { "padding": { "start": "MEDIUM" } }, "visibility": "VISIBLE" },
             { "id": "c_mum", "type": "chip", "properties": { "text": "Mumbai" }, "visibility": "VISIBLE" },
             { "id": "c_blr", "type": "chip", "properties": { "text": "Bangalore" }, "visibility": "VISIBLE" },
-            { "id": "c_hyd", "type": "chip", "properties": { "text": "Hyderabad" }, "visibility": "VISIBLE" }
+            { "id": "c_hyd", "type": "chip", "properties": { "text": "Pune" }, "visibility": "VISIBLE" }
           ],
           "visibility": "VISIBLE"
         }
@@ -118,7 +118,7 @@
             {
               "id": "step1", "type": "row", "style": { "padding": { "bottom": "MEDIUM" }, "alignment": { "vertical": "CENTER" } },
               "children": [
-                { "id": "ic1", "type": "icon", "properties": { "icon": "SEARCH", "tint": "PRIMARY" }, "visibility": "VISIBLE" },
+                { "id": "ic1", "type": "icon","style": { "padding": { "start": "MEDIUM" } }, "properties": { "icon": "SEARCH", "tint": "PRIMARY" }, "visibility": "VISIBLE" },
                 { "id": "tx1", "type": "text", "style": { "padding": { "start": "MEDIUM" } }, "properties": { "text": "1. Find your dream car online.", "typography": "BODY_MEDIUM" }, "visibility": "VISIBLE" }
               ],
               "visibility": "VISIBLE"
@@ -126,7 +126,7 @@
             {
               "id": "step2", "type": "row", "style": { "padding": { "bottom": "MEDIUM" }, "alignment": { "vertical": "CENTER" } },
               "children": [
-                { "id": "ic2", "type": "icon", "properties": { "icon": "CAR", "tint": "PRIMARY" }, "visibility": "VISIBLE" },
+                { "id": "ic2", "type": "icon","style": { "padding": { "start": "MEDIUM" } }, "properties": { "icon": "CAR", "tint": "PRIMARY" }, "visibility": "VISIBLE" },
                 { "id": "tx2", "type": "text", "style": { "padding": { "start": "MEDIUM" } }, "properties": { "text": "2. Book a free test drive.", "typography": "BODY_MEDIUM" }, "visibility": "VISIBLE" }
               ],
               "visibility": "VISIBLE"
@@ -150,7 +150,7 @@
           "style": { "padding": { "start": "MEDIUM" } },
           "children": [
             {
-              "id": "test_1", "type": "card", "style": { "width": "200dp", "padding": { "all": "MEDIUM" }, "margin": { "end": "MEDIUM" }, "background": { "color": "SURFACE" }, "shape": "MEDIUM" },
+              "id": "test_1", "type": "card", "style": { "width": "200dp", "padding": { "all": "MEDIUM" }, "margin": { "end": "MEDIUM" }, "background": { "color": "SECONDARY" }, "shape": "MEDIUM" },
               "children": [
                 { "id": "quote1", "type": "text", "properties": { "text": "\"Excellent service and quality cars. Buying was so easy!\"", "typography": "BODY_SMALL" }, "visibility": "VISIBLE" },
                 { "id": "user1", "type": "text", "style": { "padding": { "top": "SMALL" } }, "properties": { "text": "- Rahul Sharma", "typography": "LABEL_SMALL", "color": "PRIMARY" }, "visibility": "VISIBLE" }
@@ -158,7 +158,7 @@
               "visibility": "VISIBLE"
             },
             {
-              "id": "test_2", "type": "card", "style": { "width": "200dp", "padding": { "all": "MEDIUM" }, "margin": { "end": "MEDIUM" }, "background": { "color": "SURFACE" }, "shape": "MEDIUM" },
+              "id": "test_2", "type": "card", "style": { "width": "200dp", "padding": { "all": "MEDIUM" }, "margin": { "end": "MEDIUM" }, "background": { "color": "SECONDARY" }, "shape": "MEDIUM" },
               "children": [
                 { "id": "quote2", "type": "text", "properties": { "text": "\"The 7-day return policy gave me total peace of mind.\"", "typography": "BODY_SMALL" }, "visibility": "VISIBLE" },
                 { "id": "user2", "type": "text", "style": { "padding": { "top": "SMALL" } }, "properties": { "text": "- Anita Gupta", "typography": "LABEL_SMALL", "color": "PRIMARY" }, "visibility": "VISIBLE" }
@@ -272,7 +272,7 @@
           "visibility": "VISIBLE"
         },
         {
-          "id": "v_text", "type": "text", "style": { "alignment": { "horizontal": "CENTER" }, "padding": { "bottom": "LARGE" } }, "properties": { "text": "App Version 1.3.0", "typography": "LABEL_SMALL", "color": "OUTLINE" }, "visibility": "VISIBLE"
+          "id": "v_text", "type": "text", "style": { "alignment": { "horizontal": "CENTER" }, "padding": { "start": "MEDIUM", "bottom": "LARGE" } }, "properties": { "text": "App Version 1.3.0", "typography": "LABEL_SMALL", "color": "OUTLINE" }, "visibility": "VISIBLE"
         }
       ]
     }
