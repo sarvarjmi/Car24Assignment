@@ -1,0 +1,34 @@
+{
+  "id": "home_screen",
+  "title": "Cars24 Home",
+  "version": 1,
+  "components": [
+    {
+      "id": "banner_1",
+      "type": "banner",
+      "properties": {
+        "imageUrl": "https://img.freepik.com/free-vector/modern-luxury-car-advertisement-banner_52683-102553.jpg",
+        "title": "Buy Used Cars with Confidence",
+        "subtitle": "Certified cars with warranty"
+      }
+    },
+    {
+      "id": "search_1",
+      "type": "search_bar",
+      "properties": {
+        "placeholder": "Search by make, model, or year"
+      }
+    },
+    {
+      "id": "categories_1",
+      "type": "categories",
+      "properties": {
+        "items": [
+          {"id": "hatchback", "label": "Hatchback", "icon": "hatchback_icon"},
+          {"id": "sedan", "label": "Sedan", "icon": "sedan_icon"},
+          {"id": "suv", "label": "SUV", "icon": "suv_icon"}
+        ]
+      }
+    }
+  ]
+}

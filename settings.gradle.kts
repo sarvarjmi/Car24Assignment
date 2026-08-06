@@ -24,3 +24,16 @@ dependencyResolutionManagement {
 
 rootProject.name = "Car24Assignment"
 include(":app")
+
+// Core Modules
+include(":core:core-common")
+include(":core:core-ui")
+include(":core:core-model")
+include(":core:core-database")
+include(":core:core-json")
+include(":core:core-navigation")
+
+// Feature Modules
+include(":feature:feature-home")
+include(":feature:feature-server")
+include(":feature:feature-renderer")
