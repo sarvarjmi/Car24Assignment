@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.noorheroes.car24assignment.core.model.domain.Component
+import com.noorheroes.car24assignment.core.ui.util.ImageResolver
 import com.noorheroes.car24assignment.feature.renderer.resolver.StyleResolver
 
 @Composable
@@ -33,14 +35,14 @@ fun CategoriesWidget(component: Component.Categories) {
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(component.items) { item ->
-                CategoryItem(item.label)
+                CategoryItem(item.label, item.icon)
             }
         }
     }
 }
 
 @Composable
-fun CategoryItem(label: String) {
+fun CategoryItem(label: String, icon: String? = null) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
             modifier = Modifier
@@ -48,7 +50,17 @@ fun CategoryItem(label: String) {
                 .background(Color.LightGray.copy(alpha = 0.5f), shape = CircleShape),
             contentAlignment = Alignment.Center
         ) {
-            Text(text = label.take(1).uppercase())
+            val resolvedIcon = ImageResolver.resolve(icon)
+            if (resolvedIcon is Int) {
+                Icon(
+                    painter = androidx.compose.ui.res.painterResource(id = resolvedIcon),
+                    contentDescription = label,
+                    tint = Color.Unspecified,
+                    modifier = Modifier.size(32.dp)
+                )
+            } else {
+                Text(text = label.take(1).uppercase())
+            }
         }
         Spacer(modifier = Modifier.height(4.dp))
         Text(text = label, style = MaterialTheme.typography.labelMedium)

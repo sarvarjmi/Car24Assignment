@@ -7,7 +7,7 @@ import kotlinx.serialization.json.JsonObject
 @Serializable
 sealed class ComponentModel {
     abstract val id: String
-    abstract val type: String
+    abstract val componentType: String
     abstract val style: StyleModel?
     abstract val actions: Map<String, ActionModel>?
     abstract val children: List<ComponentModel>?
@@ -25,7 +25,7 @@ sealed class ComponentModel {
         override val state: RuntimeStateModel? = null,
         val properties: BannerProperties
     ) : ComponentModel() {
-        override val type: String = "banner"
+        override val componentType: String get() = "banner"
     }
 
     @Serializable
@@ -39,7 +39,7 @@ sealed class ComponentModel {
         override val state: RuntimeStateModel? = null,
         val properties: HeroBannerProperties
     ) : ComponentModel() {
-        override val type: String = "hero_banner"
+        override val componentType: String get() = "hero_banner"
     }
 
     @Serializable
@@ -53,7 +53,7 @@ sealed class ComponentModel {
         override val state: RuntimeStateModel? = null,
         val properties: SearchBarProperties
     ) : ComponentModel() {
-        override val type: String = "search_bar"
+        override val componentType: String get() = "search_bar"
     }
 
     @Serializable
@@ -67,7 +67,7 @@ sealed class ComponentModel {
         override val state: RuntimeStateModel? = null,
         val properties: CategoriesProperties
     ) : ComponentModel() {
-        override val type: String = "categories"
+        override val componentType: String get() = "categories"
     }
 
     @Serializable
@@ -81,7 +81,7 @@ sealed class ComponentModel {
         override val state: RuntimeStateModel? = null,
         val properties: CarCardProperties
     ) : ComponentModel() {
-        override val type: String = "car_card"
+        override val componentType: String get() = "car_card"
     }
 
     @Serializable
@@ -95,7 +95,7 @@ sealed class ComponentModel {
         override val state: RuntimeStateModel? = null,
         val properties: HeaderProperties
     ) : ComponentModel() {
-        override val type: String = "header"
+        override val componentType: String get() = "header"
     }
 
     @Serializable
@@ -109,7 +109,7 @@ sealed class ComponentModel {
         override val state: RuntimeStateModel? = null,
         val properties: CtaProperties
     ) : ComponentModel() {
-        override val type: String = "cta"
+        override val componentType: String get() = "cta"
     }
 
     @Serializable
@@ -123,7 +123,7 @@ sealed class ComponentModel {
         override val state: RuntimeStateModel? = null,
         val properties: FooterProperties
     ) : ComponentModel() {
-        override val type: String = "footer"
+        override val componentType: String get() = "footer"
     }
 
     @Serializable
@@ -137,7 +137,7 @@ sealed class ComponentModel {
         override val state: RuntimeStateModel? = null,
         val properties: HorizontalRailProperties
     ) : ComponentModel() {
-        override val type: String = "horizontal_rail"
+        override val componentType: String get() = "horizontal_rail"
     }
     
     // Add a generic one for unknowns if needed, or handle in JSON

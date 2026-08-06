@@ -70,7 +70,7 @@
             "shape": "M"
           },
           "properties": {
-            "imageUrl": "https://img.freepik.com/free-vector/modern-luxury-car-advertisement-banner_52683-102553.jpg",
+            "imageUrl": "ic_landing_hero",
             "title": "Certified Pre-Owned Cars",
             "subtitle": "140 checkpoints inspection",
             "ctaText": "Browse All"
@@ -94,10 +94,10 @@
           "type": "categories",
           "properties": {
             "items": [
-              { "id": "hatch", "label": "Hatchback" },
-              { "id": "sedan", "label": "Sedan" },
-              { "id": "suv", "label": "SUV" },
-              { "id": "luxury", "label": "Luxury" }
+              { "id": "hatch", "label": "Hatchback", "icon": "ic_category_placeholder" },
+              { "id": "sedan", "label": "Sedan", "icon": "ic_category_placeholder" },
+              { "id": "suv", "label": "SUV", "icon": "ic_category_placeholder" },
+              { "id": "luxury", "label": "Luxury", "icon": "ic_category_placeholder" }
             ]
           }
         }
@@ -119,7 +119,7 @@
               "id": "car_1",
               "type": "car_card",
               "properties": {
-                "imageUrl": "https://stimg.cardekho.com/images/carexteriorimages/630x420/Hyundai/Creta/11494/1715671569429/front-left-side-47.jpg",
+                "imageUrl": "ic_car_placeholder",
                 "title": "Hyundai Creta",
                 "price": "₹12.50 Lakh",
                 "location": "New Delhi"
@@ -129,7 +129,7 @@
               "id": "car_2",
               "type": "car_card",
               "properties": {
-                "imageUrl": "https://stimg.cardekho.com/images/carexteriorimages/630x420/Maruti/Swift/11559/1715243171358/front-left-side-47.jpg",
+                "imageUrl": "ic_car_placeholder",
                 "title": "Maruti Swift",
                 "price": "₹5.80 Lakh",
                 "location": "Mumbai"
@@ -139,7 +139,7 @@
               "id": "car_3",
               "type": "car_card",
               "properties": {
-                "imageUrl": "https://stimg.cardekho.com/images/carexteriorimages/630x420/Honda/City/11311/1706691494247/front-left-side-47.jpg",
+                "imageUrl": "ic_car_placeholder",
                 "title": "Honda City",
                 "price": "₹9.20 Lakh",
                 "location": "Bangalore"

@@ -66,7 +66,7 @@ class SDUIParserTest {
 
         val result = parser.parseComponent(jsonString)
         assertEquals("comp_1", result.id)
-        assertEquals("cta", result.type)
+        assertEquals("cta", result.componentType)
         assertTrue(result is ComponentModel.Cta)
         assertEquals("Hello", (result as ComponentModel.Cta).properties.text)
     }

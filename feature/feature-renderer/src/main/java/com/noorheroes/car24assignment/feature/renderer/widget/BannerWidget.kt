@@ -13,6 +13,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.noorheroes.car24assignment.core.model.domain.Component
+import com.noorheroes.car24assignment.core.ui.util.ImageResolver
 import com.noorheroes.car24assignment.feature.renderer.action.LocalActionDispatcher
 import com.noorheroes.car24assignment.feature.renderer.resolver.StyleResolver
 
@@ -33,7 +34,7 @@ fun BannerWidget(component: Component.Banner) {
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             AsyncImage(
-                model = component.imageUrl,
+                model = ImageResolver.resolve(component.imageUrl),
                 contentDescription = component.title,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop

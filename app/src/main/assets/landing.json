@@ -34,7 +34,8 @@
           "type": "header",
           "properties": {
             "title": "CARS24",
-            "subtitle": "SDUI ENGINE"
+            "subtitle": "SDUI ENGINE",
+            "imageUrl": "ic_landing_hero"
           }
         },
         {

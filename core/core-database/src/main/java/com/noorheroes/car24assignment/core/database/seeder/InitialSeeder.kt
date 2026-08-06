@@ -99,7 +99,7 @@ class InitialSeeder @Inject constructor(
                 ComponentEntity(
                     componentId = component.id,
                     sectionId = section.id,
-                    componentType = component.type,
+                    componentType = component.componentType,
                     componentJson = json.encodeToJsonElement(component).toString(),
                     displayOrder = index,
                     version = 1,
