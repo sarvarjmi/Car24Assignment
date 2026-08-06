@@ -32,13 +32,34 @@ class ActionDispatcher @Inject constructor(
     init {
         // Register default handlers
         registerHandler("navigate") { action ->
-            val route = action.target ?: action.payload["route"] as? String
+            var route = action.target ?: action.payload["route"] as? String
             if (route != null) {
+                // Map legacy routes to new fixed routes
+                route = when (route) {
+                    "home/home_screen" -> "home_screen_route"
+                    "home/landing_screen" -> "landing_screen_route"
+                    "home/deals_screen" -> "deals_screen_route"
+                    "home/profile_screen" -> "profile_screen_route"
+                    "landing" -> "home/landing_screen" // If it's still using the old one
+                    else -> route
+                }
+                
                 try {
-                    navigator.navigate(route)
+                    val mode = action.payload["mode"] as? String
+                    when (mode?.lowercase()) {
+                        "replace" -> {
+                            // In a real app, we'd use navController.navigate(route) { popUpTo(0) } or similar
+                            // For this framework, we'll just navigate
+                            navigator.navigate(route)
+                        }
+                        "popto" -> {
+                            navigator.navigate(route) 
+                        }
+                        else -> navigator.navigate(route)
+                    }
                 } catch (e: Exception) {
-                    logger.e(TAG, "Navigation failed, falling back to Landing", e)
-                    navigator.navigate("landing")
+                    logger.e(TAG, "Navigation failed, falling back to Home", e)
+                    navigator.navigate("home/home_screen")
                 }
             } else {
                 logger.e(TAG, "Navigation action missing target/route")
@@ -54,7 +75,11 @@ class ActionDispatcher @Inject constructor(
                     id = (actionMap["id"] as? String) ?: "",
                     type = (actionMap["type"] as? String) ?: "",
                     target = actionMap["target"] as? String,
-                    payload = (actionMap["payload"] as? Map<*, *>)?.filterKeys { it is String }?.mapKeys { it.key as String } ?: emptyMap()
+                    payload = (actionMap["payload"] as? Map<*, *>)?.entries
+                        ?.filter { it.key is String }
+                        ?.associate { it.key as String to it.value } ?: emptyMap(),
+                    priority = (actionMap["priority"] as? Number)?.toInt() ?: 0
+                    // Note: conditions are omitted for simplicity in recursive mapping here
                 )
                 dispatch(nestedAction)
             }
@@ -86,12 +111,18 @@ class ActionDispatcher @Inject constructor(
             val targetId = action.target ?: return@registerHandler
             scope.launch {
                 val currentJson = getComponentJsonUseCase(targetId) ?: return@launch
-                val element = json.parseToJsonElement(currentJson).jsonObject.toMutableMap()
-                val state = element["state"]?.jsonObject?.toMutableMap() ?: mutableMapOf()
-                val currentSelected = state["selected"]?.jsonPrimitive?.booleanOrNull ?: false
-                state["selected"] = JsonPrimitive(!currentSelected)
-                element["state"] = JsonObject(state)
-                updateComponentUseCase(targetId, json.encodeToString(JsonObject(element)))
+                try {
+                    val jsonElement = json.parseToJsonElement(currentJson)
+                    val element = (jsonElement as? JsonObject)?.toMutableMap() ?: return@launch
+                    val stateElement = element["state"]
+                    val state = (if (stateElement is JsonObject) stateElement.toMutableMap() else mutableMapOf<String, JsonElement>())
+                    val currentSelected = state["selected"]?.let { if (it is JsonPrimitive) it.booleanOrNull else null } ?: false
+                    state["selected"] = JsonPrimitive(!currentSelected)
+                    element["state"] = JsonObject(state)
+                    updateComponentUseCase(targetId, json.encodeToString(JsonObject(element)))
+                } catch (e: Exception) {
+                    logger.w(TAG, "Failed to toggle state for $targetId: ${e.message}")
+                }
             }
         }
         registerHandler("updatecomponent") { action ->

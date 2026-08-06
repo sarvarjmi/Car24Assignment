@@ -15,6 +15,9 @@ interface ComponentDao {
     @Query("SELECT * FROM components WHERE sectionId = :sectionId ORDER BY displayOrder ASC")
     fun getComponentsBySectionId(sectionId: String): Flow<List<ComponentEntity>>
 
+    @Query("SELECT * FROM components WHERE sectionId = :sectionId ORDER BY displayOrder ASC")
+    suspend fun getComponentsBySectionIdSync(sectionId: String): List<ComponentEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertComponents(components: List<ComponentEntity>)
 
@@ -23,4 +26,7 @@ interface ComponentDao {
 
     @Query("DELETE FROM components WHERE sectionId = :sectionId")
     suspend fun deleteComponentsBySectionId(sectionId: String)
+
+    @Query("DELETE FROM components WHERE sectionId IN (SELECT sectionId FROM sections WHERE screenId = :screenId)")
+    suspend fun deleteComponentsByScreenId(screenId: String)
 }

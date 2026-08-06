@@ -13,7 +13,18 @@ object ConditionEvaluator {
             ConditionOperator.EQUALS -> fieldValue == condition.value
             ConditionOperator.NOT_EQUALS -> fieldValue != condition.value
             ConditionOperator.EXISTS -> fieldValue != null
-            else -> false
+            ConditionOperator.GREATER_THAN -> {
+                val f = (fieldValue as? Number)?.toDouble() ?: 0.0
+                val v = (condition.value as? Number)?.toDouble() ?: 0.0
+                f > v
+            }
+            ConditionOperator.LESS_THAN -> {
+                val f = (fieldValue as? Number)?.toDouble() ?: 0.0
+                val v = (condition.value as? Number)?.toDouble() ?: 0.0
+                f < v
+            }
+            ConditionOperator.IN -> (condition.value as? List<*>)?.contains(fieldValue) ?: false
+            ConditionOperator.NOT_IN -> (condition.value as? List<*>)?.contains(fieldValue) == false
         }
     }
 

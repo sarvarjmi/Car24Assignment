@@ -1,195 +1,116 @@
 {
   "metadata": {
     "id": "home_screen",
-    "name": "Cars24 Home",
-    "schemaVersion": "1.0.0",
+    "name": "CARS24",
+    "schemaVersion": "1.4.0",
     "rendererVersion": "1.0.0",
     "createdAt": 1724500000,
     "updatedAt": 1724500000,
-    "description": "Cars24 Home Screen"
+    "description": "Rich Home Dashboard with Personalized Content"
   },
-  "configuration": {
-    "refreshable": true,
-    "scrollable": true,
-    "safeArea": true
-  },
-  "theme": {
-    "colorPalette": {
-      "primary": "PRIMARY"
-    }
-  },
-  "layout": {
-    "type": "LazyColumn"
-  },
+  "configuration": { "refreshable": true, "scrollable": true, "safeArea": true },
+  "theme": { "colorPalette": { "primary": "PRIMARY" } },
+  "layout": { "type": "LazyColumn" },
   "sections": [
     {
-      "id": "home_header_section",
-      "type": "header",
+      "id": "nav_section",
+      "type": "navigation",
       "order": 1,
       "components": [
         {
-          "id": "home_header",
-          "type": "header",
-          "style": {
-            "padding": { "bottom": "M" },
-            "background": { "color": "SURFACE" }
-          },
-          "properties": {
-            "title": "Cars24",
-            "subtitle": "Trusted by 10 Lakh+ customers"
-          }
-        }
+          "id": "home_header", "type": "row", "style": { "padding": { "all": "MEDIUM" }, "arrangement": { "horizontal": "SPACE_BETWEEN" }, "alignment": { "vertical": "CENTER" } },
+          "children": [
+            { "id": "logo", "type": "text", "properties": { "text": "CARS24", "typography": "TITLE_LARGE", "color": "PRIMARY" }, "visibility": "VISIBLE" },
+            { "id": "p_icon", "type": "icon", "properties": { "icon": "PROFILE", "tint": "ON_SURFACE" }, "actions": { "click": { "type": "navigate", "target": "profile_screen_route" } }, "visibility": "VISIBLE" }
+          ],
+          "visibility": "VISIBLE"
+        },
+        { "id": "loc_row", "type": "row", "style": { "padding": { "horizontal": "MEDIUM", "bottom": "SMALL" }, "alignment": { "vertical": "CENTER" } },
+          "children": [
+            { "id": "loc_ic", "type": "icon", "style": { "width": "16dp" }, "properties": { "icon": "CAR", "tint": "PRIMARY" }, "visibility": "VISIBLE" },
+            { "id": "loc_t", "type": "text", "style": { "padding": { "start": "SMALL" } }, "properties": { "text": "Gurgaon Sector 44", "typography": "LABEL_SMALL", "color": "PRIMARY" }, "visibility": "VISIBLE" }
+          ],
+          "visibility": "VISIBLE"
+        },
+        { "id": "h_search", "type": "search_bar", "style": { "padding": { "horizontal": "MEDIUM", "bottom": "MEDIUM" } }, "properties": { "placeholder": "Search by make, model or city..." }, "visibility": "VISIBLE" }
       ]
     },
     {
-      "id": "search_section",
-      "type": "search",
+      "id": "cat_section",
+      "type": "categories",
       "order": 2,
       "components": [
-        {
-          "id": "search_bar_1",
-          "type": "search_bar",
-          "style": {
-            "padding": { "all": "S" }
-          },
-          "properties": {
-            "placeholder": "Search by make, model..."
-          }
+        { "id": "ch_grid", "type": "chip_group", "style": { "padding": { "horizontal": "MEDIUM", "bottom": "MEDIUM" } },
+          "children": [
+            { "id": "ch1", "type": "chip", "properties": { "text": "SUVs" }, "state": { "selected": true }, "visibility": "VISIBLE" },
+            { "id": "ch2", "type": "chip", "properties": { "text": "Hatchbacks" }, "visibility": "VISIBLE" },
+            { "id": "ch3", "type": "chip", "properties": { "text": "Luxury" }, "visibility": "VISIBLE" },
+            { "id": "ch4", "type": "chip", "properties": { "text": "Sedans" }, "visibility": "VISIBLE" }
+          ],
+          "visibility": "VISIBLE"
         }
       ]
     },
     {
-      "id": "banner_section",
-      "type": "banner",
+      "id": "promo_section",
+      "type": "promos",
       "order": 3,
       "components": [
-        {
-          "id": "hero_banner_1",
-          "type": "hero_banner",
-          "style": {
-            "shape": "M",
-            "elevation": "LEVEL_2"
-          },
-          "properties": {
-            "imageUrl": "ic_landing_hero",
-            "title": "Certified Pre-Owned Cars",
-            "subtitle": "140 checkpoints inspection",
-            "ctaText": "Browse All"
-          },
-          "actions": {
-            "click": {
-              "type": "navigate",
-              "target": "server"
-            }
-          }
+        { "id": "p_banner", "type": "hero_banner", "style": { "margin": { "horizontal": "MEDIUM", "bottom": "MEDIUM" }, "shape": "LARGE" },
+          "properties": { "imageUrl": "ic_landing_hero", "title": "Buy Smart", "subtitle": "Up to ₹50,000 exchange bonus", "ctaText": "Explore" },
+          "actions": { "click": { "type": "navigate", "target": "deals_screen_route" } },
+          "visibility": "VISIBLE"
         }
       ]
     },
     {
-      "id": "category_section",
-      "type": "categories",
+      "id": "featured_rail",
+      "type": "featured",
       "order": 4,
       "components": [
-        {
-          "id": "categories_header",
-          "type": "header",
-          "properties": { "title": "Top Categories" },
-          "style": { "padding": { "start": "M", "top": "M" } }
-        },
-        {
-          "id": "categories_1",
-          "type": "chip_group",
-          "style": { "padding": { "all": "M" } },
+        { "id": "f_h", "type": "header", "style": { "padding": { "horizontal": "MEDIUM" } }, "properties": { "title": "New Arrivals", "subtitle": "Latest cars in your area" }, "visibility": "VISIBLE" },
+        { "id": "f_rail", "type": "lazy_row", "style": { "padding": { "start": "MEDIUM" } },
           "children": [
-            { "id": "chip_hatch", "type": "chip", "properties": { "text": "Hatchback" } },
-            { "id": "chip_sedan", "type": "chip", "properties": { "text": "Sedan" } },
-            { "id": "chip_suv", "type": "chip", "properties": { "text": "SUV" }, "state": { "selected": true } },
-            { "id": "chip_luxury", "type": "chip", "properties": { "text": "Luxury" } }
-          ]
+            { "id": "fc1", "type": "car_card", "properties": { "imageUrl": "ic_car_placeholder", "title": "Mahindra Thar 2023", "price": "₹14.80 L", "location": "Gurgaon", "badges": ["NEW"], "fuel": "Diesel" }, "visibility": "VISIBLE" },
+            { "id": "fc2", "type": "car_card", "properties": { "imageUrl": "ic_car_placeholder", "title": "Kia Seltos 2022", "price": "₹12.20 L", "location": "Noida", "badges": ["CERTIFIED"], "fuel": "Petrol" }, "visibility": "VISIBLE" }
+          ],
+          "visibility": "VISIBLE"
         }
       ]
     },
     {
-      "id": "rail_section",
-      "type": "rail",
+      "id": "sell_section",
+      "type": "sell_cta",
       "order": 5,
       "components": [
-        {
-          "id": "rail_header",
-          "type": "header",
-          "properties": { "title": "Featured Cars" },
-          "style": { "padding": { "start": "M" } }
-        },
-        {
-          "id": "rail_featured",
-          "type": "lazy_row",
+        { "id": "s_banner", "type": "banner", "style": { "margin": { "all": "MEDIUM" }, "shape": "MEDIUM", "background": { "color": "SECONDARY_CONTAINER" } },
+          "properties": { "imageUrl": "ic_banner_placeholder", "title": "Sell Car in 1 Hour", "subtitle": "Get paid instantly. Free doorstep inspection." },
+          "actions": { "click": { "type": "snackbar", "payload": { "message": "Opening Sell flow..." } } },
+          "visibility": "VISIBLE"
+        }
+      ]
+    },
+    {
+      "id": "value_section",
+      "type": "best_value",
+      "order": 6,
+      "components": [
+        { "id": "v_h", "type": "header", "style": { "padding": { "horizontal": "MEDIUM" } }, "properties": { "title": "Best Value Cars", "subtitle": "Quality cars at the right price" }, "visibility": "VISIBLE" },
+        { "id": "v_rail", "type": "lazy_row", "style": { "padding": { "start": "MEDIUM" } },
           "children": [
-            {
-              "id": "car_1",
-              "type": "car_card",
-              "properties": {
-                "imageUrl": "ic_car_placeholder",
-                "title": "Hyundai Creta",
-                "price": "₹12.50 Lakh",
-                "location": "New Delhi",
-                "badges": ["FEATURED", "CERTIFIED"]
-              }
-            },
-            {
-              "id": "car_2",
-              "type": "car_card",
-              "properties": {
-                "imageUrl": "ic_car_placeholder",
-                "title": "Maruti Swift",
-                "price": "₹5.80 Lakh",
-                "location": "Mumbai",
-                "badges": ["TOP DEAL"]
-              }
-            },
-            {
-              "id": "car_3",
-              "type": "car_card",
-              "properties": {
-                "imageUrl": "ic_car_placeholder",
-                "title": "Honda City",
-                "price": "₹9.20 Lakh",
-                "location": "Bangalore"
-              }
-            }
-          ]
+            { "id": "vc1", "type": "car_card", "properties": { "imageUrl": "ic_car_placeholder", "title": "Maruti Baleno 2021", "price": "₹6.15 L", "location": "Delhi", "badges": ["SAVE ₹20K"], "fuel": "CNG" }, "visibility": "VISIBLE" },
+            { "id": "vc2", "type": "car_card", "properties": { "imageUrl": "ic_car_placeholder", "title": "Honda Amaze 2020", "price": "₹5.90 L", "location": "Mumbai", "fuel": "Petrol" }, "visibility": "VISIBLE" }
+          ],
+          "visibility": "VISIBLE"
         }
       ]
     },
     {
       "id": "footer_section",
       "type": "footer",
-      "order": 6,
+      "order": 7,
       "components": [
-        {
-          "id": "footer_spacer",
-          "type": "spacer",
-          "properties": { "height": "32dp" }
-        },
-        {
-          "id": "cta_sell",
-          "type": "cta",
-          "style": {
-            "background": { "color": "PRIMARY" },
-            "shape": "S"
-          },
-          "properties": {
-            "text": "Sell Your Car in 1 Hour"
-          }
-        },
-        {
-          "id": "footer_1",
-          "type": "footer",
-          "properties": {
-            "text": "© 2026 Cars24 Services Private Limited",
-            "copyright": "All Rights Reserved",
-            "version": "1.0.0"
-          }
-        }
+        { "id": "f_comp", "type": "footer", "properties": { "text": "Cars24 - Quality Assured", "copyright": "© 2026", "version": "1.4.0" }, "visibility": "VISIBLE" }
       ]
     }
   ]

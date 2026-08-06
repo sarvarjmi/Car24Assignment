@@ -33,6 +33,12 @@ object RendererModule {
             register("search_bar") { component -> 
                 (component as? Component.SearchBar)?.let { SearchBarWidget(it) } 
             }
+            register("search") { component -> 
+                (component as? Component.SearchBar)?.let { SearchBarWidget(it) } 
+            }
+            register("Search") { component -> 
+                (component as? Component.SearchBar)?.let { SearchBarWidget(it) } 
+            }
             register("divider") { component -> DividerWidget(component) }
             register("chip") { component -> ChipWidget(component) }
             register("chip_group") { component -> ChipGroupWidget(component) }
@@ -62,6 +68,7 @@ object RendererModule {
             register("footer") { component -> 
                 (component as? Component.Footer)?.let { FooterWidget(it) } 
             }
+            register("grid") { component -> GridWidget(component) }
             register("column") { component -> ColumnWidget(component) }
             register("lazy_column") { component -> LazyColumnWidget(component) }
             register("lazy_row") { component -> LazyRowWidget(component) }

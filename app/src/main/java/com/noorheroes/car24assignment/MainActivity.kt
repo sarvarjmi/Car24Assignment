@@ -11,6 +11,7 @@ import com.noorheroes.car24assignment.core.navigation.navigator.AppNavigator
 import com.noorheroes.car24assignment.feature.renderer.action.ActionDispatcher
 import com.noorheroes.car24assignment.feature.renderer.registry.ComponentRegistry
 import com.noorheroes.car24assignment.navigation.AppNavHost
+import com.noorheroes.car24assignment.startup.StartupManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -26,6 +27,9 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var actionDispatcher: ActionDispatcher
 
+    @Inject
+    lateinit var startupManager: StartupManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -35,6 +39,7 @@ class MainActivity : ComponentActivity() {
                     navigator = navigator,
                     registry = registry,
                     actionDispatcher = actionDispatcher,
+                    startupManager = startupManager,
                     modifier = Modifier.fillMaxSize()
                 )
             }

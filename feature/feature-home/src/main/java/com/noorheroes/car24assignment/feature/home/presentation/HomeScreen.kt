@@ -1,5 +1,6 @@
 package com.noorheroes.car24assignment.feature.home.presentation
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -27,6 +28,8 @@ fun HomeScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val isRefreshing by viewModel.isRefreshing.collectAsState()
+
+    BackHandler(onBack = onBack)
 
     Scaffold(
         topBar = {

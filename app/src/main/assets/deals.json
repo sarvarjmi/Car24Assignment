@@ -2,76 +2,71 @@
   "metadata": {
     "id": "deals_screen",
     "name": "Hot Deals",
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.4.0",
     "rendererVersion": "1.0.0",
     "createdAt": 1724500000,
     "updatedAt": 1724500000,
-    "description": "Exclusive car deals"
+    "description": "Exclusive Discounts and Offer Grid"
   },
-  "configuration": {
-    "refreshable": true,
-    "scrollable": true,
-    "safeArea": true,
-    "backgroundColor": "SURFACE"
-  },
-  "theme": {
-    "colorPalette": {
-      "primary": "PRIMARY"
-    }
-  },
-  "layout": {
-    "type": "LazyColumn"
-  },
+  "configuration": { "refreshable": true, "scrollable": true, "safeArea": true, "backgroundColor": "SURFACE" },
+  "theme": { "colorPalette": { "primary": "ERROR" } },
+  "layout": { "type": "LazyColumn" },
   "sections": [
     {
-      "id": "deals_header_section",
-      "type": "header",
+      "id": "sale_header",
+      "type": "sale",
       "order": 1,
       "components": [
         {
-          "id": "deals_header",
-          "type": "header",
-          "properties": {
-            "title": "Exclusive Deals",
-            "subtitle": "Save big on your next car"
-          }
+          "id": "timer", "type": "text", "style": { "padding": { "all": "SMALL" }, "background": { "color": "ERROR_CONTAINER" }, "alignment": { "horizontal": "CENTER" } },
+          "properties": { "text": "SALE ENDS IN 03h 15m 45s", "typography": "LABEL_MEDIUM", "color": "ERROR" }
+        },
+        {
+          "id": "sale_banner", "type": "banner", "style": { "margin": { "all": "MEDIUM" }, "shape": "MEDIUM" },
+          "properties": { "imageUrl": "ic_banner_placeholder", "title": "MONTH END CLEARANCE", "subtitle": "Flat ₹30,000 off on exchange of old car." }
         }
       ]
     },
     {
-      "id": "deals_rail_section",
-      "type": "rail",
+      "id": "deal_filters",
+      "type": "filters",
       "order": 2,
       "components": [
         {
-          "id": "rail_deals",
-          "type": "horizontal_rail",
-          "properties": {
-            "title": "Today's Top Deals"
-          },
+          "id": "chips", "type": "chip_group", "style": { "padding": { "horizontal": "MEDIUM", "bottom": "MEDIUM" } },
           "children": [
-            {
-              "id": "deal_1",
-              "type": "car_card",
-              "properties": {
-                "imageUrl": "ic_car_placeholder",
-                "title": "Toyota Fortuner",
-                "price": "₹35.00 Lakh",
-                "location": "Bangalore"
-              },
-              "style": { "background": { "color": "SURFACE_VARIANT" } }
-            },
-            {
-              "id": "deal_2",
-              "type": "car_card",
-              "properties": {
-                "imageUrl": "ic_car_placeholder",
-                "title": "Mahindra XUV700",
-                "price": "₹22.50 Lakh",
-                "location": "Chennai"
-              }
-            }
+            { "id": "f1", "type": "chip", "properties": { "text": "All Deals" }, "state": { "selected": true } },
+            { "id": "f2", "type": "chip", "properties": { "text": "Low Downpayment" } },
+            { "id": "f3", "type": "chip", "properties": { "text": "SUV Deals" } }
           ]
+        }
+      ]
+    },
+    {
+      "id": "deal_grid_sec",
+      "type": "grid",
+      "order": 3,
+      "components": [
+        { "id": "gt", "type": "text", "style": { "padding": { "start": "MEDIUM", "bottom": "SMALL" } }, "properties": { "text": "Deal of the Day", "typography": "TITLE_MEDIUM" } },
+        {
+          "id": "d_grid", "type": "grid", "properties": { "columns": 2 }, "style": { "padding": { "horizontal": "SMALL" } },
+          "children": [
+            { "id": "d1", "type": "car_card", "properties": { "imageUrl": "ic_car_placeholder", "title": "Toyota Fortuner", "price": "₹31.50 L", "location": "Pune", "badges": ["FLASH DEAL"] } },
+            { "id": "d2", "type": "car_card", "properties": { "imageUrl": "ic_car_placeholder", "title": "BMW 3 Series", "price": "₹28.40 L", "location": "Mumbai", "badges": ["LUXURY"] } },
+            { "id": "d3", "type": "car_card", "properties": { "imageUrl": "ic_car_placeholder", "title": "Maruti Ertiga", "price": "₹8.95 L", "location": "Delhi", "badges": ["7 SEATER"] } },
+            { "id": "d4", "type": "car_card", "properties": { "imageUrl": "ic_car_placeholder", "title": "Kia Sonet", "price": "₹10.80 L", "location": "Noida" } }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "finance_cta",
+      "type": "finance",
+      "order": 4,
+      "components": [
+        {
+          "id": "f_banner", "type": "banner", "style": { "margin": { "all": "MEDIUM" }, "shape": "MEDIUM", "background": { "color": "INFO_CONTAINER" } },
+          "properties": { "imageUrl": "ic_banner_placeholder", "title": "Zero Downpayment", "subtitle": "Drive away with a new car for ₹0 upfront cost." }
         }
       ]
     }

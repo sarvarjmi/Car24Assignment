@@ -2,63 +2,106 @@
   "metadata": {
     "id": "profile_screen",
     "name": "My Account",
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.4.0",
     "rendererVersion": "1.0.0",
     "createdAt": 1724500000,
     "updatedAt": 1724500000,
-    "description": "User profile screen"
+    "description": "Enriched User Profile with Details and Settings"
   },
-  "configuration": {
-    "refreshable": false,
-    "scrollable": true,
-    "safeArea": true,
-    "backgroundColor": "BACKGROUND"
-  },
-  "theme": {
-    "colorPalette": {
-      "primary": "PRIMARY"
-    }
-  },
-  "layout": {
-    "type": "Column"
-  },
+  "configuration": { "refreshable": false, "scrollable": true, "safeArea": true },
+  "theme": { "colorPalette": { "primary": "PRIMARY" } },
+  "layout": { "type": "LazyColumn" },
   "sections": [
     {
-      "id": "profile_header",
-      "type": "header",
+      "id": "sec_header",
+      "type": "identity",
       "order": 1,
       "components": [
         {
-          "id": "user_info",
-          "type": "header",
-          "properties": {
-            "title": "John Doe",
-            "subtitle": "Premium Member since 2024"
-          },
-          "style": { "padding": { "all": "LARGE" } }
+          "id": "prof_card", "type": "card", "style": { "margin": { "all": "MEDIUM" }, "padding": { "all": "MEDIUM" }, "background": { "color": "SURFACE" }, "shape": "MEDIUM", "elevation": "LEVEL_1" },
+          "children": [
+            {
+              "id": "user_row", "type": "row", "style": { "alignment": { "vertical": "CENTER" } },
+              "children": [
+                { "id": "avatar", "type": "icon", "style": { "padding": { "all": "SMALL" }, "background": { "color": "PRIMARY_CONTAINER" }, "shape": "FULL" }, "properties": { "icon": "PROFILE", "tint": "PRIMARY" } },
+                {
+                  "id": "u_info", "type": "column", "style": { "padding": { "start": "MEDIUM" } },
+                  "children": [
+                    { "id": "u_name", "type": "text", "properties": { "text": "Arjun Malhotra", "typography": "TITLE_MEDIUM" } },
+                    { "id": "u_phone", "type": "text", "properties": { "text": "+91 98765 43210", "typography": "LABEL_SMALL", "color": "OUTLINE" } },
+                    { "id": "m_badge", "type": "badge", "properties": { "text": "PREMIUM MEMBER" }, "style": { "background": { "color": "WARNING_CONTAINER" } } }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ]
     },
     {
-      "id": "profile_options",
-      "type": "list",
+      "id": "sec_garage",
+      "type": "garage",
       "order": 2,
       "components": [
+        { "id": "g_header", "type": "text", "style": { "padding": { "start": "MEDIUM", "bottom": "SMALL" } }, "properties": { "text": "My Garage (1 Car)", "typography": "TITLE_SMALL" } },
         {
-          "id": "opt_my_cars",
-          "type": "cta",
-          "properties": { "text": "My Booked Cars" }
-        },
+          "id": "car_details", "type": "card", "style": { "margin": { "horizontal": "MEDIUM" }, "padding": { "all": "SMALL" }, "background": { "color": "SURFACE" }, "shape": "MEDIUM" },
+          "children": [
+            {
+              "id": "car_row", "type": "row", "style": { "alignment": { "vertical": "CENTER" } },
+              "children": [
+                { "id": "car_img", "type": "image", "style": { "width": "100dp", "height": "75dp", "shape": "SMALL" }, "properties": { "url": "ic_car_placeholder" } },
+                {
+                  "id": "car_info_col", "type": "column", "style": { "padding": { "start": "MEDIUM" } },
+                  "children": [
+                    { "id": "car_n", "type": "text", "properties": { "text": "Honda Civic 2019", "typography": "LABEL_MEDIUM" } },
+                    { "id": "car_s", "type": "text", "properties": { "text": "Service due in 12 days", "typography": "LABEL_SMALL", "color": "SUCCESS" } }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec_actions",
+      "type": "menu",
+      "order": 3,
+      "components": [
+        { "id": "m1", "type": "cta", "properties": { "text": "Active Bookings" }, "actions": { "click": { "type": "snackbar", "payload": { "message": "Opening My Bookings..." } } } },
+        { "id": "d1", "type": "divider" },
+        { "id": "m2", "type": "cta", "properties": { "text": "Shortlisted Cars" } },
+        { "id": "d2", "type": "divider" },
+        { "id": "m3", "type": "cta", "properties": { "text": "Customer Support" } }
+      ]
+    },
+    {
+      "id": "sec_settings",
+      "type": "settings",
+      "order": 4,
+      "components": [
+        { "id": "s_h", "type": "text", "style": { "padding": { "start": "MEDIUM", "top": "MEDIUM", "bottom": "SMALL" } }, "properties": { "text": "App Settings", "typography": "TITLE_SMALL" } },
         {
-          "id": "opt_sell",
-          "type": "cta",
-          "properties": { "text": "Sell My Car" }
-        },
+          "id": "s_list", "type": "column", "children": [
+            { "id": "s1", "type": "cta", "properties": { "text": "Notification Settings" } },
+            { "id": "sd1", "type": "divider" },
+            { "id": "s2", "type": "cta", "properties": { "text": "Privacy Policy" } },
+            { "id": "sd2", "type": "divider" },
+            { "id": "s3", "type": "cta", "style": { "typography": { "color": "ERROR" } }, "properties": { "text": "Sign Out" }, "actions": { "click": { "type": "dialog", "payload": { "title": "Logout", "message": "Are you sure you want to exit?" } } } }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec_refer",
+      "type": "referral",
+      "order": 5,
+      "components": [
         {
-          "id": "opt_logout",
-          "type": "cta",
-          "properties": { "text": "Logout" },
-          "style": { "typography": { "color": "ERROR" } }
+          "id": "ref_banner", "type": "banner", "style": { "margin": { "all": "MEDIUM" }, "shape": "MEDIUM", "background": { "color": "SECONDARY_CONTAINER" } },
+          "properties": { "imageUrl": "ic_banner_placeholder", "title": "Invite & Earn ₹5000", "subtitle": "Refer your friends to buy or sell cars." },
+          "actions": { "click": { "type": "snackbar", "payload": { "message": "Code COPIED!" } } }
         }
       ]
     }

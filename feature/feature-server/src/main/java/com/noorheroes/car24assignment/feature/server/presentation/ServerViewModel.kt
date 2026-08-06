@@ -1,14 +1,18 @@
 package com.noorheroes.car24assignment.feature.server.presentation
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.noorheroes.car24assignment.core.domain.usecase.*
 import com.noorheroes.car24assignment.core.json.validator.SDUIValidator
 import com.noorheroes.car24assignment.core.model.domain.Screen
+import com.noorheroes.car24assignment.core.model.json.ScreenModel
+import com.noorheroes.car24assignment.core.model.repository.ScreenRepository
 import com.noorheroes.car24assignment.feature.server.metadata.WidgetMetadata
 import com.noorheroes.car24assignment.feature.server.metadata.WidgetMetadataRegistry
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
@@ -23,7 +27,9 @@ sealed interface ServerUiState {
         val type: String,
         val properties: Map<String, JsonElement>,
         val json: String,
-        val metadata: WidgetMetadata? = null
+        val metadata: WidgetMetadata? = null,
+        val hasUnsavedChanges: Boolean = false,
+        val isFullScreenJson: Boolean = false
     ) : ServerUiState
     data object Success : ServerUiState
     data class Error(val message: String) : ServerUiState
@@ -32,116 +38,62 @@ sealed interface ServerUiState {
 @HiltViewModel
 class ServerViewModel @Inject constructor(
     private val getScreensUseCase: GetScreensUseCase,
-    private val getScreenUseCase: GetScreenUseCase,
+    private val screenRepository: ScreenRepository,
     private val getComponentJsonUseCase: GetComponentJsonUseCase,
     private val updateComponentUseCase: UpdateComponentUseCase,
-    private val updateScreenConfigUseCase: UpdateScreenConfigUseCase,
+    private val updateFullScreenUseCase: UpdateFullScreenUseCase,
     private val validator: SDUIValidator,
-    private val json: Json
+    private val json: Json,
+    private val savedStateHandle: SavedStateHandle,
+    @dagger.hilt.android.qualifiers.ApplicationContext private val context: android.content.Context
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<ServerUiState>(ServerUiState.Idle)
-    val uiState = _uiState.asStateFlow()
+    val uiState: StateFlow<ServerUiState> = _uiState.asStateFlow()
 
     private val undoStack = java.util.Stack<String>()
     private val redoStack = java.util.Stack<String>()
 
     private val _screens = MutableStateFlow<List<Screen>>(emptyList())
-    val screens = _screens.asStateFlow()
+    val screens: StateFlow<List<Screen>> = _screens.asStateFlow()
+    
+    val selectedScreenId = savedStateHandle.getStateFlow("selected_screen_id", "")
+    val selectedComponentId = savedStateHandle.getStateFlow("selected_component_id", "")
 
     init {
         loadScreens()
     }
 
-    private fun loadScreens() {
+    fun setSelectedScreen(id: String) {
+        savedStateHandle["selected_screen_id"] = id
+    }
+
+    fun loadScreens() {
         viewModelScope.launch {
             _screens.value = getScreensUseCase()
         }
     }
 
-    fun loadComponent(componentId: String) {
+    fun loadFullJson(screenId: String) {
         viewModelScope.launch {
             _uiState.value = ServerUiState.Loading
             undoStack.clear()
             redoStack.clear()
-            val jsonStr = getComponentJsonUseCase(componentId)
-            if (jsonStr != null) {
-                val element = json.parseToJsonElement(jsonStr).jsonObject
-                val type = element["type"]?.jsonPrimitive?.content ?: "unknown"
-                val properties = element["properties"]?.jsonObject ?: emptyMap<String, JsonElement>()
-                val metadata = WidgetMetadataRegistry.get(type)
-                
-                _uiState.value = ServerUiState.Editing(
-                    componentId = componentId,
-                    type = type,
-                    properties = properties,
-                    json = jsonStr,
-                    metadata = metadata
-                )
-            } else {
-                _uiState.value = ServerUiState.Error("Component not found")
-            }
-        }
-    }
-
-    fun loadScreenConfig(screenId: String) {
-        viewModelScope.launch {
-            _uiState.value = ServerUiState.Loading
-            undoStack.clear()
-            redoStack.clear()
+            savedStateHandle["selected_component_id"] = "FULL_SCREEN"
             
-            // For the assignment, we fetch the screen from the list we already have
-            val screen = _screens.value.find { it.metadata.id == screenId }
-            if (screen != null) {
-                val config = screen.configuration
-                val metadata = screen.metadata
-                
-                // Construct a virtual properties map for the form editor
-                val properties = mutableMapOf<String, JsonElement>()
-                properties["name"] = JsonPrimitive(metadata.name)
-                properties["description"] = JsonPrimitive(metadata.description ?: "")
-                properties["refreshable"] = JsonPrimitive(config.refreshable)
-                properties["scrollable"] = JsonPrimitive(config.scrollable)
-                properties["safeArea"] = JsonPrimitive(config.safeArea)
-                
+            val jsonStr = screenRepository.getScreenJson(screenId)
+            if (jsonStr != null) {
+                val prettyJson = prettyPrint(jsonStr)
                 _uiState.value = ServerUiState.Editing(
-                    componentId = "SCREEN_CONFIG",
-                    type = "screen_config",
-                    properties = properties,
-                    json = json.encodeToString(properties), // Virtual JSON
-                    metadata = WidgetMetadataRegistry.get("screen_config")
+                    componentId = screenId,
+                    type = "screen",
+                    properties = emptyMap(),
+                    json = prettyJson,
+                    isFullScreenJson = true
                 )
             } else {
                 _uiState.value = ServerUiState.Error("Screen not found")
             }
-        }
-    }
-
-    fun saveScreenConfig(screenId: String, properties: Map<String, JsonElement>) {
-        viewModelScope.launch {
-            _uiState.value = ServerUiState.Loading
-            
-            val name = properties["name"]?.jsonPrimitive?.content ?: "Cars24"
-            val description = properties["description"]?.jsonPrimitive?.content
-            val refreshable = properties["refreshable"]?.jsonPrimitive?.booleanOrNull ?: true
-            val scrollable = properties["scrollable"]?.jsonPrimitive?.booleanOrNull ?: true
-            val safeArea = properties["safeArea"]?.jsonPrimitive?.booleanOrNull ?: true
-            
-            val configMap = mapOf(
-                "refreshable" to JsonPrimitive(refreshable),
-                "scrollable" to JsonPrimitive(scrollable),
-                "safeArea" to JsonPrimitive(safeArea)
-            )
-            
-            updateScreenConfigUseCase(
-                screenId = screenId,
-                name = name,
-                description = description,
-                configJson = json.encodeToString(JsonObject(configMap))
-            )
-            
-            _uiState.value = ServerUiState.Success
-            loadScreens() // Refresh list
         }
     }
 
@@ -158,14 +110,54 @@ class ServerViewModel @Inject constructor(
                 else -> JsonPrimitive(value.toString())
             }
             
-            val originalJson = json.parseToJsonElement(currentState.json).jsonObject.toMutableMap()
+            val originalJson = try {
+                val element = json.parseToJsonElement(currentState.json)
+                (element as? JsonObject)?.toMutableMap() ?: mutableMapOf<String, JsonElement>()
+            } catch (e: Exception) {
+                mutableMapOf<String, JsonElement>()
+            }
             originalJson["properties"] = JsonObject(newProperties)
             val newJson = json.encodeToString(JsonObject(originalJson))
             
             _uiState.value = currentState.copy(
                 properties = newProperties,
-                json = newJson
+                json = newJson,
+                hasUnsavedChanges = true
             )
+        }
+    }
+
+    fun loadComponent(componentId: String) {
+        savedStateHandle["selected_component_id"] = componentId
+        viewModelScope.launch {
+            _uiState.value = ServerUiState.Loading
+            undoStack.clear()
+            redoStack.clear()
+            val jsonStr = getComponentJsonUseCase(componentId)
+            if (jsonStr != null) {
+                val prettyJson = prettyPrint(jsonStr)
+                try {
+                    val jsonElement = json.parseToJsonElement(jsonStr)
+                    val element = jsonElement as? JsonObject ?: throw Exception("Not an object")
+                    val type = element["type"]?.let { if (it is JsonPrimitive) it.content else null } ?: "unknown"
+                    val propertiesElement = element["properties"]
+                    val properties = (if (propertiesElement is JsonObject) propertiesElement else emptyMap<String, JsonElement>())
+                    val metadata = WidgetMetadataRegistry.get(type)
+                    
+                    _uiState.value = ServerUiState.Editing(
+                        componentId = componentId,
+                        type = type,
+                        properties = properties,
+                        json = prettyJson,
+                        metadata = metadata,
+                        hasUnsavedChanges = false
+                    )
+                } catch (e: Exception) {
+                    _uiState.value = ServerUiState.Error("Failed to parse component JSON")
+                }
+            } else {
+                _uiState.value = ServerUiState.Error("Component not found")
+            }
         }
     }
 
@@ -175,15 +167,66 @@ class ServerViewModel @Inject constructor(
             undoStack.push(currentState.json)
             redoStack.clear()
             try {
-                val element = json.parseToJsonElement(jsonStr).jsonObject
-                val properties = element["properties"]?.jsonObject ?: emptyMap<String, JsonElement>()
-                
-                _uiState.value = currentState.copy(
-                    json = jsonStr,
-                    properties = properties
-                )
+                if (currentState.isFullScreenJson) {
+                    _uiState.value = currentState.copy(json = jsonStr, hasUnsavedChanges = true)
+                } else {
+                    val jsonElement = json.parseToJsonElement(jsonStr)
+                    val element = jsonElement as? JsonObject ?: throw Exception("Not an object")
+                    val propertiesElement = element["properties"]
+                    val properties = (if (propertiesElement is JsonObject) propertiesElement else emptyMap<String, JsonElement>())
+                    _uiState.value = currentState.copy(json = jsonStr, properties = properties, hasUnsavedChanges = true)
+                }
             } catch (e: Exception) {
-                _uiState.value = currentState.copy(json = jsonStr)
+                _uiState.value = currentState.copy(json = jsonStr, hasUnsavedChanges = true)
+            }
+        }
+    }
+
+    fun resetScreen(screenId: String) {
+        viewModelScope.launch {
+            _uiState.value = ServerUiState.Loading
+            try {
+                val assetName = when (screenId) {
+                    "home_screen" -> "home.json"
+                    "landing_screen" -> "landing.json"
+                    "deals_screen" -> "deals.json"
+                    "profile_screen" -> "profile.json"
+                    else -> "home.json"
+                }
+                val jsonString = context.assets.open(assetName).bufferedReader().use { it.readText() }
+                screenRepository.resetScreen(screenId, jsonString)
+                _uiState.value = ServerUiState.Success
+                loadScreens()
+            } catch (e: Exception) {
+                _uiState.value = ServerUiState.Error("Failed to reset: ${e.message}")
+            }
+        }
+    }
+
+    fun saveChanges(componentId: String, jsonStr: String, isFullScreen: Boolean) {
+        viewModelScope.launch {
+            if (isFullScreen) {
+                try {
+                    val validationResult = validator.validateScreenJson(jsonStr)
+                    if (validationResult.isFailure) {
+                        _uiState.value = ServerUiState.Error("Invalid JSON format. Please make sure the JSON is valid before updating.\n${validationResult.exceptionOrNull()?.message}")
+                        return@launch
+                    }
+                    val model = json.decodeFromString<ScreenModel>(jsonStr)
+                    updateFullScreenUseCase(model)
+                    _uiState.value = ServerUiState.Success
+                } catch (e: Exception) {
+                    _uiState.value = ServerUiState.Error("Invalid JSON format. Please make sure the JSON is valid before updating.")
+                }
+            } else {
+                val validationResult = validator.validateComponentJson(jsonStr)
+                if (validationResult.isFailure) {
+                    _uiState.value = ServerUiState.Error("Invalid JSON format. Please make sure the JSON is valid before updating.")
+                    return@launch
+                }
+                _uiState.value = ServerUiState.Loading
+                updateComponentUseCase(componentId, jsonStr)
+                _uiState.value = ServerUiState.Success
             }
         }
     }
@@ -194,16 +237,7 @@ class ServerViewModel @Inject constructor(
             val currentState = _uiState.value
             if (currentState is ServerUiState.Editing) {
                 redoStack.push(currentState.json)
-                try {
-                    val element = json.parseToJsonElement(previousJson).jsonObject
-                    val properties = element["properties"]?.jsonObject ?: emptyMap<String, JsonElement>()
-                    _uiState.value = currentState.copy(
-                        json = previousJson,
-                        properties = properties
-                    )
-                } catch (e: Exception) {
-                    _uiState.value = currentState.copy(json = previousJson)
-                }
+                _uiState.value = currentState.copy(json = previousJson)
             }
         }
     }
@@ -214,16 +248,7 @@ class ServerViewModel @Inject constructor(
             val currentState = _uiState.value
             if (currentState is ServerUiState.Editing) {
                 undoStack.push(currentState.json)
-                try {
-                    val element = json.parseToJsonElement(nextJson).jsonObject
-                    val properties = element["properties"]?.jsonObject ?: emptyMap<String, JsonElement>()
-                    _uiState.value = currentState.copy(
-                        json = nextJson,
-                        properties = properties
-                    )
-                } catch (e: Exception) {
-                    _uiState.value = currentState.copy(json = nextJson)
-                }
+                _uiState.value = currentState.copy(json = nextJson)
             }
         }
     }
@@ -235,20 +260,6 @@ class ServerViewModel @Inject constructor(
             prettyJson.encodeToString(JsonElement.serializer(), element)
         } catch (e: Exception) {
             jsonString
-        }
-    }
-
-    fun saveJson(componentId: String, jsonStr: String) {
-        viewModelScope.launch {
-            val validationResult = validator.validateComponentJson(jsonStr)
-            if (validationResult.isFailure) {
-                _uiState.value = ServerUiState.Error("Invalid JSON: ${validationResult.exceptionOrNull()?.message}")
-                return@launch
-            }
-
-            _uiState.value = ServerUiState.Loading
-            updateComponentUseCase(componentId, jsonStr)
-            _uiState.value = ServerUiState.Success
         }
     }
 }

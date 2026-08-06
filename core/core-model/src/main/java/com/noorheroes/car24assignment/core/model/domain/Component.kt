@@ -146,6 +146,217 @@ sealed class Component {
         override val type: String = "horizontal_rail"
     }
 
+    data class Text(
+        override val id: String,
+        override val style: Style? = null,
+        override val actions: Map<String, Action> = emptyMap(),
+        override val children: List<Component>? = null,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap(),
+        val text: String
+    ) : Component() {
+        override val type: String = "text"
+    }
+
+    data class Image(
+        override val id: String,
+        override val style: Style? = null,
+        override val actions: Map<String, Action> = emptyMap(),
+        override val children: List<Component>? = null,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap(),
+        val url: String
+    ) : Component() {
+        override val type: String = "image"
+    }
+
+    data class Icon(
+        override val id: String,
+        override val style: Style? = null,
+        override val actions: Map<String, Action> = emptyMap(),
+        override val children: List<Component>? = null,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap(),
+        val icon: String
+    ) : Component() {
+        override val type: String = "icon"
+    }
+
+    data class Badge(
+        override val id: String,
+        override val style: Style? = null,
+        override val actions: Map<String, Action> = emptyMap(),
+        override val children: List<Component>? = null,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap(),
+        val text: String
+    ) : Component() {
+        override val type: String = "badge"
+    }
+
+    data class Button(
+        override val id: String,
+        override val style: Style? = null,
+        override val actions: Map<String, Action> = emptyMap(),
+        override val children: List<Component>? = null,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap(),
+        val text: String
+    ) : Component() {
+        override val type: String = "button"
+    }
+
+    data class Chip(
+        override val id: String,
+        override val style: Style? = null,
+        override val actions: Map<String, Action> = emptyMap(),
+        override val children: List<Component>? = null,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap(),
+        val text: String
+    ) : Component() {
+        override val type: String = "chip"
+    }
+
+    data class ChipGroup(
+        override val id: String,
+        override val style: Style? = null,
+        override val actions: Map<String, Action> = emptyMap(),
+        override val children: List<Component>? = null,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap()
+    ) : Component() {
+        override val type: String = "chip_group"
+    }
+
+    data class Divider(
+        override val id: String,
+        override val style: Style? = null,
+        override val actions: Map<String, Action> = emptyMap(),
+        override val children: List<Component>? = null,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap()
+    ) : Component() {
+        override val type: String = "divider"
+    }
+
+    data class Spacer(
+        override val id: String,
+        override val style: Style? = null,
+        override val actions: Map<String, Action> = emptyMap(),
+        override val children: List<Component>? = null,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap()
+    ) : Component() {
+        override val type: String = "spacer"
+    }
+
+    data class Column(
+        override val id: String,
+        override val style: Style? = null,
+        override val actions: Map<String, Action> = emptyMap(),
+        override val children: List<Component>? = null,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap()
+    ) : Component() {
+        override val type: String = "column"
+    }
+
+    data class Row(
+        override val id: String,
+        override val style: Style? = null,
+        override val actions: Map<String, Action> = emptyMap(),
+        override val children: List<Component>? = null,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap()
+    ) : Component() {
+        override val type: String = "row"
+    }
+
+    data class Box(
+        override val id: String,
+        override val style: Style? = null,
+        override val actions: Map<String, Action> = emptyMap(),
+        override val children: List<Component>? = null,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap()
+    ) : Component() {
+        override val type: String = "box"
+    }
+
+    data class Card(
+        override val id: String,
+        override val style: Style? = null,
+        override val actions: Map<String, Action> = emptyMap(),
+        override val children: List<Component>? = null,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap()
+    ) : Component() {
+        override val type: String = "card"
+    }
+
+    data class CtaSection(
+        override val id: String,
+        override val style: Style? = null,
+        override val actions: Map<String, Action> = emptyMap(),
+        override val children: List<Component>? = null,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap()
+    ) : Component() {
+        override val type: String = "cta_section"
+    }
+
+    data class LazyColumn(
+        override val id: String,
+        override val style: Style? = null,
+        override val actions: Map<String, Action> = emptyMap(),
+        override val children: List<Component>? = null,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap()
+    ) : Component() {
+        override val type: String = "lazy_column"
+    }
+
+    data class LazyRow(
+        override val id: String,
+        override val style: Style? = null,
+        override val actions: Map<String, Action> = emptyMap(),
+        override val children: List<Component>? = null,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap()
+    ) : Component() {
+        override val type: String = "lazy_row"
+    }
+
+    data class Grid(
+        override val id: String,
+        override val style: Style? = null,
+        override val actions: Map<String, Action> = emptyMap(),
+        override val children: List<Component>? = null,
+        override val visibility: VisibilityToken = VisibilityToken.VISIBLE,
+        override val state: RuntimeState? = null,
+        override val properties: Map<String, Any?> = emptyMap(),
+        val columns: Int
+    ) : Component() {
+        override val type: String = "grid"
+    }
+
     data class Unknown(
         override val id: String,
         override val type: String,

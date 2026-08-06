@@ -22,7 +22,11 @@ import com.noorheroes.car24assignment.core.model.json.*
 object StyleResolver {
 
     @Composable
-    fun resolveModifier(style: Style?, visibility: VisibilityToken = VisibilityToken.VISIBLE): Modifier {
+    fun resolveModifier(
+        style: Style?, 
+        visibility: VisibilityToken = VisibilityToken.VISIBLE,
+        includePadding: Boolean = true
+    ): Modifier {
         if (style == null && visibility == VisibilityToken.VISIBLE) return Modifier
         
         var modifier: Modifier = Modifier
@@ -82,13 +86,15 @@ object StyleResolver {
         }
 
         // 6. Padding (Internal Padding)
-        style.padding?.let { padding ->
-            modifier = modifier.padding(
-                start = SpacingTokenResolver.resolve(padding.all ?: padding.start),
-                top = SpacingTokenResolver.resolve(padding.all ?: padding.top),
-                end = SpacingTokenResolver.resolve(padding.all ?: padding.end),
-                bottom = SpacingTokenResolver.resolve(padding.all ?: padding.bottom)
-            )
+        if (includePadding) {
+            style.padding?.let { padding ->
+                modifier = modifier.padding(
+                    start = SpacingTokenResolver.resolve(padding.all ?: padding.start),
+                    top = SpacingTokenResolver.resolve(padding.all ?: padding.top),
+                    end = SpacingTokenResolver.resolve(padding.all ?: padding.end),
+                    bottom = SpacingTokenResolver.resolve(padding.all ?: padding.bottom)
+                )
+            }
         }
 
         // 7. Width & Height

@@ -1,5 +1,6 @@
 package com.noorheroes.car24assignment.feature.renderer.widget
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
@@ -11,7 +12,10 @@ import com.noorheroes.car24assignment.feature.renderer.resolver.StyleResolver
 @Composable
 fun ColumnWidget(component: Component) {
     Column(
-        modifier = Modifier.then(StyleResolver.resolveModifier(component.style, component.visibility)),
+        modifier = Modifier.then(StyleResolver.resolveModifier(
+            style = component.style, 
+            visibility = component.visibility
+        )),
         verticalArrangement = StyleResolver.resolveVerticalArrangement(component.style?.arrangement?.vertical),
         horizontalAlignment = StyleResolver.resolveHorizontalAlignment(component.style?.alignment?.horizontal)
     ) {
@@ -24,7 +28,10 @@ fun ColumnWidget(component: Component) {
 @Composable
 fun RowWidget(component: Component) {
     Row(
-        modifier = Modifier.then(StyleResolver.resolveModifier(component.style, component.visibility)),
+        modifier = Modifier.then(StyleResolver.resolveModifier(
+            style = component.style, 
+            visibility = component.visibility
+        )),
         horizontalArrangement = StyleResolver.resolveHorizontalArrangement(component.style?.arrangement?.horizontal),
         verticalAlignment = StyleResolver.resolveVerticalAlignment(component.style?.alignment?.vertical)
     ) {

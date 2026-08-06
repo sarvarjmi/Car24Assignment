@@ -9,6 +9,9 @@ interface SectionDao {
     @Query("SELECT * FROM sections WHERE screenId = :screenId ORDER BY displayOrder ASC")
     fun getSectionsByScreenId(screenId: String): Flow<List<SectionEntity>>
 
+    @Query("SELECT * FROM sections WHERE screenId = :screenId ORDER BY displayOrder ASC")
+    suspend fun getSectionsByScreenIdSync(screenId: String): List<SectionEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSections(sections: List<SectionEntity>)
 

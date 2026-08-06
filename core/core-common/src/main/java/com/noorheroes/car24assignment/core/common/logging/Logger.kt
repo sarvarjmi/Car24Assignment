@@ -11,9 +11,9 @@ interface Logger {
 }
 
 class AppLogger : Logger {
-    override fun v(tag: String, message: String) = Timber.tag(tag).v(message)
-    override fun d(tag: String, message: String) = Timber.tag(tag).d(message)
-    override fun i(tag: String, message: String) = Timber.tag(tag).i(message)
-    override fun w(tag: String, message: String, throwable: Throwable?) = Timber.tag(tag).w(throwable, message)
-    override fun e(tag: String, message: String, throwable: Throwable?) = Timber.tag(tag).e(throwable, message)
+    override fun v(tag: String, message: String) = Timber.tag(tag).v("[$tag][VERBOSE] $message")
+    override fun d(tag: String, message: String) = Timber.tag(tag).d("[$tag][DEBUG] $message")
+    override fun i(tag: String, message: String) = Timber.tag(tag).i("[$tag][INFO] $message")
+    override fun w(tag: String, message: String, throwable: Throwable?) = Timber.tag(tag).w(throwable, "[$tag][WARNING] $message")
+    override fun e(tag: String, message: String, throwable: Throwable?) = Timber.tag(tag).e(throwable, "[$tag][ERROR] $message")
 }

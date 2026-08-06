@@ -69,6 +69,18 @@ fun CarCardWidget(component: Component.CarCard) {
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                 )
+                
+                // Extra Business Info (Doc 26)
+                val fuel = component.properties["fuel"] as? String
+                val transmission = component.properties["transmission"] as? String
+                if (fuel != null || transmission != null) {
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = listOfNotNull(fuel, transmission).joinToString(" • "),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
+                    )
+                }
             }
         }
     }

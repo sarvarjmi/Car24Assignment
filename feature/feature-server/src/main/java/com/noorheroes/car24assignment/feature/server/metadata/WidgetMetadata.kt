@@ -170,6 +170,44 @@ object WidgetMetadataRegistry {
                 )
             )
         )
+        register(
+            WidgetMetadata(
+                type = "grid",
+                properties = listOf(
+                    PropertyMetadata("columns", "Columns", PropertyType.NUMBER, defaultValue = 2)
+                )
+            )
+        )
+        register(
+            WidgetMetadata(
+                type = "card",
+                properties = emptyList()
+            )
+        )
+        register(
+            WidgetMetadata(
+                type = "cta_section",
+                properties = emptyList()
+            )
+        )
+        register(
+            WidgetMetadata(
+                type = "column",
+                properties = emptyList()
+            )
+        )
+        register(
+            WidgetMetadata(
+                type = "row",
+                properties = emptyList()
+            )
+        )
+        register(
+            WidgetMetadata(
+                type = "box",
+                properties = emptyList()
+            )
+        )
     }
 
     fun register(widget: WidgetMetadata) {

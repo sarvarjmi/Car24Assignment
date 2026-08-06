@@ -1,12 +1,12 @@
 {
   "metadata": {
     "id": "landing_screen",
-    "name": "Welcome to Cars24",
-    "schemaVersion": "1.0.0",
+    "name": "Welcome to CARS24",
+    "schemaVersion": "1.4.0",
     "rendererVersion": "1.0.0",
     "createdAt": 1724500000,
     "updatedAt": 1724500000,
-    "description": "Premium Landing Page"
+    "description": "Premium Landing Page with 10+ Production Scenarios"
   },
   "configuration": {
     "refreshable": false,
@@ -20,83 +20,120 @@
       "secondary": "SECONDARY"
     }
   },
-  "layout": {
-    "type": "Column"
-  },
+  "layout": { "type": "LazyColumn" },
   "sections": [
     {
-      "id": "hero_section",
+      "id": "sec_1_hero",
       "type": "hero",
       "order": 1,
       "components": [
         {
-          "id": "hero_banner",
+          "id": "hero_main",
           "type": "hero_banner",
-          "style": {
-            "elevation": "LEVEL_2",
-            "background": {
-              "gradient": ["PRIMARY", "SECONDARY"]
-            }
-          },
+          "style": { "elevation": "LEVEL_2", "background": { "gradient": ["PRIMARY", "SECONDARY"] } },
           "properties": {
             "imageUrl": "ic_landing_hero",
-            "title": "Drive Your Dreams",
-            "subtitle": "Buy, Sell, and Finance with Confidence",
+            "title": "Upgrade Your Life",
+            "subtitle": "The smartest way to buy and sell cars in India",
             "ctaText": "Get Started"
           },
-          "actions": {
-            "click": {
-              "type": "navigate",
-              "target": "home"
-            }
-          }
+          "actions": { "click": { "id": "act_hero", "type": "navigate", "target": "home_screen_route", "payload": {}, "priority": 0 } },
+          "visibility": "VISIBLE",
+          "state": { "enabled": true, "selected": false, "expanded": false, "loading": false, "checked": false }
         }
       ]
     },
     {
-      "id": "info_section",
-      "type": "info",
+      "id": "sec_2_city_picker",
+      "type": "selection",
       "order": 2,
       "components": [
         {
-          "id": "info_card_1",
+          "id": "city_header",
+          "type": "text",
+          "style": { "padding": { "start": "MEDIUM", "top": "MEDIUM", "bottom": "SMALL" } },
+          "properties": { "text": "Select your city", "typography": "TITLE_MEDIUM", "color": "ON_BACKGROUND" },
+          "visibility": "VISIBLE",
+          "state": { "enabled": true, "selected": false, "expanded": false, "loading": false, "checked": false }
+        },
+        {
+          "id": "city_chips",
+          "type": "chip_group",
+          "style": { "padding": { "horizontal": "MEDIUM" } },
+          "children": [
+            { "id": "c_delhi", "type": "chip", "properties": { "text": "New Delhi" }, "visibility": "VISIBLE", "state": { "enabled": true, "selected": true, "expanded": false, "loading": false, "checked": false } },
+            { "id": "c_mumbai", "type": "chip", "properties": { "text": "Mumbai" }, "visibility": "VISIBLE", "state": { "enabled": true, "selected": false, "expanded": false, "loading": false, "checked": false } },
+            { "id": "c_blr", "type": "chip", "properties": { "text": "Bangalore" }, "visibility": "VISIBLE", "state": { "enabled": true, "selected": false, "expanded": false, "loading": false, "checked": false } },
+            { "id": "c_hyd", "type": "chip", "properties": { "text": "Hyderabad" }, "visibility": "VISIBLE", "state": { "enabled": true, "selected": false, "expanded": false, "loading": false, "checked": false } }
+          ],
+          "visibility": "VISIBLE",
+          "state": { "enabled": true, "selected": false, "expanded": false, "loading": false, "checked": false }
+        }
+      ]
+    },
+    {
+      "id": "sec_3_trust",
+      "type": "trust",
+      "order": 3,
+      "components": [
+        {
+          "id": "trust_card",
           "type": "card",
-          "style": {
-            "padding": { "all": "MEDIUM" },
-            "margin": { "all": "SMALL" },
-            "background": { "color": "SURFACE" },
-            "shape": "LARGE",
-            "elevation": "LEVEL_1"
-          },
+          "style": { "margin": { "all": "MEDIUM" }, "padding": { "all": "MEDIUM" }, "background": { "color": "SURFACE" }, "shape": "MEDIUM", "elevation": "LEVEL_1" },
           "children": [
             {
-              "id": "info_header",
-              "type": "header",
-              "properties": {
-                "title": "Why Cars24?",
-                "subtitle": "The smart way to buy and sell cars."
-              }
+              "id": "trust_row_1",
+              "type": "row",
+              "style": { "alignment": { "vertical": "CENTER" }, "padding": { "bottom": "SMALL" } },
+              "children": [
+                { "id": "ic_trust_1", "type": "icon", "properties": { "icon": "SUCCESS", "tint": "PRIMARY" }, "visibility": "VISIBLE" },
+                { "id": "tx_trust_1", "type": "text", "style": { "padding": { "start": "SMALL" } }, "properties": { "text": "140 Point Quality Inspection", "typography": "BODY_MEDIUM" }, "visibility": "VISIBLE" }
+              ]
             },
             {
-              "id": "info_points",
-              "type": "column",
-              "style": { "padding": { "top": "S" } },
+              "id": "trust_row_2",
+              "type": "row",
+              "style": { "alignment": { "vertical": "CENTER" } },
               "children": [
-                {
-                  "id": "point_1",
-                  "type": "text",
-                  "properties": { "text": "✓ 140 Checkpoint Inspection", "typography": "BODY_MEDIUM" }
-                },
-                {
-                  "id": "point_2",
-                  "type": "text",
-                  "properties": { "text": "✓ 7-Day Easy Return", "typography": "BODY_MEDIUM" }
-                },
-                {
-                  "id": "point_3",
-                  "type": "text",
-                  "properties": { "text": "✓ Quick & Easy Financing", "typography": "BODY_MEDIUM" }
-                }
+                { "id": "ic_trust_2", "type": "icon", "properties": { "icon": "REFRESH", "tint": "PRIMARY" }, "visibility": "VISIBLE" },
+                { "id": "tx_trust_2", "type": "text", "style": { "padding": { "start": "SMALL" } }, "properties": { "text": "7 Day Easy Return Policy", "typography": "BODY_MEDIUM" }, "visibility": "VISIBLE" }
+              ]
+            }
+          ],
+          "visibility": "VISIBLE"
+        }
+      ]
+    },
+    {
+      "id": "sec_4_stats",
+      "type": "stats",
+      "order": 4,
+      "components": [
+        {
+          "id": "stats_grid",
+          "type": "grid",
+          "properties": { "columns": 3 },
+          "style": { "padding": { "all": "MEDIUM" }, "background": { "color": "PRIMARY_CONTAINER" }, "margin": { "horizontal": "MEDIUM" }, "shape": "MEDIUM" },
+          "children": [
+            {
+              "id": "st_1", "type": "column", "style": { "alignment": { "horizontal": "CENTER" } },
+              "children": [
+                { "id": "v1", "type": "text", "properties": { "text": "6L+", "typography": "TITLE_MEDIUM", "color": "PRIMARY" } },
+                { "id": "l1", "type": "text", "properties": { "text": "Cars Sold", "typography": "LABEL_SMALL" } }
+              ]
+            },
+            {
+              "id": "st_2", "type": "column", "style": { "alignment": { "horizontal": "CENTER" } },
+              "children": [
+                { "id": "v2", "type": "text", "properties": { "text": "100+", "typography": "TITLE_MEDIUM", "color": "PRIMARY" } },
+                { "id": "l2", "type": "text", "properties": { "text": "Cities", "typography": "LABEL_SMALL" } }
+              ]
+            },
+            {
+              "id": "st_3", "type": "column", "style": { "alignment": { "horizontal": "CENTER" } },
+              "children": [
+                { "id": "v3", "type": "text", "properties": { "text": "4.5★", "typography": "TITLE_MEDIUM", "color": "PRIMARY" } },
+                { "id": "l3", "type": "text", "properties": { "text": "Rating", "typography": "LABEL_SMALL" } }
               ]
             }
           ]
@@ -104,50 +141,99 @@
       ]
     },
     {
-      "id": "actions_section",
-      "type": "actions",
-      "order": 3,
+      "id": "sec_5_how_to_buy",
+      "type": "process",
+      "order": 5,
       "components": [
+        { "id": "hiw_h", "type": "text", "style": { "padding": { "start": "MEDIUM", "top": "MEDIUM", "bottom": "SMALL" } }, "properties": { "text": "How to buy a car?", "typography": "TITLE_SMALL" } },
         {
-          "id": "cta_group",
-          "type": "cta_section",
+          "id": "hiw_rail",
+          "type": "lazy_row",
+          "style": { "padding": { "start": "MEDIUM" } },
           "children": [
-            {
-              "id": "btn_buy",
-              "type": "cta",
-              "style": {
-                "background": { "color": "PRIMARY" },
-                "shape": "MEDIUM"
-              },
-              "properties": {
-                "text": "Browse All Cars"
-              },
-              "actions": {
-                "click": {
-                  "type": "navigate",
-                  "target": "home"
-                }
-              }
-            },
-            {
-              "id": "btn_server",
-              "type": "cta",
-              "style": {
-                "background": { "color": "SECONDARY" },
-                "shape": "MEDIUM"
-              },
-              "properties": {
-                "text": "Open Server Panel"
-              },
-              "actions": {
-                "click": {
-                  "type": "navigate",
-                  "target": "server"
-                }
-              }
-            }
+            { "id": "step1", "type": "card", "style": { "width": "180dp", "padding": { "all": "MEDIUM" }, "margin": { "end": "SMALL" }, "background": { "color": "SURFACE" } }, "children": [ { "id": "st1_t", "type": "text", "properties": { "text": "1. Book Online", "typography": "TITLE_SMALL" } }, { "id": "st1_d", "type": "text", "properties": { "text": "Reserve with a refundable deposit.", "typography": "BODY_SMALL" } } ] },
+            { "id": "step2", "type": "card", "style": { "width": "180dp", "padding": { "all": "MEDIUM" }, "margin": { "end": "SMALL" }, "background": { "color": "SURFACE" } }, "children": [ { "id": "st2_t", "type": "text", "properties": { "text": "2. Home Trial", "typography": "TITLE_SMALL" } }, { "id": "st2_d", "type": "text", "properties": { "text": "Try the car at your home.", "typography": "BODY_SMALL" } } ] },
+            { "id": "step3", "type": "card", "style": { "width": "180dp", "padding": { "all": "MEDIUM" }, "margin": { "end": "SMALL" }, "background": { "color": "SURFACE" } }, "children": [ { "id": "st3_t", "type": "text", "properties": { "text": "3. Buy it", "typography": "TITLE_SMALL" } }, { "id": "st3_d", "type": "text", "properties": { "text": "Pay and drive home your car.", "typography": "BODY_SMALL" } } ] }
           ]
         }
+      ]
+    },
+    {
+      "id": "sec_6_promo",
+      "type": "promo",
+      "order": 6,
+      "components": [
+        {
+          "id": "finance_banner",
+          "type": "banner",
+          "style": { "margin": { "all": "MEDIUM" }, "shape": "MEDIUM", "background": { "color": "INFO_CONTAINER" } },
+          "properties": { "imageUrl": "ic_banner_placeholder", "title": "Zero Downpayment", "subtitle": "Drive away with a new car for ₹0 upfront cost." }
+        }
+      ]
+    },
+    {
+      "id": "sec_7_hot_deals",
+      "type": "featured",
+      "order": 7,
+      "components": [
+        {
+          "id": "hd_row", "type": "row", "style": { "padding": { "all": "MEDIUM" }, "arrangement": { "horizontal": "SPACE_BETWEEN" } },
+          "children": [
+            { "id": "hd_t", "type": "text", "properties": { "text": "Flash Sale", "typography": "TITLE_SMALL", "color": "ERROR" } },
+            { "id": "hd_a", "type": "text", "properties": { "text": "View All", "typography": "LABEL_MEDIUM", "color": "PRIMARY" }, "actions": { "click": { "type": "navigate", "target": "deals_screen_route" } } }
+          ]
+        },
+        {
+          "id": "hd_rail", "type": "lazy_row", "style": { "padding": { "start": "MEDIUM" } },
+          "children": [
+            { "id": "c_h1", "type": "car_card", "properties": { "imageUrl": "ic_car_placeholder", "title": "BMW X5", "price": "₹42.00 L", "location": "Gurgaon", "badges": ["HOT DEAL"] } },
+            { "id": "c_h2", "type": "car_card", "properties": { "imageUrl": "ic_car_placeholder", "title": "Audi Q7", "price": "₹51.40 L", "location": "Mumbai" } }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec_8_testimonials",
+      "type": "social",
+      "order": 8,
+      "components": [
+        { "id": "test_h", "type": "text", "style": { "padding": { "start": "MEDIUM", "top": "LARGE", "bottom": "SMALL" } }, "properties": { "text": "Customer Stories", "typography": "TITLE_SMALL" } },
+        {
+          "id": "test_rail", "type": "lazy_row", "style": { "padding": { "start": "MEDIUM" } },
+          "children": [
+            { "id": "rev1", "type": "card", "style": { "width": "220dp", "padding": { "all": "MEDIUM" }, "margin": { "end": "MEDIUM" }, "background": { "color": "SURFACE" } }, "children": [ { "id": "q1", "type": "text", "properties": { "text": "\"Excellent service and transparent pricing!\"", "typography": "BODY_SMALL" } }, { "id": "u1", "type": "text", "style": { "padding": { "top": "SMALL" } }, "properties": { "text": "- Rahul M.", "typography": "LABEL_SMALL", "color": "PRIMARY" } } ] },
+            { "id": "rev2", "type": "card", "style": { "width": "220dp", "padding": { "all": "MEDIUM" }, "margin": { "end": "MEDIUM" }, "background": { "color": "SURFACE" } }, "children": [ { "id": "q2", "type": "text", "properties": { "text": "\"Sold my car in under 1 hour. Wow!\"", "typography": "BODY_SMALL" } }, { "id": "u2", "type": "text", "style": { "padding": { "top": "SMALL" } }, "properties": { "text": "- Suman K.", "typography": "LABEL_SMALL", "color": "PRIMARY" } } ] }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec_9_faq",
+      "type": "support",
+      "order": 9,
+      "components": [
+        { "id": "faq_title", "type": "text", "style": { "padding": { "start": "MEDIUM", "bottom": "SMALL" } }, "properties": { "text": "Questions?", "typography": "TITLE_SMALL" } },
+        {
+          "id": "faq_col", "type": "column", "style": { "padding": { "horizontal": "MEDIUM" } },
+          "children": [
+            { "id": "q1", "type": "text", "properties": { "text": "Is the RC transfer free?", "typography": "LABEL_MEDIUM", "color": "PRIMARY" } },
+            { "id": "a1", "type": "text", "style": { "padding": { "bottom": "SMALL" } }, "properties": { "text": "Yes, we handle all paperwork.", "typography": "BODY_SMALL" } },
+            { "id": "q2", "type": "text", "properties": { "text": "Can I get finance?", "typography": "LABEL_MEDIUM", "color": "PRIMARY" } },
+            { "id": "a2", "type": "text", "properties": { "text": "Yes, instant approval available.", "typography": "BODY_SMALL" } }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec_10_footer_cta",
+      "type": "footer_cta",
+      "order": 10,
+      "components": [
+        {
+          "id": "btn_final", "type": "button", "style": { "margin": { "all": "MEDIUM" }, "layoutParams": { "fillMaxWidth": true } },
+          "properties": { "text": "Start Exploring" }, "actions": { "click": { "type": "navigate", "target": "home_screen_route" } }
+        },
+        { "id": "footer_final", "type": "footer", "properties": { "text": "CARS24 Services India", "copyright": "© 2026", "version": "1.4.0" } }
       ]
     }
   ]

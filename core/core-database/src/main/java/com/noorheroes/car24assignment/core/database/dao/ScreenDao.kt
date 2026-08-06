@@ -9,6 +9,9 @@ interface ScreenDao {
     @Query("SELECT * FROM screens WHERE screenId = :screenId")
     fun getScreenById(screenId: String): Flow<ScreenEntity?>
 
+    @Query("SELECT * FROM screens WHERE screenId = :screenId")
+    suspend fun getScreenByIdSync(screenId: String): ScreenEntity?
+
     @Query("SELECT * FROM screens")
     suspend fun getAllScreens(): List<ScreenEntity>
 

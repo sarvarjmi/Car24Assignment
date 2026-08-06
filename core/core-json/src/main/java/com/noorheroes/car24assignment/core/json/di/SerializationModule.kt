@@ -1,4 +1,4 @@
-package com.noorheroes.car24assignment.core.common.di
+package com.noorheroes.car24assignment.core.json.di
 
 import dagger.Module
 import dagger.Provides
@@ -18,5 +18,7 @@ object SerializationModule {
         coerceInputValues = true
         encodeDefaults = true
         isLenient = true
+        classDiscriminator = "type"
+        prettyPrint = true
     }
 }

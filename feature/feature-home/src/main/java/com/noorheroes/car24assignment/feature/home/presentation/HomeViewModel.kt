@@ -1,5 +1,6 @@
 package com.noorheroes.car24assignment.feature.home.presentation
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.noorheroes.car24assignment.core.model.domain.Screen
@@ -18,7 +19,8 @@ sealed interface HomeUiState {
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getScreenUseCase: GetScreenUseCase
+    private val getScreenUseCase: GetScreenUseCase,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val retryTrigger = MutableSharedFlow<Unit>(replay = 1)
@@ -26,14 +28,23 @@ class HomeViewModel @Inject constructor(
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing = _isRefreshing.asStateFlow()
 
+    private val _screenId = MutableStateFlow(savedStateHandle.get<String>("screen_id") ?: "home_screen")
+    
+    fun setScreenId(id: String) {
+        if (_screenId.value != id) {
+            _screenId.value = id
+            savedStateHandle["screen_id"] = id
+        }
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
-    val uiState: StateFlow<HomeUiState> = retryTrigger
-        .onStart { emit(Unit) }
-        .flatMapLatest {
-            getScreenUseCase("home_screen")
+    val uiState: StateFlow<HomeUiState> = combine(retryTrigger.onStart { emit(Unit) }, _screenId) { _, id ->
+        id
+    }.flatMapLatest { screenId ->
+            getScreenUseCase(screenId)
                 .map { screen ->
                     if (screen != null) HomeUiState.Success(screen)
-                    else HomeUiState.Error("Screen not found")
+                    else HomeUiState.Error("Screen $screenId not found")
                 }
         }
         .onStart { emit(HomeUiState.Loading) }
