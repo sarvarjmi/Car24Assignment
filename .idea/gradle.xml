@@ -10,6 +10,17 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/core-common" />
+            <option value="$PROJECT_DIR$/core/core-database" />
+            <option value="$PROJECT_DIR$/core/core-json" />
+            <option value="$PROJECT_DIR$/core/core-model" />
+            <option value="$PROJECT_DIR$/core/core-navigation" />
+            <option value="$PROJECT_DIR$/core/core-ui" />
+            <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/feature-home" />
+            <option value="$PROJECT_DIR$/feature/feature-renderer" />
+            <option value="$PROJECT_DIR$/feature/feature-server" />
           </set>
         </option>
       </GradleProjectSettings>
