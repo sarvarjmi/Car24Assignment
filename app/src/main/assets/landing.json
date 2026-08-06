@@ -1,0 +1,41 @@
+{
+  "id": "landing_screen",
+  "title": "Welcome to Cars24",
+  "version": 1,
+  "components": [
+    {
+      "id": "landing_header",
+      "type": "header",
+      "properties": {
+        "title": "CARS24",
+        "subtitle": "SDUI ENGINE"
+      }
+    },
+    {
+      "id": "btn_open_home",
+      "type": "cta",
+      "properties": {
+        "text": "Open Home"
+      },
+      "actions": {
+        "click": {
+          "type": "navigate",
+          "payload": { "route": "home" }
+        }
+      }
+    },
+    {
+      "id": "btn_open_server",
+      "type": "cta",
+      "properties": {
+        "text": "Open Server Panel"
+      },
+      "actions": {
+        "click": {
+          "type": "navigate",
+          "payload": { "route": "server" }
+        }
+      }
+    }
+  ]
+}

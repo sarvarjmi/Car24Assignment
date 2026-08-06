@@ -1,56 +1,43 @@
 package com.noorheroes.car24assignment.feature.landing.presentation
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.noorheroes.car24assignment.core.ui.component.ErrorView
+import com.noorheroes.car24assignment.core.ui.component.LoadingView
+import com.noorheroes.car24assignment.feature.renderer.action.ActionDispatcher
+import com.noorheroes.car24assignment.feature.renderer.engine.SDUIRenderer
+import com.noorheroes.car24assignment.feature.renderer.registry.ComponentRegistry
 
 @Composable
 fun LandingScreen(
-    viewModel: LandingViewModel
+    viewModel: LandingViewModel,
+    registry: ComponentRegistry,
+    actionDispatcher: ActionDispatcher
 ) {
-    Scaffold { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "CARS24",
-                style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.Black,
-                letterSpacing = 4.sp
-            )
-            Text(
-                text = "SDUI ENGINE",
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.secondary,
-                modifier = Modifier.padding(bottom = 48.dp)
-            )
+    val uiState by viewModel.uiState.collectAsState()
 
-            Button(
-                onClick = { viewModel.onOpenHomeClicked() },
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 32.dp),
-                shape = MaterialTheme.shapes.medium
-            ) {
-                Text(text = "Open Home", modifier = Modifier.padding(vertical = 8.dp))
+    Scaffold { padding ->
+        val modifier = Modifier.padding(padding)
+        when (val state = uiState) {
+            is LandingUiState.Loading -> LoadingView(modifier)
+            is LandingUiState.Success -> {
+                SDUIRenderer(
+                    screen = state.screen,
+                    registry = registry,
+                    actionDispatcher = actionDispatcher,
+                    modifier = modifier
+                )
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            OutlinedButton(
-                onClick = { viewModel.onOpenServerPanelClicked() },
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 32.dp),
-                shape = MaterialTheme.shapes.medium
-            ) {
-                Text(text = "Open Server Panel", modifier = Modifier.padding(vertical = 8.dp))
+            is LandingUiState.Error -> {
+                ErrorView(
+                    message = state.message,
+                    onRetry = { /* Retry logic */ },
+                    modifier = modifier
+                )
             }
         }
     }

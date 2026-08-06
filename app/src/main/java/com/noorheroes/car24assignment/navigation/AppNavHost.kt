@@ -40,7 +40,11 @@ fun AppNavHost(
         modifier = modifier
     ) {
         composable(Screen.Landing.route) {
-            LandingScreen(viewModel = hiltViewModel())
+            LandingScreen(
+                viewModel = hiltViewModel(),
+                registry = registry,
+                actionDispatcher = actionDispatcher
+            )
         }
         composable(Screen.Home.route) {
             HomeScreen(

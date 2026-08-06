@@ -4,27 +4,34 @@
   "version": 1,
   "components": [
     {
-      "id": "banner_1",
-      "type": "banner",
+      "id": "home_header",
+      "type": "header",
+      "properties": {
+        "title": "Cars24",
+        "subtitle": "Trusted by 10 Lakh+ customers"
+      }
+    },
+    {
+      "id": "search_bar_1",
+      "type": "search_bar",
+      "properties": {
+        "placeholder": "Search by make, model..."
+      }
+    },
+    {
+      "id": "hero_banner_1",
+      "type": "hero_banner",
       "properties": {
         "imageUrl": "https://img.freepik.com/free-vector/modern-luxury-car-advertisement-banner_52683-102553.jpg",
-        "title": "Buy Used Cars with Confidence",
-        "subtitle": "Certified cars with warranty"
+        "title": "Certified Pre-Owned Cars",
+        "subtitle": "140 checkpoints inspection",
+        "ctaText": "Browse All"
       },
       "actions": {
         "click": {
           "type": "navigate",
-          "payload": {
-            "route": "server"
-          }
+          "payload": { "route": "server" }
         }
-      }
-    },
-    {
-      "id": "search_1",
-      "type": "search_bar",
-      "properties": {
-        "placeholder": "Search by make, model, or year"
       }
     },
     {
@@ -32,10 +39,64 @@
       "type": "categories",
       "properties": {
         "items": [
-          {"id": "hatchback", "label": "Hatchback", "icon": "hatchback_icon"},
-          {"id": "sedan", "label": "Sedan", "icon": "sedan_icon"},
-          {"id": "suv", "label": "SUV", "icon": "suv_icon"}
+          { "id": "hatch", "label": "Hatchback" },
+          { "id": "sedan", "label": "Sedan" },
+          { "id": "suv", "label": "SUV" },
+          { "id": "luxury", "label": "Luxury" }
         ]
+      }
+    },
+    {
+      "id": "rail_featured",
+      "type": "horizontal_rail",
+      "properties": {
+        "title": "Featured Cars"
+      },
+      "children": [
+        {
+          "id": "car_1",
+          "type": "car_card",
+          "properties": {
+            "imageUrl": "https://stimg.cardekho.com/images/carexteriorimages/630x420/Hyundai/Creta/11494/1715671569429/front-left-side-47.jpg",
+            "title": "Hyundai Creta",
+            "price": "₹12.50 Lakh",
+            "location": "New Delhi"
+          }
+        },
+        {
+          "id": "car_2",
+          "type": "car_card",
+          "properties": {
+            "imageUrl": "https://stimg.cardekho.com/images/carexteriorimages/630x420/Maruti/Swift/11559/1715243171358/front-left-side-47.jpg",
+            "title": "Maruti Swift",
+            "price": "₹5.80 Lakh",
+            "location": "Mumbai"
+          }
+        },
+        {
+          "id": "car_3",
+          "type": "car_card",
+          "properties": {
+            "imageUrl": "https://stimg.cardekho.com/images/carexteriorimages/630x420/Honda/City/11311/1706691494247/front-left-side-47.jpg",
+            "title": "Honda City",
+            "price": "₹9.20 Lakh",
+            "location": "Bangalore"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cta_sell",
+      "type": "cta",
+      "properties": {
+        "text": "Sell Your Car in 1 Hour"
+      }
+    },
+    {
+      "id": "footer_1",
+      "type": "footer",
+      "properties": {
+        "text": "© 2026 Cars24 Services Private Limited"
       }
     }
   ]

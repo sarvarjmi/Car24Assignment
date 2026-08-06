@@ -35,7 +35,9 @@ android {
 dependencies {
     implementation(project(":core:core-common"))
     implementation(project(":core:core-ui"))
+    implementation(project(":core:core-model"))
     implementation(project(":core:core-navigation"))
+    implementation(project(":feature:feature-renderer"))
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)

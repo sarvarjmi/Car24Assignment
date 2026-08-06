@@ -23,6 +23,12 @@ object RendererModule {
             register("categories") { component -> CategoriesWidget(component) }
             register("column") { component -> ColumnWidget(component) }
             register("row") { component -> RowWidget(component) }
+            register("header") { component -> HeaderWidget(component) }
+            register("hero_banner") { component -> HeroBannerWidget(component) }
+            register("car_card") { component -> CarCardWidget(component) }
+            register("horizontal_rail") { component -> HorizontalRailWidget(component) }
+            register("cta") { component -> CtaWidget(component) }
+            register("footer") { component -> FooterWidget(component) }
         }
     }
 

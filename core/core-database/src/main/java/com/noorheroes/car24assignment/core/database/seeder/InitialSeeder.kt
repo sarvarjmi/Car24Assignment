@@ -34,14 +34,12 @@ class InitialSeeder @Inject constructor(
         }
 
         try {
-            val jsonString = context.assets.open("home.json").bufferedReader().use { it.readText() }
-            val screenModel = json.decodeFromString<ScreenModel>(jsonString)
-
-            seedDatabase(screenModel)
+            seedScreen("landing.json")
+            seedScreen("home.json")
 
             seedHistoryDao.insertSeedHistory(
                 SeedHistoryEntity(
-                    seedVersion = screenModel.version,
+                    seedVersion = 1, // Global seed version
                     seedTime = System.currentTimeMillis(),
                     completed = true,
                     checksum = null
@@ -51,6 +49,12 @@ class InitialSeeder @Inject constructor(
         } catch (e: Exception) {
             Timber.e(e, "Error seeding database")
         }
+    }
+
+    private suspend fun seedScreen(assetName: String) {
+        val jsonString = context.assets.open(assetName).bufferedReader().use { it.readText() }
+        val screenModel = json.decodeFromString<ScreenModel>(jsonString)
+        seedDatabase(screenModel)
     }
 
     private suspend fun seedDatabase(model: ScreenModel) {
