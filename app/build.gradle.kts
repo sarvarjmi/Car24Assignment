@@ -43,6 +43,7 @@ dependencies {
     implementation(project(":feature:feature-home"))
     implementation(project(":feature:feature-server"))
     implementation(project(":feature:feature-renderer"))
+    implementation(project(":feature:feature-landing"))
     implementation(project(":core:core-ui"))
     implementation(project(":core:core-navigation"))
     implementation(project(":core:core-common"))

@@ -9,6 +9,9 @@ interface ComponentDao {
     @Query("SELECT * FROM components WHERE componentId = :componentId")
     fun getComponentById(componentId: String): Flow<ComponentEntity?>
 
+    @Query("SELECT componentJson FROM components WHERE componentId = :componentId")
+    suspend fun getComponentJsonById(componentId: String): String?
+
     @Query("SELECT * FROM components WHERE sectionId = :sectionId ORDER BY displayOrder ASC")
     fun getComponentsBySectionId(sectionId: String): Flow<List<ComponentEntity>>
 

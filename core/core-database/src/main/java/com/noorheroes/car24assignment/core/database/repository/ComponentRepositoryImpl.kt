@@ -20,6 +20,10 @@ class ComponentRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getComponentJson(componentId: String): String? {
+        return componentDao.getComponentJsonById(componentId)
+    }
+
     override suspend fun updateComponentJson(componentId: String, json: String) {
         componentDao.updateComponentJson(componentId, json, System.currentTimeMillis())
     }
