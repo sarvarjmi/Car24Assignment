@@ -4,7 +4,7 @@ A production-grade, highly extensible **Server-Driven UI (SDUI)** framework buil
 
 ## 📺 Project Walkthrough (Placeholder)
 > [!NOTE]
-> [Sample Video Walkthrough Link](https://vimeo.com/placeholder) (To be updated)
+> [Sample Video Walkthrough Link](https://drive.google.com/file/d/15SwV_cYFh3obsPmEl2CV75ndjkSf6WoI/view?usp=sharing) (To be updated)
 
 ---
 
