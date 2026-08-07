@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@drawable/ic_banner_placeholder,@drawable/ic_car_placeholder,@drawable/ic_category_placeholder,@drawable/ic_landing_hero" />

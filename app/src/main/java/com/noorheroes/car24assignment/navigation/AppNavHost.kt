@@ -1,6 +1,7 @@
 package com.noorheroes.car24assignment.navigation
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
@@ -98,6 +99,7 @@ fun AppNavHost(
     AppScaffold(
         modifier = modifier,
         snackbarHostState = snackbarHostState,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         bottomBar = {
             val showBottomNav = currentDestination?.route?.endsWith("_route") == true
             if (showBottomNav) {

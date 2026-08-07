@@ -13,8 +13,15 @@ import androidx.compose.ui.Modifier
 fun EntranceAnimation(
     modifier: Modifier = Modifier,
     delayMillis: Int = 0,
+    durationMillis: Int = 300,
+    enabled: Boolean = true,
     content: @Composable () -> Unit
 ) {
+    if (!enabled) {
+        content()
+        return
+    }
+
     val visibleState = remember {
         MutableTransitionState(false).apply {
             targetState = true
@@ -23,10 +30,10 @@ fun EntranceAnimation(
 
     AnimatedVisibility(
         visibleState = visibleState,
-        enter = fadeIn(animationSpec = tween(durationMillis = 600, delayMillis = delayMillis)) +
+        enter = fadeIn(animationSpec = tween(durationMillis = durationMillis, delayMillis = delayMillis)) +
                 slideInVertically(
-                    initialOffsetY = { it / 2 },
-                    animationSpec = tween(durationMillis = 600, delayMillis = delayMillis)
+                    initialOffsetY = { it / 4 },
+                    animationSpec = tween(durationMillis = durationMillis, delayMillis = delayMillis)
                 ),
         modifier = modifier,
         content = { content() }

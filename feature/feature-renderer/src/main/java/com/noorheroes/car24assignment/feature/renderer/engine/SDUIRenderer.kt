@@ -6,11 +6,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
+import kotlinx.coroutines.delay
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.noorheroes.car24assignment.core.model.domain.Component
@@ -40,6 +44,13 @@ fun SDUIRenderer(
     actionDispatcher: ActionDispatcher,
     modifier: Modifier = Modifier
 ) {
+    var shouldAnimate by remember(screen) { mutableStateOf(true) }
+
+    LaunchedEffect(screen) {
+        delay(800) // Allow initial animations to complete
+        shouldAnimate = false
+    }
+
     androidx.compose.runtime.CompositionLocalProvider(
         LocalComponentRegistry provides registry,
         LocalActionDispatcher provides actionDispatcher
@@ -48,15 +59,16 @@ fun SDUIRenderer(
             EmptyView(modifier = modifier)
         } else if (!screen.configuration.scrollable) {
             Column(
-                modifier = modifier
-                    .fillMaxSize()
-                    .then(if (screen.configuration.safeArea) Modifier.statusBarsPadding() else Modifier)
+                modifier = modifier.fillMaxSize()
             ) {
                 screen.sections.forEachIndexed { sIndex, section ->
                     if (section.visibility) {
                         section.components.forEachIndexed { cIndex, component ->
                             if (component.visibility != VisibilityToken.GONE) {
-                                EntranceAnimation(delayMillis = (sIndex * 200) + (cIndex * 100)) {
+                                EntranceAnimation(
+                                    delayMillis = (sIndex * 100) + (cIndex * 50),
+                                    enabled = shouldAnimate
+                                ) {
                                     RenderComponent(component)
                                 }
                             }
@@ -67,15 +79,16 @@ fun SDUIRenderer(
             }
         } else {
             LazyColumn(
-                modifier = modifier
-                    .fillMaxSize()
-                    .then(if (screen.configuration.safeArea) Modifier.statusBarsPadding() else Modifier)
+                modifier = modifier.fillMaxSize()
             ) {
                 screen.sections.forEachIndexed { sIndex, section ->
                     if (section.visibility) {
                         itemsIndexed(section.components, key = { _, it -> it.id }) { cIndex, component ->
                             if (component.visibility != VisibilityToken.GONE) {
-                                EntranceAnimation(delayMillis = (sIndex * 200) + (cIndex * 100)) {
+                                EntranceAnimation(
+                                    delayMillis = (sIndex * 100) + (cIndex * 50),
+                                    enabled = shouldAnimate
+                                ) {
                                     RenderComponent(component)
                                 }
                             }
